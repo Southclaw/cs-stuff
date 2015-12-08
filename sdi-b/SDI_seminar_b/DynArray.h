@@ -239,7 +239,7 @@ inline DynArray<T>::DynArray(T* arr, size_t arr_len)
 template<typename T> inline
 DynArray<T>::~DynArray()
 {
-	delete heapData_;
+	delete [] heapData_;
 }
 
 /*
@@ -274,7 +274,7 @@ void DynArray<T>::push_back(T const& val)
 			resize(1);
 
 		else
-			resize(dataCapacity_ * 1.5);
+			resize((int)(dataCapacity_ * 1.5));
 	}
 
 	heapData_[dataSize_] = val;

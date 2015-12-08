@@ -13,7 +13,7 @@ using std::endl;
 void eat_memory();
 
 
-int _tmain(int argc, _TCHAR* argv[])
+int main(int argc, char* argv[])
 {
 	DynArray<int> arr(3);
 
@@ -63,7 +63,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	cout << "Size: " << arr.size() << " Capacity: " << arr.capacity() << endl;
 
 	cout << "\nEmptying array.\n";
-	arr.zap();
+	arr.clear();
 	cout << "Calling arr.empty(), answer: " << arr.empty() << endl;
 	cout << "Size: " << arr.size() << " Capacity: " << arr.capacity() << endl;
 
@@ -132,7 +132,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	cout << "Using default value fill constructor params (10, 8.8):\n";
 
-	DynArray<float> arr3(10, 8.8);
+	DynArray<double> arr3(10, 8.8);
 	cout << arr3 << endl;
 
 	cout << "Using raw array constructor with character code array [1, 2, 3, 4, 5]\n";
