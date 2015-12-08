@@ -65,6 +65,19 @@ map<char, string> parseArgsValues(int argc, char * argv[])
 {
 	map<char, string> ret;
 
+	int idx;
+	bool waitForOpt = false; // 'waiting' for option string, reset by chars: =-/
+
+	for (int i = 1; i < argc; ++i)
+	{
+		// notes:
+		// if arg is a "-x" store it
+		// if the next arg is an =, continue
+		// if the next arg is a valid string (not another arg) associate it with
+		// the stored "-x"
+		// reset and repeat
+	}
+
 	return ret;
 }
 

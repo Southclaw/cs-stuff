@@ -21,17 +21,24 @@ int main(int argc, char* argv[])
 	vector<std::string> a;
 	a = parseArgs(argc, argv);
 
-	for(auto s : a)
-		printf("'%s'\n", s.c_str());
+	for(auto i : a)
+		printf("'%s'\n", i.c_str());
 
 	printf("Test 2: parseArgsFlags\n\n");
 
 	set<char> f;
 	f = parseArgsFlags(argc, argv);
 
-	for (auto s : f)
-		printf("'%c'\n", s);
+	for (auto i : f)
+		printf("'%c'\n", i);
 
+	printf("Test 2: parseArgsValues\n\n");
+
+	map<char, string> v;
+	v = parseArgsValues(argc, argv);
+
+	for (auto i : v)
+		printf("'%c': '%s'\n", i.first, i.second);
 
 	getchar();
 
