@@ -8,7 +8,7 @@ Implements a basic dynamic array template class. Expands at 1.5x size on a
 full-push.
 
 All code and comments
-- Barnaby Keene, 2015stringstream
+- Barnaby Keene, 2015
 */
 
 #include "stdafx.h"
@@ -213,11 +213,11 @@ DynArray<T>::DynArray(unsigned int capacity)
 template<typename T> inline
 DynArray<T>::DynArray(unsigned int capacity, T defval)
 {
-	dataCapacity_ = capacity * 1.5;
+	dataCapacity_ = (int)(capacity * 1.5);
 	dataSize_ = capacity;
 	heapData_ = new T[capacity];
 
-	for (int i = 0; i < capacity; ++i)
+	for (unsigned int i = 0; i < capacity; ++i)
 	{
 		heapData_[i] = defval;
 	}
@@ -230,7 +230,7 @@ inline DynArray<T>::DynArray(T* arr, size_t arr_len)
 	dataSize_ = arr_len;
 	heapData_ = new T[arr_len];
 
-	for (int i = 0; i < arr_len; ++i)
+	for (unsigned int i = 0; i < arr_len; ++i)
 	{
 		heapData_[i] = arr[i];
 	}
@@ -367,7 +367,7 @@ void DynArray<T>::insert(T data, unsigned int idx)
 		resize(dataSize_ + 1);
 	}
 
-	for (int i = dataSize_; i > idx; --i)
+	for (unsigned int i = dataSize_; i > idx; --i)
 	{
 		heapData_[i] = heapData_[i - 1];
 	}

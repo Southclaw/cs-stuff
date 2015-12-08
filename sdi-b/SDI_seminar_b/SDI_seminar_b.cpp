@@ -1,5 +1,12 @@
-// SDI_seminar_b.cpp : Defines the entry point for the console application.
-//
+/*
+Dynamic array test source:
+
+Tests all the DynArray functionality.
+
+All code and comments
+- Barnaby Keene, 2015
+*/
+
 
 #include "stdafx.h"
 #include "DynArray.h"
