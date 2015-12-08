@@ -34,7 +34,6 @@ set<char> parseArgsFlags(int argc, char * argv[])
 
 	for(int i = 1; i < argc; ++i)
 	{
-		printf("arg: '%s', char 0: '%c'\n", argv[i], argv[i][0]);
 		if(argv[i][0] != '-' && argv[i][0] != '/')
 			continue;
 
