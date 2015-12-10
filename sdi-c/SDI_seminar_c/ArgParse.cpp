@@ -65,17 +65,36 @@ map<char, string> parseArgsValues(int argc, char * argv[])
 {
 	map<char, string> ret;
 
-	int idx;
-	bool waitForOpt = false; // 'waiting' for option string, reset by chars: =-/
+	char arg = 0;
 
 	for (int i = 1; i < argc; ++i)
 	{
-		// notes:
-		// if arg is a "-x" store it
-		// if the next arg is an =, continue
-		// if the next arg is a valid string (not another arg) associate it with
-		// the stored "-x"
-		// reset and repeat
+		// If we're searching for an argument value
+		if(arg)
+		{
+			if (argv[i][0] == '=')
+				continue;
+
+			// Was the stored arg a bool flag?
+			// If another "-x" arg is found, restart the process
+			if (argv[i][0] == '-' && isAlphabetic(argv[i][1]) && argv[i][2] == '\0')
+			{
+				arg = argv[i][1];
+				continue;
+			}
+			else
+			{
+				ret[arg] = string(argv[i]);
+				arg = 0;
+				continue;
+			}
+		}
+
+		// If not, we're searching for the actual "-x" argument specifier
+		if (argv[i][0] == '-' && isAlphabetic(argv[i][1]) && argv[i][2] == '\0')
+		{
+			arg = argv[i][1];
+		}
 	}
 
 	return ret;

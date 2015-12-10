@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <iostream>
 #include <vector>
 #include <string>
 #include <set>
@@ -32,13 +33,13 @@ int main(int argc, char* argv[])
 	for (auto i : f)
 		printf("'%c'\n", i);
 
-	printf("Test 2: parseArgsValues\n\n");
+	printf("Test 3: parseArgsValues\n\n");
 
 	map<char, string> v;
 	v = parseArgsValues(argc, argv);
 
 	for (auto i : v)
-		printf("'%c': '%s'\n", i.first, i.second);
+		std::cout << "'" << i.first << "': " << "'" << i.second << "'" << std::endl;
 
 	getchar();
 
