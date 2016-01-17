@@ -12,9 +12,9 @@
 using namespace std;
 
 
-int main()
+int main(int argc, char* argv[])
 {
-	Logger log;
+	Logger log("test.txt", argc, argv);
 
 	log.level(info);
 /*
@@ -24,7 +24,9 @@ warning
 info
 debug
 */
-	log.out(info, "test");
+	log.out(info, "test1");
+	log.out(warning, "test2");
+	log.out(info, "test3");
 
 	cout << "Press Enter to close." << endl;
 	getchar();

@@ -1,5 +1,5 @@
-#ifndef DYNARRAY_INCLUDED
-#define DYNARRAY_INCLUDED
+#ifndef ARGPARSE_INCLUDED
+#define ARGPARSE_INCLUDED
 
 /*
 	ArgParse - Command line argument parsing function library:
