@@ -274,7 +274,7 @@ void DynArray<T>::push_back(T const& val)
 			resize(1);
 
 		else
-			resize((int)(dataCapacity_ * 1.5));
+			resize((int)((dataCapacity_ * 1.5) + 0.5));
 	}
 
 	heapData_[dataSize_] = val;
