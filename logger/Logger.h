@@ -106,7 +106,7 @@ private:
 	std::ofstream outputFile_;
 	DynArray<std::string> buffer_;
 
-	void send(string msg, string file, int line = -1);
+	void send(Level l, string msg, string file, int line = -1);
 };
 
 /*

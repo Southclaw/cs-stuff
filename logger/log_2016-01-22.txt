@@ -2,3 +2,7 @@
 2016/01/22 09:21:01(e:\documents\projects\cs-stuff\logger\main.cpp:22) : test stream 2
 2016/01/22 09:21:01(e:\documents\projects\cs-stuff\logger\main.cpp:24) : test1
 2016/01/22 09:21:01(e:\documents\projects\cs-stuff\logger\main.cpp:25) : test2
+2016/01/22 10:16:50[e:\documents\projects\cs-stuff\logger\main.cpp:21 @ CORE] test stream 1
+2016/01/22 10:16:50[e:\documents\projects\cs-stuff\logger\main.cpp:22 @ CORE] test stream 2
+2016/01/22 10:16:50[e:\documents\projects\cs-stuff\logger\main.cpp:24 @ CORE] test1
+2016/01/22 10:16:50[e:\documents\projects\cs-stuff\logger\main.cpp:25 @ CORE] test2

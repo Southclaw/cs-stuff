@@ -140,7 +140,7 @@ void Logger::out(Level l, string file, int line, string msg)
 	if(l.idx < level_.idx)
 		return;
 
-	send(msg, file, line);
+	send(l, msg, file, line);
 }
 
 void Logger::outf(Level l, string file, int line, string msg, ...)
@@ -155,25 +155,25 @@ void Logger::outf(Level l, string file, int line, string msg, ...)
 	va_start(va, msg);
 
 	vsprintf_s(buffer, len, msg.c_str(), va);
-	send(buffer, file, line);
+	send(l, buffer, file, line);
 
 	va_end(va);
 	delete buffer;
 }
 
-void Logger::send(string msg, string file, int line)
+void Logger::send(Level l, string msg, string file, int line)
 {
 	std::stringstream ss;
 	std::time_t t = std::time(NULL);
-	char buffer[20];
+	char datetime[20];
 
-	strftime(buffer, 20, "%Y/%m/%d %H:%M:%S", std::localtime(&t));
+	strftime(datetime, 20, "%Y/%m/%d %H:%M:%S", std::localtime(&t));
 
 	if(line > -1)
-		ss << buffer << "(" << file << ":" << line << ") : " << msg;
+		ss << datetime << "[" << file << ":" << line << " @ " << l.name << "] " << msg;
 
 	else
-		ss << buffer << "(" << file << ") : " << msg;
+		ss << datetime << "[" << file << " @ " << l.name << "] " << msg;
 
 	std::cout << ss.str() << std::endl;
 
