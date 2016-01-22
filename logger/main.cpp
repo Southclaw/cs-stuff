@@ -14,19 +14,15 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-	Logger log("test.txt", argc, argv);
+	log_init("test.txt", argc, argv);
 
-	log.level(info);
-/*
-none
-error
-warning
-info
-debug
-*/
-	log.out(info, "test1");
-	log.out(warning, "test2");
-	log.out(info, "test3");
+	log_lvl(DEBUG_CORE);
+
+	log(DEBUG_CORE) << "test stream 1";
+	log(DEBUG_CORE) << "test stream " << (1 + 1);
+
+	d(DEBUG_CORE, "test1");
+	df(DEBUG_CORE, "test%d", 2);
 
 	cout << "Press Enter to close." << endl;
 	getchar();
