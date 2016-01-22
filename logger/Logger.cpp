@@ -10,6 +10,21 @@
 using std::string;
 
 
+/*
+	These are constructed upon init_()
+*/
+Logger::Level DEBUG_NONE;
+Logger::Level DEBUG_CALLBACKS;
+Logger::Level DEBUG_CALLBACKS_DEEP;
+Logger::Level DEBUG_CORE;
+Logger::Level DEBUG_CORE_DEEP;
+Logger::Level DEBUG_INTERNAL;
+Logger::Level DEBUG_INTERNAL_DEEP;
+Logger::Level DEBUG_INTERFACE;
+Logger::Level DEBUG_INTERFACE_DEEP;
+Logger::Level DEBUG_LOOPS;
+
+
 void Logger::init()
 {
 	init_();
@@ -28,30 +43,22 @@ void Logger::init(Level l)
 void Logger::init(string filename)
 {
 	init_();
-
-	output_ = file;
-	outputFileName_ = filename;
-	outputFile_.open(filename, std::fstream::out | std::fstream::app);
+	initfile_(filename);
 }
 
 void Logger::init(Level l, string filename)
 {
 	init_();
+	initfile_(filename);
 
 	level_ = l;
-	output_ = file;
-	outputFileName_ = filename;
-	outputFile_.open(filename);
 }
 
 void Logger::init(string filename, int argc, char* argv[])
 {
 	init_();
 	initargs_(argc, argv);
-
-	output_ = file;
-	outputFileName_ = filename;
-	outputFile_.open(filename);
+	initfile_(filename);
 }
 
 void Logger::init(int argc, char* argv[])
@@ -61,20 +68,6 @@ void Logger::init(int argc, char* argv[])
 
 	output_ = console;
 }
-
-/*
-These are constructed upon init_()
-*/
-Logger::Level DEBUG_NONE;
-Logger::Level DEBUG_CALLBACKS;
-Logger::Level DEBUG_CALLBACKS_DEEP;
-Logger::Level DEBUG_CORE;
-Logger::Level DEBUG_CORE_DEEP;
-Logger::Level DEBUG_INTERNAL;
-Logger::Level DEBUG_INTERNAL_DEEP;
-Logger::Level DEBUG_INTERFACE;
-Logger::Level DEBUG_INTERFACE_DEEP;
-Logger::Level DEBUG_LOOPS;
 
 void Logger::init_()
 {
@@ -109,10 +102,23 @@ void Logger::initargs_(int argc, char* argv[])
 
 	if (args.find('f') != args.end())
 	{
-		output_ = file;
-		outputFileName_ = args['f'];
-		outputFile_.open(outputFileName_);
+		initfile_(args['f']);
 	}
+}
+
+void Logger::initfile_(string filename)
+{
+	std::stringstream ss;
+	std::time_t t = std::time(NULL);
+	char formatted[128];
+
+	strftime(formatted, 128, filename.c_str(), std::localtime(&t));
+
+	printf("filename: '%s'\n", formatted);
+
+	output_ = file;
+	outputFileName_ = formatted;
+	outputFile_.open(string(formatted), std::fstream::out | std::fstream::app);
 }
 
 Logger::Level Logger::add_level(int idx, string name)

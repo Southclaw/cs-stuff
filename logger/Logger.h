@@ -18,9 +18,9 @@ using std::string;
 
 #define log_init		Logger::inst()->Logger::init
 #define log_lvl			Logger::inst()->level
-#define log(Level)		Logger::scoped_logger(Level, __FILE__, __LINE__).stream()
-#define d(l, m)			Logger::inst()->out(l, __FILE__, __LINE__, m);
-#define df(l, m, ...)	Logger::inst()->outf(l, __FILE__, __LINE__, m, __VA_ARGS__);
+#define logs(l)			Logger::scoped_logger(l, __FILE__, __LINE__).stream()
+#define logc(l, m)		Logger::inst()->out(l, __FILE__, __LINE__, m);
+#define logf(l, m, ...)	Logger::inst()->outf(l, __FILE__, __LINE__, m, __VA_ARGS__);
 
 
 enum Output
@@ -97,6 +97,7 @@ private:
 
 	void init_();
 	void initargs_(int argc, char * argv[]);
+	void initfile_(string filename);
 
 	DynArray<Level> levels_;
 	Level level_;
@@ -108,6 +109,9 @@ private:
 	void send(string msg, string file, int line = -1);
 };
 
+/*
+	These are constructed upon init_()
+*/
 extern Logger::Level DEBUG_NONE;
 extern Logger::Level DEBUG_CALLBACKS;
 extern Logger::Level DEBUG_CALLBACKS_DEEP;
