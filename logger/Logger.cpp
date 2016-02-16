@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include <string>
+#include <sstream>
 #include <cstdarg>
 #include <ostream>
 
@@ -148,7 +149,7 @@ void Logger::outf(Level l, string file, int line, string msg, ...)
 	if(l.idx < level_.idx)
 		return;
 
-	int len = msg.length() + 1;
+	size_t len = msg.length() + 1;
 	char* buffer = new char[len];
 
 	va_list va;
