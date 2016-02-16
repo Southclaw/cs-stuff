@@ -1,0 +1,50 @@
+TrekStar Pictures
+manage information about film projects
+
+Every time the production of a new film begins, a new project is created.
+Each new project has
+- title
+- summary
+- genre
+- release date
+- list of filming locations
+- language
+- runtime
+- keywords
+- weekly ticket sale
+
+with the film: a series of materials
+- single-sided DVDs
+- double-sided DVDs
+- combo box sets (containing two or three DVDs)
+- VHS (on old projects)
+- Blu-rays
+
+All of them contain:
+- identification number
+- film title
+- format
+- audio format (Dolby, Dolby digital, MPEG-1, PCM or DTS)
+- run time
+- language
+- retail price
+- subtitles
+- frame aspect (wide screen)
+
+each of them has different packaging specifications
+- A single or double DVD will have a plastic box packaging
+- combo box set would have a cardboard box
+- The Blu-ray would also have a plastic box as the DVD, but with a different size
+- A VHS can come in a plastic or cardboard package.
+
+attributes:
+- DVDs and Blu-ray can have multiple language tracks and subtitles
+- VHS can only have one subtitle and one audio track
+- DVDs and Blu-rays may contain bonus features
+- double-sided DVDs have different content on each side
+
+Model this as an inheritance hierarchy with Material base class
+
+Using classes, code:
+- Create object from text/csv
+- Storage and retrieval

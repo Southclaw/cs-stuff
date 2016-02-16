@@ -1,0 +1,10 @@
+classes:
+project(title,summary,genre,release,sites[],lang,time,tags,wksales)
+pkg
+material(id,title,format,audio,time,lang,rp,subs,aspect,pkg)
+|-vhs(lang,sub)
+|-disc(langs[],subs[],bonus[])
+| |-dvd
+| |-d-dvd(dvd side2)
+| |-blu
+|-box-set(dvd dvds[])
