@@ -92,6 +92,7 @@
     <ClInclude Include="VHS.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Disk.cpp" />
     <ClCompile Include="DVD.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="SDI_seminar_d.cpp" />
