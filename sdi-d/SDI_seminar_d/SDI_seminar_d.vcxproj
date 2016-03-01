@@ -86,6 +86,7 @@
     <ClInclude Include="D_Dvd.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Media.h" />
+    <ClInclude Include="Packaging.h" />
     <ClInclude Include="Project.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -97,6 +98,7 @@
     <ClCompile Include="Dvd.cpp" />
     <ClCompile Include="D_Dvd.cpp" />
     <ClCompile Include="Material.cpp" />
+    <ClCompile Include="Packaging.cpp" />
     <ClCompile Include="SDI_seminar_d.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
