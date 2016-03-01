@@ -1,6 +1,6 @@
 #include <sstream>
 
-#include "DVD.h"
+#include "Dvd.h"
 
 
 Dvd::Dvd()
@@ -13,7 +13,7 @@ Dvd::Dvd()
 	language_ = "ENG";
 	price_ = "$20";
 	aspect_ = "21x9";
-	packaging_ = PKG_PLASTIC;
+	packaging_ = cardboard_vhs;
 
 	subTracks_.push_back("en_GB");
 	subTracks_.push_back("jp_JP");
@@ -25,33 +25,4 @@ Dvd::Dvd()
 
 Dvd::~Dvd()
 {
-}
-
-std::string Dvd::details()
-{
-	std::stringstream s;
-	std::string subs;
-	std::string auds;
-
-	subs += "Subtitles:";
-	for (auto i : subTracks_)
-		subs += " ", subs += i;
-
-	auds += "Audio Tracks:";
-	for (auto i : audioTracks_)
-		auds += " ", auds += i;
-
-	s	<< "ID: " << id_ << ", "
-		<< "Title: " << title_ << ", "
-		<< "Format: " << format_ << ", "
-		<< "Audio: " << audio_ << ", "
-		<< "Duration: " << duration_ << ", "
-		<< "Language: " << language_ << ", "
-		<< "Price: " << price_ << ", "
-		<< subs << ", "
-		<< auds << ", "
-		<< "Aspect: " << aspect_ << ", "
-		<< "Packaging: " << packaging_;
-
-	return s.str();
 }

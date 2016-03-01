@@ -30,13 +30,7 @@
     <ClInclude Include="BoxSet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D_DVD.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Disk.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DVD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
@@ -48,7 +42,13 @@
     <ClInclude Include="Project.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VHS.h">
+    <ClInclude Include="D_Dvd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dvd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vhs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -62,14 +62,24 @@
     <ClCompile Include="Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DVD.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VHS.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Disk.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D_Dvd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Dvd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Vhs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Bluray.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>

@@ -13,7 +13,7 @@ Vhs::Vhs()
 	language_ = "ENG";
 	price_ = "$20";
 	aspect_ = "21x9";
-	packaging_ = PKG_PLASTIC;
+	packaging_ = cardboard_vhs;
 
 	subtitles_ = "en_GB";
 }
@@ -24,18 +24,5 @@ Vhs::~Vhs()
 
 string Vhs::details()
 {
-	std::stringstream s;
-
-	s	<< "ID: " << id_ << ", "
-		<< "Title: " << title_ << ", "
-		<< "Format: " << format_ << ", "
-		<< "Audio: " << audio_ << ", "
-		<< "Duration: " << duration_ << ", "
-		<< "Language: " << language_ << ", "
-		<< "Price: " << price_ << ", "
-		<< "Subtitles: " << subtitles_ << ", "
-		<< "Aspect: " << aspect_ << ", "
-		<< "Packaging: " << packaging_;
-
-	return s.str();
+	return Material::details() + subtitles_;
 }

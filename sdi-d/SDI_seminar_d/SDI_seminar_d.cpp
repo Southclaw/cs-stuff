@@ -22,13 +22,13 @@ int main(int argc, char* argv[])
 {
 	Vhs vhs;
 	Dvd dvd;
-	//Ddvd ddvd;
-	//Bluray bluray;
+	D_Dvd ddvd;
+	Bluray bluray;
 
-	cout << "VHS: " << vhs.details() << endl;
-	cout << "DVD: " << dvd.details() << endl;
-	//cout << ddvd.details() << endl;
-	//cout << bluray.details() << endl;
+	cout << "VHS:    " << vhs.details() << endl;
+	cout << "DVD:    " << dvd.Material::details() << endl;
+	cout << "DDVD:   " << ddvd.Material::details() << endl;
+	cout << "Bluray: " << bluray.Material::details() << endl;
 
 	getchar();
 

@@ -10,7 +10,7 @@
 class Media : public Material
 {
 public:
-	//
+	string details();
 
 private:
 	//

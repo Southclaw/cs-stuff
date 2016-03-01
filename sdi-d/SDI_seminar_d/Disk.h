@@ -12,6 +12,7 @@ class Disk : public Media
 public:
 	vector<string> getSubTracks();
 	vector<string> getAudioTracks();
+	string details();
 
 
 protected:
