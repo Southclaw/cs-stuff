@@ -54,6 +54,9 @@
     <ClInclude Include="Packaging.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MaterialPort_JSON.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

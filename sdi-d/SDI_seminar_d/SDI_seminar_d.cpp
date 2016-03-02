@@ -13,6 +13,8 @@
 #include "VHS.h"
 #include "BoxSet.h"
 
+#include "MaterialPort_JSON.h"
+
 // For lazy typing
 using std::cout;
 using std::endl;
