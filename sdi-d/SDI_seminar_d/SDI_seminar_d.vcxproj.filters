@@ -68,19 +68,22 @@
     <ClCompile Include="Disk.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D_Dvd.cpp">
+    <ClCompile Include="Vhs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Packaging.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Media.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Dvd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Vhs.cpp">
+    <ClCompile Include="D_DVD.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Bluray.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Packaging.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -12,7 +12,9 @@ using std::string;
 class Packaging
 {
 public:
+	Packaging();
 	Packaging(string name);
+	~Packaging();
 	string toString();
 
 private:

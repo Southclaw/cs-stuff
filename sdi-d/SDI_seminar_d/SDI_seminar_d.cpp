@@ -20,10 +20,63 @@ using std::endl;
 
 int main(int argc, char* argv[])
 {
-	Vhs vhs;
-	Dvd dvd;
-	D_Dvd ddvd;
-	Bluray bluray;
+	Project project = Project();
+
+	Packaging cardboard_vhs = Packaging("cardboard_vhs");
+	Packaging plastic_vhs = Packaging("plastic_vhs");
+	Packaging plastic_dvd = Packaging("plastic_dvd");
+	Packaging plastic_blu = Packaging("plastic_blu");
+	Packaging cardboard_boxset = Packaging("cardboard_boxset");
+
+	Vhs vhs = Vhs(
+		project,
+		"TW0185",
+		"Movie: The Movie",
+		"4k",
+		"DTS",
+		86400,
+		"ENG",
+		"$20",
+		"21x9",
+		cardboard_vhs,
+
+		"en_GB");
+
+	Dvd dvd = Dvd(
+		project,
+		"TW0185",
+		"Movie: The Movie",
+		"4k",
+		"DTS",
+		86400,
+		"ENG",
+		"$20",
+		"21x9",
+		cardboard_vhs);
+
+	D_Dvd ddvd = D_Dvd(
+		project,
+		"TW0185",
+		"Movie: The Movie",
+		"4k",
+		"DTS",
+		86400,
+		"ENG",
+		"$20",
+		"21x9",
+		cardboard_vhs);
+
+	Bluray bluray = Bluray(
+		project,
+		"TW0185",
+		"Movie: The Movie",
+		"4k",
+		"DTS",
+		86400,
+		"ENG",
+		"$20",
+		"21x9",
+		cardboard_vhs);
 
 	cout << "VHS:    " << vhs.details() << endl;
 	cout << "DVD:    " << dvd.Material::details() << endl;

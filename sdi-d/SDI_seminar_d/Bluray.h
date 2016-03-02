@@ -13,10 +13,8 @@ using std::string;
 class Bluray : public Disk
 {
 public:
-	Bluray();
+	Bluray(Project project, string id, string title, string format, string audio, int duration, string language, string price, string aspect, Packaging packaging);
 	~Bluray();
-
-	string details();
 
 private:
 	//

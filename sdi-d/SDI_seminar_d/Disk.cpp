@@ -1,6 +1,31 @@
 #include "Disk.h"
 
 
+Disk::Disk(Project project, string id, string title, string format, string audio, int duration, string language, string price, string aspect, Packaging packaging)
+	: Media(project, id, title, format, audio, duration, language, price, aspect, packaging)
+{
+	id_ = id;
+	title_ = title;
+	format_ = format;
+	audio_ = audio;
+	duration_ = duration;
+	language_ = language;
+	price_ = price;
+	aspect_ = aspect;
+	packaging_ = packaging;
+
+	subTracks_.push_back("en_GB");
+	subTracks_.push_back("jp_JP");
+	subTracks_.push_back("in_IN");
+	audioTracks_.push_back("en_GB");
+	audioTracks_.push_back("jp_JP");
+	audioTracks_.push_back("in_IN");
+}
+
+Disk::~Disk()
+{
+}
+
 vector<string> Disk::getSubTracks()
 {
 	return subTracks_;

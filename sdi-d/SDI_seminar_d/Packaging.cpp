@@ -1,9 +1,14 @@
 #include "Packaging.h"
 
 
+Packaging::Packaging()
+{
+	name = "unknown";
+}
+
 Packaging::Packaging(string n)
 {
-	name = n
+	name = n;
 }
 
 Packaging::~Packaging()

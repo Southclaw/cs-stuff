@@ -1,21 +1,22 @@
 #include <sstream>
 
-#include "VHS.h"
+#include "Vhs.h"
 
 
-Vhs::Vhs()
+Vhs::Vhs(Project project, string id, string title, string format, string audio, int duration, string language, string price, string aspect, Packaging packaging, string subtitles)
+	: Media(project, id, title, format, audio, duration, language, price, aspect, packaging)
 {
-	id_ = "TW0185";
-	title_ = "Movie: The Movie";
-	format_ = "4k";
-	audio_ = "DTS";
-	duration_ = 86400;
-	language_ = "ENG";
-	price_ = "$20";
-	aspect_ = "21x9";
-	packaging_ = cardboard_vhs;
+	id_ = id;
+	title_ = title;
+	format_ = format;
+	audio_ = audio;
+	duration_ = duration;
+	language_ = language;
+	price_ = price;
+	aspect_ = aspect;
+	packaging_ = packaging;
 
-	subtitles_ = "en_GB";
+	subtitles_ = subtitles;
 }
 
 Vhs::~Vhs()
@@ -24,5 +25,20 @@ Vhs::~Vhs()
 
 string Vhs::details()
 {
-	return Material::details() + subtitles_;
+	return Material::details() + " " + subtitles_;
+}
+
+string Vhs::getLanguage()
+{
+	return language_;
+}
+
+string Vhs::getSubtitles()
+{
+	return subtitles_;
+}
+
+bool Vhs::hasSubtitles()
+{
+	return !subtitles_.empty();
 }
