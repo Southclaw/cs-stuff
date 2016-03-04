@@ -72,7 +72,17 @@ int main(int argc, char* argv[])
 		"16x9",
 		plastic_dvd,
 		{ "en_GB", "jp_JP", "in_IN" },
-		{ "en_GB", "jp_JP", "in_IN" });
+		{ "en_GB", "jp_JP", "in_IN" }).sideTwo(
+			project,
+			"TW0185",
+			"Movie: The Movie Extras Side",
+			"SD",
+			"DTS",
+			140,
+			"ENG",
+			"16x9",
+			{ "en_GB", "jp_JP", "in_IN" },
+			{ "en_GB", "jp_JP", "in_IN" });
 
 	Bluray bluray = Bluray(
 		project,

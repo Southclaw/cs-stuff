@@ -55,11 +55,11 @@ string Disk::details()
 	string subs;
 	string auds;
 
-	subs += "Subtitles:";
+	subs += " Subtitles:";
 	for (auto i : subTracks_)
 		subs += " ", subs += i;
 
-	auds += "Audio Tracks:";
+	auds += " Audio Tracks:";
 	for (auto i : audioTracks_)
 		auds += " ", auds += i;
 
