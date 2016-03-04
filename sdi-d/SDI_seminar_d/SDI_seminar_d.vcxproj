@@ -91,12 +91,14 @@
     <ClInclude Include="Media.h" />
     <ClInclude Include="Packaging.h" />
     <ClInclude Include="Project.h" />
+    <ClInclude Include="SDI_seminar_d.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Vhs.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bluray.cpp" />
+    <ClCompile Include="BoxSet.cpp" />
     <ClCompile Include="Disk.cpp" />
     <ClCompile Include="Dvd.cpp" />
     <ClCompile Include="D_DVD.cpp" />

@@ -2,6 +2,7 @@
 	Disk
 */
 #include <string>
+#include <vector>
 #include <initializer_list>
 
 #include "Disk.h"
@@ -50,9 +51,9 @@ vector<string> Disk::getAudioTracks()
 
 string Disk::details()
 {
-	std::string s;
-	std::string subs;
-	std::string auds;
+	string s;
+	string subs;
+	string auds;
 
 	subs += "Subtitles:";
 	for (auto i : subTracks_)

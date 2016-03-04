@@ -60,6 +60,9 @@
     <ClInclude Include="MaterialPort_CSV.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SDI_seminar_d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -90,6 +93,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Bluray.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxSet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
