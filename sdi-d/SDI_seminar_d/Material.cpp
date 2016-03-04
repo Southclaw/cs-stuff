@@ -1,6 +1,12 @@
+/*
+	Material
+*/
+#include <string>
 #include <sstream>
 
 #include "Material.h"
+
+using std::string;
 
 
 Material::Material(Project project, string id, string title, string format, string audio, int duration, string language, string price, string aspect, Packaging packaging)

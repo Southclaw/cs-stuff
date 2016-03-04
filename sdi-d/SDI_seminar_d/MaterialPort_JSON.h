@@ -8,10 +8,12 @@
 
 #include <string>
 
+#include "Material.h"
+
 using std::string;
 
 
-class MaterialPort
+class MaterialPortJSON
 {
 public:
 	// Imports material data from JSON format source string (loaded from file/web)

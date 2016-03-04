@@ -14,6 +14,7 @@
 #include "BoxSet.h"
 
 #include "MaterialPort_JSON.h"
+#include "MaterialPort_CSV.h"
 
 // For lazy typing
 using std::cout;
@@ -54,7 +55,9 @@ int main(int argc, char* argv[])
 		"ENG",
 		"$20",
 		"21x9",
-		cardboard_vhs);
+		cardboard_vhs,
+		{ "en_GB", "jp_JP", "in_IN" },
+		{ "en_GB", "jp_JP", "in_IN" });
 
 	D_Dvd ddvd = D_Dvd(
 		project,
@@ -66,7 +69,9 @@ int main(int argc, char* argv[])
 		"ENG",
 		"$20",
 		"21x9",
-		cardboard_vhs);
+		cardboard_vhs,
+		{ "en_GB", "jp_JP", "in_IN" },
+		{ "en_GB", "jp_JP", "in_IN" });
 
 	Bluray bluray = Bluray(
 		project,
@@ -78,7 +83,9 @@ int main(int argc, char* argv[])
 		"ENG",
 		"$20",
 		"21x9",
-		cardboard_vhs);
+		cardboard_vhs,
+		{ "en_GB", "jp_JP", "in_IN" },
+		{ "en_GB", "jp_JP", "in_IN" });
 
 	cout << "VHS:    " << vhs.details() << endl;
 	cout << "DVD:    " << dvd.Material::details() << endl;

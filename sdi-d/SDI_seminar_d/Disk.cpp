@@ -1,7 +1,16 @@
+/*
+	Disk
+*/
+#include <string>
+#include <initializer_list>
+
 #include "Disk.h"
 
+using std::string;
+using std::initializer_list;
 
-Disk::Disk(Project project, string id, string title, string format, string audio, int duration, string language, string price, string aspect, Packaging packaging)
+
+Disk::Disk(Project project, string id, string title, string format, string audio, int duration, string language, string price, string aspect, Packaging packaging, initializer_list<string> subTracks, initializer_list<string> audTracks)
 	: Media(project, id, title, format, audio, duration, language, price, aspect, packaging)
 {
 	id_ = id;
@@ -14,12 +23,15 @@ Disk::Disk(Project project, string id, string title, string format, string audio
 	aspect_ = aspect;
 	packaging_ = packaging;
 
-	subTracks_.push_back("en_GB");
-	subTracks_.push_back("jp_JP");
-	subTracks_.push_back("in_IN");
-	audioTracks_.push_back("en_GB");
-	audioTracks_.push_back("jp_JP");
-	audioTracks_.push_back("in_IN");
+	for (auto i : subTracks)
+	{
+		subTracks_.push_back(i);
+	}
+
+	for (auto i : audTracks)
+	{
+		audioTracks_.push_back(i);
+	}
 }
 
 Disk::~Disk()

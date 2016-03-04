@@ -86,6 +86,7 @@
     <ClInclude Include="Dvd.h" />
     <ClInclude Include="D_Dvd.h" />
     <ClInclude Include="Material.h" />
+    <ClInclude Include="MaterialPort_CSV.h" />
     <ClInclude Include="MaterialPort_JSON.h" />
     <ClInclude Include="Media.h" />
     <ClInclude Include="Packaging.h" />

@@ -1,4 +1,11 @@
+/*
+	Packaging
+*/
+#include <string>
+
 #include "Packaging.h"
+
+using std::string;
 
 
 Packaging::Packaging()
