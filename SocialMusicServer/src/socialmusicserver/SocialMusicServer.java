@@ -1,21 +1,37 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/*==============================================================================
+
+    Systems Software Project
+
+    Social Music Server
+
+    Barnaby Keene 2016
+
+==============================================================================*/
+
+
 package socialmusicserver;
 
-/**
- *
- * @author n0581491
- */
-public class SocialMusicServer {
+import java.net.*;
+import java.io.*;
+import java.awt.*;
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-    }
-    
+public class SocialMusicServer
+{
+	public static final String DEFAULT_HOST = "ntu.ac.uk";
+	public static final int DEFAULT_PORT = 8888;
+	String host;
+	ListenServer listen;
+
+	public SocialMusicServer()
+	{
+		listen = new ListenServer(this);
+		listen.start();
+	}
+
+	public static void main(String[] args)
+	{
+		SocialMusicServer server = new SocialMusicServer();
+
+		System.out.println("Hello");
+	}
 }
