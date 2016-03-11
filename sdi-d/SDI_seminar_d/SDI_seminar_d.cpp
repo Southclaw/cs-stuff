@@ -7,11 +7,12 @@
 #include "Material.h"
 #include "Media.h"
 #include "Disk.h"
+#include "VHS.h"
 #include "DVD.h"
 #include "D_DVD.h"
 #include "Bluray.h"
-#include "VHS.h"
 #include "BoxSet.h"
+#include "MaterialFactory.h"
 
 #include "MaterialPort_JSON.h"
 #include "MaterialPort_CSV.h"
@@ -44,6 +45,7 @@ int main(int argc, char* argv[])
 		"16x9",
 		cardboard_vhs,
 
+		"en_GB",
 		"en_GB");
 
 	Dvd dvd = Dvd(
@@ -113,6 +115,25 @@ int main(int argc, char* argv[])
 	cout << "\n\n";
 
 	cout << "BoxSet: " << boxset.details() << endl;
+	cout << "\n\n";
+
+	MaterialFactory f;
+
+	std::auto_ptr<Media> dvd2 = f.CreateMaterial("dvd",
+		project,
+		"TW0260",
+		"Factory Movie",
+		"1080p",
+		"DTS",
+		216,
+		"ENG",
+		"$40",
+		"21x9",
+		plastic_dvd,
+		{ "en_GB", "jp_JP", "in_IN" },
+		{ "en_GB", "jp_JP", "in_IN" });
+
+	cout << dvd2.get()->details();
 
 	getchar();
 

@@ -3,7 +3,7 @@
 #include "Vhs.h"
 
 
-Vhs::Vhs(Project project, string id, string title, string format, string audio, int duration, string language, string price, string aspect, Packaging packaging, string subtitles)
+Vhs::Vhs(Project project, string id, string title, string format, string audio, int duration, string language, string price, string aspect, Packaging packaging, string subtitles = "", string dubbed = "")
 	: Media(project, id, title, format, audio, duration, language, price, aspect, packaging)
 {
 	id_ = id;
@@ -16,6 +16,7 @@ Vhs::Vhs(Project project, string id, string title, string format, string audio, 
 	aspect_ = aspect;
 	packaging_ = packaging;
 
+	dubbed_ = dubbed;
 	subtitles_ = subtitles;
 }
 
@@ -28,9 +29,9 @@ string Vhs::details()
 	return Material::details() + " " + subtitles_;
 }
 
-string Vhs::getLanguage()
+string Vhs::getDubbedLanguage()
 {
-	return language_;
+	return dubbed_;
 }
 
 string Vhs::getSubtitles()
