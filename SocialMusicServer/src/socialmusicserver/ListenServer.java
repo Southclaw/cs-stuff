@@ -7,51 +7,50 @@
     Barnaby Keene 2016
 
 ==============================================================================*/
+
+
 package socialmusicserver;
 
-import java.awt.Frame;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 class ListenServer extends Thread
 {
-	SocialMusicServer source;
-	ServerSocket listenSocket;
-	int port;
-	Socket connection;
-	HandleServer handle;
-	boolean again = true;
 
-	ListenServer(SocialMusicServer s)
+	protected ServerSocket listenSocket;
+	protected int socketPort;
+
+	ListenServer(int port)
 	{
 		super();
-		source = (SocialMusicServer) s;
-		port = source.DEFAULT_PORT;
-
 		try
 		{
 			listenSocket = new ServerSocket(port);
+			socketPort = port;
+			System.out.format("Created ServerSocket on %d", port);
 		}
-		catch (IOException except)
+		catch(IOException except)
 		{
-			except.printStackTrace();
+			except.printStackTrace(System.out);
 		}
 	}
 
+	@Override
 	public void run()
 	{
 		try
 		{
-			while (again)
+			while(true)
 			{
-				Socket connection = listenSocket.accept();
-				HandleServer handleServer = new HandleServer(connection, source);
+				Socket s = listenSocket.accept();
+				HandleServer handleServer = new HandleServer(s);
+				handleServer.run();
 			}
 		}
-		catch (IOException except)
+		catch(IOException except)
 		{
-			except.printStackTrace();
+			except.printStackTrace(System.out);
 		}
 	}
 }

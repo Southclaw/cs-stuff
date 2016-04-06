@@ -9,93 +9,72 @@
 ==============================================================================*/
 package socialmusicserver;
 
-import java.awt.Frame;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.BufferedReader;
+import java.io.PrintWriter;
+import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class HandleServer extends Thread
 {
-	SocialMusicServer source;
-	Socket client;
-	OutputStream output;
-	InputStream input;
-	String stringIn, stringOut;
 
-// **************
-	HandleServer(Socket connection, SocialMusicServer s)
+	private final Socket client;
+
+	HandleServer(Socket connection)
 	{
-		super();
-		client = connection;
-		source = (SocialMusicServer) s;
-		try
-		{
-			input = client.getInputStream();
-			output = client.getOutputStream();
-		}
-		catch (IOException except)
-		{
-			except.printStackTrace();
-			try
-			{
-				client.close();
-			}
-			catch (IOException e)
-			{;
-			}
-			return;
-		}
-		this.start();
+		System.out.println("HandleServer constructed");
+		this.client = connection;
 	}
 
-// **************
+	@Override
 	public void run()
 	{
-		String stringIn, stringOut;
-		boolean again = true;
+		System.out.println("Running HandleServer");
+		String line;
+		BufferedReader input = null;
+		PrintWriter output = null;
 
-		while (again)
+		try
 		{
-			stringIn = getMsg(input);
-			System.out.println(stringIn);
+			input = new BufferedReader(new InputStreamReader(client.getInputStream()));
+			output = new PrintWriter(client.getOutputStream(), true);
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace(System.out);
+			return;
+		}
+
+		while(true)
+		{
+			
+			try
+			{
+				System.out.println("Waiting...");
+				line = input.readLine();
+				System.out.println(line);
+				output.println("Reply");
+				break;
+			}
+			catch(IOException e)
+			{
+				e.printStackTrace(System.out);
+			}
 		}
 	}
 
-// **************
-	public String getMsg(InputStream input)
-	{
-		char[] charArray = new char[1024];
-		char c;
-		int i = 0;
-		try
-		{
-			while (((c = (char) input.read()) != '#') && (i < 1024))
-			{
-				charArray[i] = c;
-				i++;
-			}
-		}
-		catch (IOException except)
-		{
-			except.printStackTrace();
-		}
-		String string = new String(String.valueOf(charArray, 0, i));
-		return string;
-	}
-
-	public void putMsg(OutputStream output, String string)
+	protected void finalize()
 	{
 		try
 		{
-			for (int i = 0; i < string.length(); i++)
-			{
-				output.write((int) string.charAt(i));
-			}
+			this.client.close();
 		}
-		catch (IOException except)
+		catch(IOException e)
 		{
-			except.printStackTrace();
+			e.printStackTrace(System.out);
+			System.exit(-1);
 		}
 	}
 }
