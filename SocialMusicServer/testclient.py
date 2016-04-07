@@ -1,4 +1,5 @@
 import socket
+import struct
 
 
 def main():
@@ -18,16 +19,28 @@ def main():
 
 		return
 
-	input("Enter to send")
-
-	msg = bytes("Client hello\n", "UTF-8")
-
-	s.send(msg)
-
 	while True:
-		r = s.recv(5)
-		print(r)
-		break
+		msg = input("Enter to send:\n")
+
+		if msg == "":
+			break
+
+		if not msg.endswith("\n"):
+			msg = msg + "\n"
+
+		print("Sending:\n'%s'\n"%(msg))
+
+		s.send(bytes(msg, "UTF-8"))
+
+		print("waiting for response...\n")
+
+		size = ord(bytes(s.recv(1)))
+
+		print("Receiving", size)
+
+		response = s.recv(size + 1)
+		
+		print(str(response, "UTF-8"))
 
 	s.shutdown(socket.SHUT_RDWR)
 

@@ -14,8 +14,7 @@ import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 class HandleServer extends Thread
 {
@@ -54,15 +53,86 @@ class HandleServer extends Thread
 			{
 				System.out.println("Waiting...");
 				line = input.readLine();
-				System.out.println(line);
-				output.println("Reply");
-				break;
+				String reply = onReceive(line);
+				
+				if(reply == null)
+				{
+					System.out.println("Replying with NULL\\n");
+					reply = "NULL";
+				}
+
+				int size = reply.length();
+					
+				System.out.printf("Replying with reply: %d '%s'\n", size, reply);
+				output.write(size);
+				output.print(reply);
+				output.print("\n");
+				
+				output.flush();
 			}
 			catch(IOException e)
 			{
 				e.printStackTrace(System.out);
+				break;
 			}
 		}
+	}
+	
+	public String onReceive(String s)
+	{
+		System.out.printf("onReceive '%s'\n", s);
+		String a[] = s.split("\\s+");
+		
+		System.out.printf("length: %d\n", a.length);
+		if(a.length == 0)
+		{
+			// No commands, quit
+			return null;
+		}
+		
+		if(a.length == 1)
+		{
+			// Handle parameterless commands
+			return null;
+		}
+				
+	
+		System.out.printf("a[0]: %s\n", a[0]);
+
+		switch(a[0])
+		{
+			case "REGS":
+			{
+				// a[1] is username
+				// a[2] is password hash
+				return "REGISTER COMMAND";
+			}
+
+			case "LOGN":
+			{
+				// a[1] is username
+				// a[2] is password hash
+				// return user ID (positive integer/UUID) or -1 for failure
+				return "LOGIN COMMAND";
+			}
+
+			case "DETL":
+			{
+				// a[1] is userid
+				// return user details string
+				// username (correctly capitalised) reg date, last login, etc
+				return "DETAILS COMMAND";
+			}
+
+			case "FRND":
+			{
+				// a[1] is userid
+				// return friends list
+				return "FRIEND LIST COMMAND";
+			}
+		}
+
+		return null;
 	}
 
 	protected void finalize()
