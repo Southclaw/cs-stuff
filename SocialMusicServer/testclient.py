@@ -14,14 +14,13 @@ def main():
 	except ConnectionRefusedError as e:
 
 		print("ConnectionRefusedError")
-		s.shutdown()
 		s.close()
 
 		return
 
 	input("Enter to send")
 
-	msg = bytes("Client hello", "UTF-8")
+	msg = bytes("Client hello\n", "UTF-8")
 
 	s.send(msg)
 
@@ -30,7 +29,7 @@ def main():
 		print(r)
 		break
 
-	s.shutdown()
+	s.shutdown(socket.SHUT_RDWR)
 
 	s.close()
 
