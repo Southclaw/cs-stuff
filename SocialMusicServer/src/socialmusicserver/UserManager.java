@@ -11,17 +11,25 @@
 
 package socialmusicserver;
 
+import java.util.Vector;
 
-public class User
+
+public class UserManager
 {
-	String Username;
-	String Password;
-	String Location;
-	String DateOfBirth;
-	String Information;
+	Vector<User> Users;
 
-	String MusicProfile[];
-	String Friends[];
-	String SharedSongs[];
-	String FriendRequests[];
+	UserManager()
+	{
+	//
+	}
+	
+	public void AddUser(User user)
+	{
+		Users.add(user);
+	}
+
+	public void RemoveUser(User user)
+	{
+		Users.remove(user);
+	}
 }
