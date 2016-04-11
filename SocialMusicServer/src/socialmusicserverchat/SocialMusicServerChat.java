@@ -14,7 +14,7 @@ package socialmusicserverchat;
 public class SocialMusicServerChat
 {
 
-	public static void main(String[] args)
+	public static void init()
 	{
 		ListenServer listen = new ListenServer(7779);
 		listen.start();

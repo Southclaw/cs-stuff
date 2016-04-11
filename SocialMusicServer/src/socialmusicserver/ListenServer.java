@@ -28,7 +28,7 @@ class ListenServer extends Thread
 		{
 			listenSocket = new ServerSocket(port);
 			socketPort = port;
-			System.out.format("Created ServerSocket on %d", port);
+			System.out.format("Created Main ServerSocket on %d\n", port);
 		}
 		catch(IOException except)
 		{
