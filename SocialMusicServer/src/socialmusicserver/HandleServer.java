@@ -7,6 +7,8 @@
     Barnaby Keene 2016
 
 ==============================================================================*/
+
+
 package socialmusicserver;
 
 import java.io.IOException;
@@ -24,7 +26,7 @@ class HandleServer extends Thread
 	private final Socket socket_;
 	private final ListenServer server_;
 
-	protected HandleServer(ListenServer server, Socket socket)
+	public HandleServer(ListenServer server, Socket socket)
 	{
 		System.out.println("HandleServer constructed");
 		this.socket_ = socket;

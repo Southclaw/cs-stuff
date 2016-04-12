@@ -11,6 +11,9 @@
 
 package socialmusicserverchat;
 
+import socialmusicserver.ListenServer;
+import socialmusicserver.UserManager;
+
 public class SocialMusicServerChat
 {
 
@@ -18,6 +21,9 @@ public class SocialMusicServerChat
 	{
 		ListenServer listen = new ListenServer(7779);
 		listen.start();
+
+		listen.addListener(ChatManager.inst());
+
 		System.out.println("Chat Server Started");
 	}
 }

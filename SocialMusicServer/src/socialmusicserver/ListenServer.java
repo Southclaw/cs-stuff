@@ -19,7 +19,7 @@ import java.util.Iterator;
 import java.util.List;
 
 
-class ListenServer extends Thread
+public class ListenServer extends Thread
 {
 
 	protected ServerSocket listenSocket;
@@ -34,7 +34,7 @@ class ListenServer extends Thread
 		{
 			listenSocket = new ServerSocket(port);
 			socketPort = port;
-			System.out.format("Created Main ServerSocket on %d\n", port);
+			System.out.format("Created ServerSocket on %d\n", port);
 		}
 		catch(IOException except)
 		{
