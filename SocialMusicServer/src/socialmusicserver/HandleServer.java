@@ -14,17 +14,21 @@ import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 class HandleServer extends Thread
 {
 
-	private final Socket client;
+	private final Socket socket_;
+	private final ListenServer server_;
 
-	HandleServer(Socket connection)
+	protected HandleServer(ListenServer server, Socket socket)
 	{
 		System.out.println("HandleServer constructed");
-		this.client = connection;
+		this.socket_ = socket;
+		this.server_ = server;
 	}
 
 	@Override
@@ -34,11 +38,12 @@ class HandleServer extends Thread
 		String line;
 		BufferedReader input = null;
 		PrintWriter output = null;
+		int waitForData = 0;
 
 		try
 		{
-			input = new BufferedReader(new InputStreamReader(client.getInputStream()));
-			output = new PrintWriter(client.getOutputStream(), true);
+			input = new BufferedReader(new InputStreamReader(socket_.getInputStream()));
+			output = new PrintWriter(socket_.getOutputStream(), true);
 		}
 		catch(IOException e)
 		{
@@ -48,11 +53,25 @@ class HandleServer extends Thread
 
 		while(true)
 		{
-			
 			try
 			{
 				System.out.println("Waiting...");
 				line = input.readLine();
+				
+				if(line == null)
+				{
+					// wait 10 seconds for a timeout
+					if(waitForData == 10)
+					{
+						onDisconnect();
+						break;
+					}
+
+					waitForData++;
+					Thread.sleep(100);
+					continue;
+				}
+
 				String reply = onReceive(line);
 				
 				if(reply == null)
@@ -75,11 +94,19 @@ class HandleServer extends Thread
 				e.printStackTrace(System.out);
 				break;
 			}
+			catch(InterruptedException e)
+			{
+				e.printStackTrace(System.out);
+				break;
+			}
 		}
 	}
 	
 	public String onReceive(String s)
 	{
+		if(s == null)
+			return null;
+
 		System.out.printf("onReceive '%s'\n", s);
 		String a[] = s.split("\\s+");
 		
@@ -95,51 +122,23 @@ class HandleServer extends Thread
 			// Handle parameterless commands
 			return null;
 		}
-				
+
+		return server_.listenEvent(this, a);
+	}
 	
-		System.out.printf("a[0]: %s\n", a[0]);
-
-		switch(a[0])
-		{
-			case "REGS":
-			{
-				// a[1] is username
-				// a[2] is password hash
-				return "REGISTER COMMAND";
-			}
-
-			case "LOGN":
-			{
-				// a[1] is username
-				// a[2] is password hash
-				// return user ID (positive integer/UUID) or -1 for failure
-				return "LOGIN COMMAND";
-			}
-
-			case "DETL":
-			{
-				// a[1] is userid
-				// return user details string
-				// username (correctly capitalised) reg date, last login, etc
-				return "DETAILS COMMAND";
-			}
-
-			case "FRND":
-			{
-				// a[1] is userid
-				// return friends list
-				return "FRIEND LIST COMMAND";
-			}
-		}
-
-		return null;
+	private void onDisconnect()
+	{
+		String[] a = new String[1];
+		a[0] = "DSCN";
+		server_.listenEvent(this, a);
 	}
 
 	protected void finalize()
 	{
 		try
 		{
-			this.client.close();
+			onDisconnect();
+			this.socket_.close();
 		}
 		catch(IOException e)
 		{
