@@ -22,6 +22,6 @@ public class SocialMusicServer
 		ListenServer listen = new ListenServer(7778);
 		listen.start();
 		SocialMusicServerChat.init();
-		UserManager.init();
+		UserManager.inst().init();
 	}
 }
