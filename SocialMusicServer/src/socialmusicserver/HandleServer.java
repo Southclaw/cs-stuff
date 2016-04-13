@@ -16,22 +16,31 @@ import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Queue;
+import java.util.PriorityQueue;
 
 
-class HandleServer extends Thread
+public class HandleServer extends Thread
 {
 
 	private final Socket socket_;
-	private final ListenServer server_;
+	public final ListenServer server;
+
+    private final Queue<String> updateStack_;
 
 	public HandleServer(ListenServer server, Socket socket)
 	{
+        updateStack_ = new PriorityQueue();
+
 		System.out.println("HandleServer constructed");
 		this.socket_ = socket;
-		this.server_ = server;
+		this.server = server;
 	}
+
+    public void pushUpdate(String message)
+    {
+        updateStack_.add(message);
+    }
 
 	@Override
 	public void run()
@@ -111,28 +120,42 @@ class HandleServer extends Thread
 
 		System.out.printf("onReceive '%s'\n", s);
 		String a[] = s.split("\\s+");
-		
+
 		System.out.printf("length: %d\n", a.length);
 		if(a.length == 0)
 		{
 			// No commands, quit
 			return null;
 		}
-		
+
 		if(a.length == 1)
 		{
 			// Handle parameterless commands
 			return null;
 		}
 
-		return server_.listenEvent(this, a);
+        // Special case: client requests message update
+        if(a[0].equals("UPDT"))
+        {
+            String reply = "";
+
+            while(!updateStack_.isEmpty())
+            {
+                reply += updateStack_.remove();
+                reply += "\n";
+            }
+
+            return reply;
+        }
+
+		return server.listenEvent(this, a);
 	}
 	
 	private void onDisconnect()
 	{
 		String[] a = new String[1];
 		a[0] = "DSCN";
-		server_.listenEvent(this, a);
+		server.listenEvent(this, a);
 	}
 
 	protected void finalize()

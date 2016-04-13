@@ -13,6 +13,7 @@ package socialmusicserverchat;
 
 import socialmusicserver.EventListener;
 import socialmusicserver.ListenEvent;
+import socialmusicserver.ListenServer;
 
 
 class ChatManager implements EventListener
@@ -24,14 +25,16 @@ class ChatManager implements EventListener
 
 	public String msgRecv(ListenEvent event)
 	{
-		System.out.println("msgRecv:");
-		for(String s: event.args())
-		{
-			System.out.println(s);
-		}
-		System.out.println("END.");
+		switch(event.args()[0])
+        {
+            case "MSSG":
+            {
+                event.hsvr().server.broadcast("hi");
+                break;
+            }
+        }
 
-		return "REPLY";
+		return "ACKN";
 	}
 	
 

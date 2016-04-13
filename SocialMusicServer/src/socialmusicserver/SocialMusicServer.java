@@ -1,10 +1,10 @@
 /*==============================================================================
 
-    Systems Software Project
+	Systems Software Project
 
-    Social Music Server
+	Social Music Server
 
-    Barnaby Keene 2016
+	Barnaby Keene 2016
 
 ==============================================================================*/
 
@@ -27,7 +27,7 @@ public class SocialMusicServer
 
 		listen.addListener(UserManager.inst());
 	}
-	
+
 
 	// event
 	/*

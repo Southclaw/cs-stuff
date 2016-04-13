@@ -24,6 +24,7 @@ public class ListenServer extends Thread
 
 	protected ServerSocket listenSocket;
 	protected int socketPort;
+    private List<HandleServer> clients_ = new ArrayList();
 	
 	private List listeners_ = new ArrayList();
 
@@ -68,6 +69,14 @@ public class ListenServer extends Thread
 		
 		return reply;
     }
+    
+    public void broadcast(String message)
+    {
+        while(clients_.iterator().hasNext())
+        {
+            clients_.iterator().next().pushUpdate(message);
+        }
+    }
 
 	@Override
 	public void run()
@@ -80,6 +89,7 @@ public class ListenServer extends Thread
 				String[] args = new String[1];
 
 				HandleServer handleServer = new HandleServer(this, s);
+                clients_.add(handleServer);
 
 				args[0] = "CONN";
 				listenEvent(handleServer, args);
