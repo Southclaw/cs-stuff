@@ -13,6 +13,8 @@ package socialmusicserver;
 
 import java.util.Vector;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class UserManagerDB
 {
@@ -23,6 +25,8 @@ public class UserManagerDB
 	
 	private PreparedStatement addUser;
 	private PreparedStatement remUser;
+	private PreparedStatement chkUser;
+	private PreparedStatement logUser;
 
 	public void init()
 	{
@@ -30,20 +34,22 @@ public class UserManagerDB
 		{
 			Class.forName("org.sqlite.JDBC");
 			c = DriverManager.getConnection("jdbc:sqlite:data.db");
-			
+
 			try (Statement stmt = c.createStatement())
 			{
 				stmt.executeUpdate("CREATE TABLE IF NOT EXISTS "+userTable+" (" +
 					"uuid INT PRIMARY KEY NOT NULL," +
 					"name TEXT NOT NULL,"+
 					"pass TEXT NOT NULL,"+
-					"loca TEXT NOT NULL,"+
-					"brth TEXT NOT NULL,"+
-					"info TEXT NOT NULL )");
+					"loca TEXT,"+
+					"brth TEXT,"+
+					"info TEXT )");
 			}
 
-			addUser = c.prepareStatement("INSERT INTO "+userTable+" VALUES(?, ?, ?, ?, ?, ?)");
+			addUser = c.prepareStatement("INSERT INTO "+userTable+" (name, pass) VALUES(?, ?)");
 			remUser = c.prepareStatement("DELETE FROM "+userTable+" WHERE name = ?");
+			chkUser = c.prepareStatement("SELECT count(*) FROM "+userTable+" WHERE name = ? COLLATE NOCASE");
+			logUser = c.prepareStatement("SELECT * FROM "+userTable+" WHERE name=? COLLATE NOCASE");
 		}
 		catch (ClassNotFoundException | SQLException e)
 		{
@@ -54,6 +60,76 @@ public class UserManagerDB
 		System.out.println("UserManager class initialised, database opened successfully.");
 	}
 
+	public boolean AccountExists(String name)
+	{
+		try
+		{
+			chkUser.executeQuery();
+
+			ResultSet r = chkUser.getResultSet();
+
+			return r.getInt(1) > 0;
+		}
+		catch(SQLException e)
+		{
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+		}
+		
+		return false;
+	}
+	
+	public int RegisterUser(String name, String pass)
+	{
+		if(AccountExists(name))
+		{
+			return 1;
+		}
+
+		try
+		{
+			addUser.setString(1, name);
+			addUser.setString(2, name);
+			addUser.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			return 2;
+		}
+
+		return 0;
+	}
+	
+	public int LoginUser(String name, String pass)
+	{
+		if(!AccountExists(name))
+		{
+			return 1;
+		}
+		
+		ResultSet r;
+		String rpass;
+
+		try
+		{
+			r = logUser.executeQuery();
+
+			rpass = r.getString(2);
+		}
+		catch(SQLException e)
+		{
+			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			return 2;
+		}
+
+		if(!pass.equals(rpass))
+		{
+			return 3;
+		}
+		
+		return 0;
+	}
+	
 	public void AddUser(User user)
 	{
 		Users.add(user);
