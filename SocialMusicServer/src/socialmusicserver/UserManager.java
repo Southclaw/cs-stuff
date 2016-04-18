@@ -25,12 +25,12 @@ public class UserManager implements EventListener
 	public String msgRecv(ListenEvent event)
 	{
 		// DEBUG
-		System.out.println("msgRecv:");
+		System.out.println("\n\nmsgRecv PARAM DEBUG:");
 		for(String s: event.args())
 		{
 			System.out.println(s);
 		}
-		System.out.println("END.");
+		System.out.println("msgRecv END PARAM DEBUG\n\n");
 		// END DEBUG
 
 		switch(event.args()[0])

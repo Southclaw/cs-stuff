@@ -11,20 +11,21 @@
 
 package socialmusicserver;
 
-import java.util.Vector;
-import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
+
 
 public class UserManagerDB
 {
 	public final String userTable = "users";
 
-	private Vector<User> Users;
 	private Connection c;
-	
+
 	private PreparedStatement addUser;
-	private PreparedStatement remUser;
 	private PreparedStatement chkUser;
 	private PreparedStatement logUser;
 
@@ -38,7 +39,7 @@ public class UserManagerDB
 			try (Statement stmt = c.createStatement())
 			{
 				stmt.executeUpdate("CREATE TABLE IF NOT EXISTS "+userTable+" (" +
-					"uuid INT PRIMARY KEY NOT NULL," +
+					"uuid INT PRIMARY KEY," +
 					"name TEXT NOT NULL,"+
 					"pass TEXT NOT NULL,"+
 					"loca TEXT,"+
@@ -47,13 +48,12 @@ public class UserManagerDB
 			}
 
 			addUser = c.prepareStatement("INSERT INTO "+userTable+" (name, pass) VALUES(?, ?)");
-			remUser = c.prepareStatement("DELETE FROM "+userTable+" WHERE name = ?");
 			chkUser = c.prepareStatement("SELECT count(*) FROM "+userTable+" WHERE name = ? COLLATE NOCASE");
 			logUser = c.prepareStatement("SELECT * FROM "+userTable+" WHERE name=? COLLATE NOCASE");
 		}
 		catch (ClassNotFoundException | SQLException e)
 		{
-			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			e.printStackTrace(System.out);
 			System.exit(0);
 		}
 
@@ -62,24 +62,28 @@ public class UserManagerDB
 
 	public boolean AccountExists(String name)
 	{
+		boolean exists = false;
+
 		try
 		{
-			chkUser.executeQuery();
+			chkUser.setString(1, name);
+			ResultSet r = chkUser.executeQuery();
 
-			ResultSet r = chkUser.getResultSet();
+			exists = r.getInt(1) > 0;
 
-			return r.getInt(1) > 0;
+			r.close();
 		}
 		catch(SQLException e)
 		{
-			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			e.printStackTrace(System.out);
 		}
-		
-		return false;
+
+		return exists;
 	}
 	
 	public int RegisterUser(String name, String pass)
 	{
+		System.out.println("RegisterUser called");
 		if(AccountExists(name))
 		{
 			return 1;
@@ -88,12 +92,12 @@ public class UserManagerDB
 		try
 		{
 			addUser.setString(1, name);
-			addUser.setString(2, name);
+			addUser.setString(2, pass);
 			addUser.executeUpdate();
 		}
 		catch(SQLException e)
 		{
-			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			e.printStackTrace(System.out);
 			return 2;
 		}
 
@@ -102,50 +106,48 @@ public class UserManagerDB
 	
 	public int LoginUser(String name, String pass)
 	{
+		System.out.println("LoginUser called");
 		if(!AccountExists(name))
 		{
 			return 1;
 		}
-		
+
 		ResultSet r;
 		String rpass;
 
 		try
 		{
+			logUser.setString(1, name);
 			r = logUser.executeQuery();
+			rpass = r.getString(3);
 
-			rpass = r.getString(2);
+			r.close();
 		}
 		catch(SQLException e)
 		{
-			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+			e.printStackTrace(System.out);
 			return 2;
 		}
+
+		System.out.println("\n");
+		System.out.println(pass);
+		System.out.println(rpass);
+		System.out.println("\n");
 
 		if(!pass.equals(rpass))
 		{
 			return 3;
 		}
-		
+
 		return 0;
 	}
-	
-	public void AddUser(User user)
-	{
-		Users.add(user);
-	}
 
-	public void RemoveUser(User user)
-	{
-		Users.remove(user);
-	}
-	
 	// Singleton stuff
-	
+
 	private static UserManagerDB instance = new UserManagerDB();
-	
+
 	private UserManagerDB(){}
-	
+
 	public static UserManagerDB inst()
 	{
 		return instance;
