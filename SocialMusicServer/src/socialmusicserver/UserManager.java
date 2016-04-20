@@ -24,6 +24,19 @@ public class UserManager implements EventListener
 	public void init()
 	{
 		udb = UserManagerDB.inst();
+/*
+		ArrayList<String> l = new ArrayList<>();
+		
+		l.add("1");
+		l.add("2");
+		l.add("3");
+		
+		udb.RegisterUser("Southclaw", "pass", l);
+		udb.RegisterUser("Relation", "pass", l);
+		
+		udb.addUserFriend("Southclaw", "Relation");
+		udb.addUserFriendReq("Relation", "Southclaw");
+*/
 	}
 
 	@Override
@@ -44,13 +57,16 @@ public class UserManager implements EventListener
 			{
 				// a[1] is username
 				// a[2] is password hash
+				// a[3] is DoB
+				// a[4] is PoB
+				// a[5+]is music preference list
 				ArrayList<String> musicProfile = new ArrayList<>();
 
-				if(event.args().length > 3)
+				if(event.args().length > 4)
 				{
-					for(int i = 0; i < event.args().length - 2; ++i)
+					for(int i = 5; i < event.args().length; ++i)
 					{
-						musicProfile.add(event.args()[i + 2]);
+						musicProfile.add(event.args()[i]);
 					}
 				}
 
@@ -98,8 +114,48 @@ public class UserManager implements EventListener
 			{
 				// a[1] is userid
 				// return friends list
-				return "FRIEND LIST COMMAND";
+				return udb.getUserFriends(event.args()[1]);
 			}
+
+			case "ADDF":
+			{
+				// a[1] is userid
+				// a[2] is friend userid
+				// return success/error code
+				return udb.addUserFriend(event.args()[1], event.args()[2]);
+			}
+
+			case "DELF":
+			{
+				// a[1] is userid
+				// a[2] is friend userid
+				// return success/error code
+				return udb.delUserFriend(event.args()[1], event.args()[2]);
+			}
+
+			case "REQS":
+			{
+				// a[1] is userid
+				// return friends list
+				return udb.getUserFriendReqs(event.args()[1]);
+			}
+
+			case "ADDR":
+			{
+				// a[1] is userid
+				// a[2] is friend userid
+				// return success/error code
+				return udb.addUserFriendReq(event.args()[1], event.args()[2]);
+			}
+
+			case "DELR":
+			{
+				// a[1] is userid
+				// a[2] is friend userid
+				// return success/error code
+				return udb.delUserFriendReq(event.args()[1], event.args()[2]);
+			}
+
 		}
 
 		return "REPLY";

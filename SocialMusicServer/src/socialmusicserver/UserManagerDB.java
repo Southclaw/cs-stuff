@@ -26,17 +26,23 @@ public class UserManagerDB
 {
 	public final String userTable = "users";
 	public final String friendTable = "friends";
+	public final String friendReqTable = "friend_reqs";
 
 	private Connection c;
 
 	private PreparedStatement addUser;
 	private PreparedStatement chkUser;
 	private PreparedStatement logUser;
-	
+
 	private PreparedStatement getFriends;
 	private PreparedStatement addFriend;
 	private PreparedStatement delFriend;
 	private PreparedStatement chkFriend;
+
+	private PreparedStatement getFriendReqs;
+	private PreparedStatement addFriendReq;
+	private PreparedStatement delFriendReq;
+	private PreparedStatement chkFriendReq;
 
 	public void init()
 	{
@@ -48,7 +54,7 @@ public class UserManagerDB
 			try (Statement stmt = c.createStatement())
 			{
 				stmt.executeUpdate("CREATE TABLE IF NOT EXISTS "+userTable+" ("+
-					"uuid INT PRIMARY KEY AUTOINCREMENT,"+
+					"uuid INTEGER PRIMARY KEY AUTOINCREMENT,"+
 					"name TEXT NOT NULL,"+
 					"pass TEXT NOT NULL,"+
 					"loca TEXT,"+
@@ -63,7 +69,7 @@ public class UserManagerDB
 
 			try (Statement stmt = c.createStatement())
 			{
-				stmt.executeUpdate("CREATE TABLE IF NOT EXISTS "+userTable+" ("+
+				stmt.executeUpdate("CREATE TABLE IF NOT EXISTS "+friendTable+" ("+
 					"name TEXT NOT NULL,"+
 					"rela TEXT NOT NULL)");
 			}
@@ -72,6 +78,18 @@ public class UserManagerDB
 			addFriend = c.prepareStatement("INSERT INTO "+friendTable+" VALUES(?, ?)");
 			delFriend = c.prepareStatement("DELETE FROM "+friendTable+" WHERE name=? AND rela=?");
 			chkFriend = c.prepareStatement("SELECT COUNT(*) FROM "+friendTable+" WHERE name=? AND rela=?");
+
+			try (Statement stmt = c.createStatement())
+			{
+				stmt.executeUpdate("CREATE TABLE IF NOT EXISTS "+friendReqTable+" ("+
+					"name TEXT NOT NULL,"+
+					"rela TEXT NOT NULL)");
+			}
+
+			getFriendReqs = c.prepareStatement("SELECT rela FROM "+friendReqTable+" WHERE name=?");
+			addFriendReq = c.prepareStatement("INSERT INTO "+friendReqTable+" VALUES(?, ?)");
+			delFriendReq = c.prepareStatement("DELETE FROM "+friendReqTable+" WHERE name=? AND rela=?");
+			chkFriendReq = c.prepareStatement("SELECT COUNT(*) FROM "+friendReqTable+" WHERE name=? AND rela=?");
 		}
 		catch (ClassNotFoundException | SQLException e)
 		{
@@ -102,7 +120,7 @@ public class UserManagerDB
 
 		return exists;
 	}
-	
+
 	public int RegisterUser(String name, String pass, ArrayList<String> musicList)
 	{
 		if(AccountExists(name))
@@ -182,7 +200,6 @@ public class UserManagerDB
 	
 	public String getUserInfo(String name)
 	{
-		System.out.println("getUserInfo called");
 		if(!AccountExists(name))
 		{
 			return "FAILEX";
@@ -207,10 +224,9 @@ public class UserManagerDB
 		
 		return information;
 	}
-	
+
 	public String getUserFriends(String name)
 	{
-		System.out.println("getUserFriends called");
 		if(!AccountExists(name))
 		{
 			return "FAILEX";
@@ -239,6 +255,144 @@ public class UserManagerDB
 		return friendsList;
 	}
 
+	public String addUserFriend(String name, String rela)
+	{
+		if(!AccountExists(name))
+		{
+			return "FAILEX1";
+		}
+
+		if(!AccountExists(rela))
+		{
+			return "FAILEX2";
+		}
+
+		try
+		{
+			addFriend.setString(1, name);
+			addFriend.setString(2, rela);
+			addFriend.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+			return "FAILDB";
+		}
+		
+		return "SUCCESS";
+	}
+
+	public String delUserFriend(String name, String rela)
+	{
+		if(!AccountExists(name))
+		{
+			return "FAILEX1";
+		}
+
+		if(!AccountExists(rela))
+		{
+			return "FAILEX2";
+		}
+
+		try
+		{
+			delFriend.setString(1, name);
+			delFriend.setString(2, rela);
+			delFriend.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+			return "FAILDB";
+		}
+		
+		return "SUCCESS";
+	}
+
+
+	public String getUserFriendReqs(String name)
+	{
+		if(!AccountExists(name))
+		{
+			return "FAILEX";
+		}
+
+		String friendsList = "FRIENDS";
+
+		try
+		{
+			getFriendReqs.setString(1, name);
+			ResultSet r = getFriendReqs.executeQuery();
+			
+			while(r.next())
+			{
+				friendsList += " " + r.getString(1);
+			}
+			
+			r.close();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+			return "FAILDB";
+		}
+		
+		return friendsList;
+	}
+
+	public String addUserFriendReq(String name, String rela)
+	{
+		if(!AccountExists(name))
+		{
+			return "FAILEX1";
+		}
+
+		if(!AccountExists(rela))
+		{
+			return "FAILEX2";
+		}
+
+		try
+		{
+			addFriendReq.setString(1, name);
+			addFriendReq.setString(2, rela);
+			addFriendReq.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+			return "FAILDB";
+		}
+		
+		return "SUCCESS";
+	}
+
+	public String delUserFriendReq(String name, String rela)
+	{
+		if(!AccountExists(name))
+		{
+			return "FAILEX1";
+		}
+
+		if(!AccountExists(rela))
+		{
+			return "FAILEX2";
+		}
+
+		try
+		{
+			delFriendReq.setString(1, name);
+			delFriendReq.setString(2, rela);
+			delFriendReq.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+			return "FAILDB";
+		}
+		
+		return "SUCCESS";
+	}
 	// Singleton stuff
 
 	private static UserManagerDB instance = new UserManagerDB();
