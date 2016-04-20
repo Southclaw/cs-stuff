@@ -17,17 +17,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class UserManagerDB
 {
 	public final String userTable = "users";
+	public final String friendTable = "friends";
 
 	private Connection c;
 
 	private PreparedStatement addUser;
 	private PreparedStatement chkUser;
 	private PreparedStatement logUser;
+	
+	private PreparedStatement getFriends;
+	private PreparedStatement addFriend;
+	private PreparedStatement delFriend;
+	private PreparedStatement chkFriend;
 
 	public void init()
 	{
@@ -38,18 +47,31 @@ public class UserManagerDB
 
 			try (Statement stmt = c.createStatement())
 			{
-				stmt.executeUpdate("CREATE TABLE IF NOT EXISTS "+userTable+" (" +
-					"uuid INT PRIMARY KEY," +
+				stmt.executeUpdate("CREATE TABLE IF NOT EXISTS "+userTable+" ("+
+					"uuid INT PRIMARY KEY AUTOINCREMENT,"+
 					"name TEXT NOT NULL,"+
 					"pass TEXT NOT NULL,"+
 					"loca TEXT,"+
 					"brth TEXT,"+
+					"musc TEXT,"+
 					"info TEXT )");
 			}
 
-			addUser = c.prepareStatement("INSERT INTO "+userTable+" (name, pass) VALUES(?, ?)");
+			addUser = c.prepareStatement("INSERT INTO "+userTable+" (name, pass, musc) VALUES(?, ?, ?)");
 			chkUser = c.prepareStatement("SELECT count(*) FROM "+userTable+" WHERE name = ? COLLATE NOCASE");
 			logUser = c.prepareStatement("SELECT * FROM "+userTable+" WHERE name=? COLLATE NOCASE");
+
+			try (Statement stmt = c.createStatement())
+			{
+				stmt.executeUpdate("CREATE TABLE IF NOT EXISTS "+userTable+" ("+
+					"name TEXT NOT NULL,"+
+					"rela TEXT NOT NULL)");
+			}
+
+			getFriends = c.prepareStatement("SELECT rela FROM "+friendTable+" WHERE name=?");
+			addFriend = c.prepareStatement("INSERT INTO "+friendTable+" VALUES(?, ?)");
+			delFriend = c.prepareStatement("DELETE FROM "+friendTable+" WHERE name=? AND rela=?");
+			chkFriend = c.prepareStatement("SELECT COUNT(*) FROM "+friendTable+" WHERE name=? AND rela=?");
 		}
 		catch (ClassNotFoundException | SQLException e)
 		{
@@ -81,18 +103,35 @@ public class UserManagerDB
 		return exists;
 	}
 	
-	public int RegisterUser(String name, String pass)
+	public int RegisterUser(String name, String pass, ArrayList<String> musicList)
 	{
-		System.out.println("RegisterUser called");
 		if(AccountExists(name))
 		{
 			return 1;
+		}
+
+		String musicListString = "";
+
+		if(musicList.size() > 0)
+		{
+			Set<Integer> items = new HashSet<>();
+			musicListString = musicList.get(0);
+
+			for(int i = 1; i < musicList.size(); ++i)
+			{
+				// quick set usage to handle duplicates
+				if(items.add(Integer.getInteger(musicList.get(i))))
+				{
+					musicListString += " " + musicList.get(i);
+				}
+			}
 		}
 
 		try
 		{
 			addUser.setString(1, name);
 			addUser.setString(2, pass);
+			addUser.setString(3, musicListString);
 			addUser.executeUpdate();
 		}
 		catch(SQLException e)
@@ -106,7 +145,6 @@ public class UserManagerDB
 	
 	public int LoginUser(String name, String pass)
 	{
-		System.out.println("LoginUser called");
 		if(!AccountExists(name))
 		{
 			return 1;
@@ -140,6 +178,65 @@ public class UserManagerDB
 		}
 
 		return 0;
+	}
+	
+	public String getUserInfo(String name)
+	{
+		System.out.println("getUserInfo called");
+		if(!AccountExists(name))
+		{
+			return "FAILEX";
+		}
+
+		String information = "";
+		
+		try
+		{
+			logUser.setString(1, name);
+			ResultSet r = logUser.executeQuery();
+			
+			information = r.getString("info");
+			
+			r.close();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+			return "FAILDB";
+		}
+		
+		return information;
+	}
+	
+	public String getUserFriends(String name)
+	{
+		System.out.println("getUserFriends called");
+		if(!AccountExists(name))
+		{
+			return "FAILEX";
+		}
+
+		String friendsList = "FRIENDS";
+
+		try
+		{
+			getFriends.setString(1, name);
+			ResultSet r = getFriends.executeQuery();
+			
+			while(r.next())
+			{
+				friendsList += " " + r.getString(1);
+			}
+			
+			r.close();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+			return "FAILDB";
+		}
+		
+		return friendsList;
 	}
 
 	// Singleton stuff

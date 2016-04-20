@@ -11,6 +11,11 @@
 
 package socialmusicserver;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 public class UserManager implements EventListener
 {
@@ -39,7 +44,17 @@ public class UserManager implements EventListener
 			{
 				// a[1] is username
 				// a[2] is password hash
-				int ret = udb.RegisterUser(event.args()[1], event.args()[2]);
+				ArrayList<String> musicProfile = new ArrayList<>();
+
+				if(event.args().length > 3)
+				{
+					for(int i = 0; i < event.args().length - 2; ++i)
+					{
+						musicProfile.add(event.args()[i + 2]);
+					}
+				}
+
+				int ret = udb.RegisterUser(event.args()[1], event.args()[2], musicProfile);
 
 				if(ret == 0)
 					return "SUCCESS";
@@ -76,7 +91,7 @@ public class UserManager implements EventListener
 				// a[1] is userid
 				// return user details string
 				// username (correctly capitalised) reg date, last login, etc
-				return "DETAILS COMMAND";
+				return udb.getUserInfo(event.args()[1]);
 			}
 
 			case "FRND":
