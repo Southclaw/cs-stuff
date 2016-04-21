@@ -509,7 +509,7 @@ public class MainPage extends javax.swing.JFrame
 			ServerLst.setListData(new Vector<>());
 		}
 
-		// get online friends and add to list
+		// get music files and add to list
 		String[] ChatRequestsArr = server_.send("CHTR " + username_ + "\n").split("\\s+");
 		System.out.format("CHTR: [0] = '%s' length: %d\n", ChatRequestsArr[0], ChatRequestsArr.length);
 
