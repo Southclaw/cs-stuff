@@ -255,7 +255,7 @@ public class UserManager implements EventListener
 			
 			/*
 			MLST command:
-			//
+			lists music files in the music directory.
 			*/
 			case "MLST":
 			{
@@ -278,7 +278,7 @@ public class UserManager implements EventListener
 			
 			/*
 			MGET command:
-			//
+			gets a specific music file by filename.
 			*/
 			case "MGET":
 			{
