@@ -14,14 +14,22 @@ package socialmusicserver;
 
 public class User
 {
-	String Username;
-	String Password;
-	String Location;
-	String DateOfBirth;
-	String Information;
+	public String RemoteAddress;
+	public String Username;
+	public String Password;
+	public String Location;
+	public String DateOfBirth;
+	public String Information;
 
-	String MusicProfile[];
-	String Friends[];
-	String SharedSongs[];
-	String FriendRequests[];
+	public String MusicProfile[];
+	public String Friends[];
+	public String SharedSongs[];
+	public String FriendRequests[];
+	
+	public User(String address, String username, String password)
+	{
+		RemoteAddress = address;
+		Username = username;
+		Password = password;
+	}
 }

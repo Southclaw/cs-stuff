@@ -16,8 +16,8 @@ import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.util.Queue;
-import java.util.PriorityQueue;
+import java.util.*;
+import java.util.regex.*;
 
 
 public class HandleServer extends Thread
@@ -37,6 +37,11 @@ public class HandleServer extends Thread
 		this.server = server;
 	}
 
+	public String getAddress()
+	{
+		return socket_.getRemoteSocketAddress().toString();
+	}
+	
     public void pushUpdate(String message)
     {
         updateStack_.add(message);
@@ -45,7 +50,7 @@ public class HandleServer extends Thread
 	@Override
 	public void run()
 	{
-		System.out.println("Running HandleServer");
+		System.out.format("Running HandleServer for '%s'\n", socket_.getRemoteSocketAddress().toString());
 		String line;
 		BufferedReader input = null;
 		PrintWriter output = null;
@@ -87,13 +92,13 @@ public class HandleServer extends Thread
 				
 				if(reply == null)
 				{
-					System.out.println("Replying with NULL\\n");
+					System.out.println("REPLY NULL");
 					reply = "NULL";
 				}
 
 				int size = reply.length();
 					
-				System.out.printf("Replying with reply: %d '%s'\n", size, reply);
+				System.out.printf("REPLY(%d)'%s'", size, reply);
 				output.write(size);
 				output.print(reply);
 				output.print("\n");
@@ -119,23 +124,23 @@ public class HandleServer extends Thread
 			return null;
 
 		System.out.printf("onReceive '%s'\n", s);
-		String a[] = s.split("\\s+");
+		//String a[] = s.split("([^\"]\\S*|\".+?\")\\s*");
+		List<String> a = new ArrayList<>();
+		
+		Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(s);
+		
+		while(m.find())
+			a.add(m.group(1));
 
-		System.out.printf("length: %d\n", a.length);
-		if(a.length == 0)
+		System.out.printf("length: %d\n", a.size());
+		if(a.isEmpty())
 		{
 			// No commands, quit
 			return null;
 		}
 
-		if(a.length == 1)
-		{
-			// Handle parameterless commands
-			return null;
-		}
-
         // Special case: client requests message update
-        if(a[0].equals("UPDT"))
+        if(a.get(0).equals("UPDT"))
         {
             String reply = "";
 
@@ -147,8 +152,11 @@ public class HandleServer extends Thread
 
             return reply;
         }
+		
+		String[] args = new String[a.size()];
+		args = a.toArray(args);
 
-		return server.listenEvent(this, a);
+		return server.listenEvent(this, args);
 	}
 	
 	private void onDisconnect()

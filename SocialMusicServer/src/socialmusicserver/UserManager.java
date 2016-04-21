@@ -12,7 +12,7 @@
 package socialmusicserver;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,6 +20,8 @@ import java.util.logging.Logger;
 public class UserManager implements EventListener
 {
 	private static UserManagerDB udb;
+	
+	private static Vector<User> UserList = new Vector<>();
 
 	public void init()
 	{
@@ -53,6 +55,25 @@ public class UserManager implements EventListener
 
 		switch(event.args()[0])
 		{
+			// connect and disconnect
+			case "CONN":
+			{
+				return null;
+			}
+
+			case "DSCN":
+			{
+				for(User u : UserList)
+				{
+					if(u.RemoteAddress.equals(event.addr()))
+					{
+						UserList.remove(u);
+						break;
+					}
+				}
+				return null;
+			}
+
 			case "REGS":
 			{
 				// a[1] is username
@@ -90,7 +111,10 @@ public class UserManager implements EventListener
 				int ret = udb.LoginUser(event.args()[1], event.args()[2]);
 
 				if(ret == 0)
+				{
+					UserList.add(new User(event.addr(), event.args()[1], event.args()[2]));
 					return "SUCCESS";
+				}
 
 				if(ret == 1)
 					return "FAILEX";
@@ -156,11 +180,52 @@ public class UserManager implements EventListener
 				return udb.delUserFriendReq(event.args()[1], event.args()[2]);
 			}
 
+			case "ONLN":
+			{
+				return GetOnlineUsersString();
+			}
+
+			case "GETP":
+			{
+				return udb.getPostsList();
+			}
+
+			case "ADDP":
+			{
+				return udb.addPublicPost(event.args()[1], event.args()[2]);
+			}
+
+			case "DELP":
+			{
+				return udb.delPublicPost(event.args()[1], event.args()[2]);
+			}
 		}
 
 		return "REPLY";
 	}
 	
+	public String GetOnlineUsersString()
+	{
+		String output = "";
+		for(User u : UserList)
+		{
+			output += u + " ";
+		}
+		return output;
+	}
+
+	public User GetUserFromIP(String ip)
+	{
+		for(User u : UserList)
+		{
+			if(u.RemoteAddress.equals(ip))
+			{
+				return u;
+			}
+		}
+		
+		return null;
+	}
 
 	// Singleton stuff
 	

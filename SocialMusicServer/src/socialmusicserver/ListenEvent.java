@@ -35,4 +35,9 @@ public class ListenEvent extends EventObject
 	{
 		return args_;
 	}
+
+	public String addr()
+	{
+		return hsvr_.getAddress();
+	}
 }

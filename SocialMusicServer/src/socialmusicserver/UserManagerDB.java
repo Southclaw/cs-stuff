@@ -27,6 +27,7 @@ public class UserManagerDB
 	public final String userTable = "users";
 	public final String friendTable = "friends";
 	public final String friendReqTable = "friend_reqs";
+	public final String postTable = "posts";
 
 	private Connection c;
 
@@ -42,7 +43,10 @@ public class UserManagerDB
 	private PreparedStatement getFriendReqs;
 	private PreparedStatement addFriendReq;
 	private PreparedStatement delFriendReq;
-	private PreparedStatement chkFriendReq;
+
+	private PreparedStatement getPosts;
+	private PreparedStatement addPost;
+	private PreparedStatement delPost;
 
 	public void init()
 	{
@@ -89,7 +93,19 @@ public class UserManagerDB
 			getFriendReqs = c.prepareStatement("SELECT rela FROM "+friendReqTable+" WHERE name=?");
 			addFriendReq = c.prepareStatement("INSERT INTO "+friendReqTable+" VALUES(?, ?)");
 			delFriendReq = c.prepareStatement("DELETE FROM "+friendReqTable+" WHERE name=? AND rela=?");
-			chkFriendReq = c.prepareStatement("SELECT COUNT(*) FROM "+friendReqTable+" WHERE name=? AND rela=?");
+
+			try (Statement stmt = c.createStatement())
+			{
+				stmt.executeUpdate("CREATE TABLE IF NOT EXISTS "+postTable+" ("+
+					"id INTEGER PRIMARY KEY AUTOINCREMENT,"+
+					"name TEXT NOT NULL,"+
+					"date DATE NOT NULL,"+
+					"post TEXT NOT NULL)");
+			}
+
+			getPosts = c.prepareStatement("SELECT id, name, post FROM "+postTable+" ORDER BY date DESC LIMIT ?");
+			addPost = c.prepareStatement("INSERT INTO "+postTable+" (name, date, post) VALUES(?, strftime('%s','now'), ?)");
+			delPost = c.prepareStatement("DELETE FROM "+postTable+" WHERE id=?");
 		}
 		catch (ClassNotFoundException | SQLException e)
 		{
@@ -218,7 +234,7 @@ public class UserManagerDB
 		}
 		catch(SQLException e)
 		{
-			e.printStackTrace();
+			e.printStackTrace(System.out);
 			return "FAILDB";
 		}
 		
@@ -248,7 +264,7 @@ public class UserManagerDB
 		}
 		catch(SQLException e)
 		{
-			e.printStackTrace();
+			e.printStackTrace(System.out);
 			return "FAILDB";
 		}
 		
@@ -275,7 +291,7 @@ public class UserManagerDB
 		}
 		catch(SQLException e)
 		{
-			e.printStackTrace();
+			e.printStackTrace(System.out);
 			return "FAILDB";
 		}
 		
@@ -302,7 +318,7 @@ public class UserManagerDB
 		}
 		catch(SQLException e)
 		{
-			e.printStackTrace();
+			e.printStackTrace(System.out);
 			return "FAILDB";
 		}
 		
@@ -333,7 +349,7 @@ public class UserManagerDB
 		}
 		catch(SQLException e)
 		{
-			e.printStackTrace();
+			e.printStackTrace(System.out);
 			return "FAILDB";
 		}
 		
@@ -360,7 +376,7 @@ public class UserManagerDB
 		}
 		catch(SQLException e)
 		{
-			e.printStackTrace();
+			e.printStackTrace(System.out);
 			return "FAILDB";
 		}
 		
@@ -387,12 +403,71 @@ public class UserManagerDB
 		}
 		catch(SQLException e)
 		{
-			e.printStackTrace();
+			e.printStackTrace(System.out);
 			return "FAILDB";
 		}
 		
 		return "SUCCESS";
 	}
+
+	public String getPostsList()
+	{
+		String output = "";
+		try
+		{
+			getPosts.setInt(1, 10);
+			ResultSet r = getPosts.executeQuery();
+			
+			while(r.next())
+			{
+				output += "(" + r.getString(1) + ")" + r.getString(2) + ": " + r.getString(3) + "\t";
+			}
+			
+			r.close();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace(System.out);
+			return "FAILDB";
+		}
+		
+		return output;
+	}
+
+	public String addPublicPost(String name, String post)
+	{
+		try
+		{
+			addPost.setString(1, name);
+			addPost.setString(2, post);
+			addPost.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace(System.out);
+			return "FAILDB";
+		}
+		
+		return "SUCCESS";
+	}
+
+	public String delPublicPost(String name, String post)
+	{
+		try
+		{
+			delPost.setString(1, name);
+			delPost.setString(2, post);
+			delPost.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace(System.out);
+			return "FAILDB";
+		}
+		
+		return "SUCCESS";
+	}
+
 	// Singleton stuff
 
 	private static UserManagerDB instance = new UserManagerDB();
