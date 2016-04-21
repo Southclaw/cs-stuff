@@ -237,3 +237,6 @@ pip-log.txt
 # sftp configuration file
 sftp-config.json
 *.db
+/SocialMusicServer/src/SystemSoftwareClient/nbproject/private/
+/SocialMusicServer/src/SocialMusicClient/nbproject/private/
+/SocialMusicClient/nbproject/private/
