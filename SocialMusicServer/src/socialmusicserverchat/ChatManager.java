@@ -29,14 +29,13 @@ class ChatManager implements EventListener
         {
             case "MSSG":
             {
-                event.hsvr().server.broadcast("hi");
                 break;
             }
         }
 
 		return "ACKN";
 	}
-	
+
 
 	// Singleton stuff
 	

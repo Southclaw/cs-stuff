@@ -11,8 +11,10 @@
 
 package socialmusicserver;
 
+import socialmusicserverchat.SocialMusicServerChat;
 import java.sql.SQLException;
 import java.util.*;
+import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,12 +22,14 @@ import java.util.logging.Logger;
 public class UserManager implements EventListener
 {
 	private static UserManagerDB udb;
+	private static SocialMusicServerChat chat_;
 	
 	private static Vector<User> UserList = new Vector<>();
 
-	public void init()
+	public void init(SocialMusicServerChat chat)
 	{
 		udb = UserManagerDB.inst();
+		chat_ = chat;
 /*
 		ArrayList<String> l = new ArrayList<>();
 		
@@ -197,7 +201,88 @@ public class UserManager implements EventListener
 
 			case "DELP":
 			{
-				return udb.delPublicPost(event.args()[1], event.args()[2]);
+				return udb.delPublicPost((event.args()[1]));
+			}
+
+			/*
+			CHAT command:
+			first paramter is the user requesting a chat and second parameter is
+			user they want to chat to. This adds the first user to a list stored
+			in the second user's structure where the CHTR command reads from.
+			When a user requests a chat with another user, that other user has
+			to update their client which will trigger the private chat to start.
+			The return value is the string "FAILEX" if the request failed
+			because either user didn't exist. Otherwise this command returns
+			"SUCCESS" if the chat request was submitted successfully.
+			*/
+			case "CHAT":
+			{
+				User u1 = GetUserFromName(event.args()[1]);
+				User u2 = GetUserFromName(event.args()[2]);
+
+				if(u1 == null || u2 == null)
+					return "FAILEX";
+
+				u2.AddChatRequest(u1);
+
+				return "SUCCESS";
+			}
+
+			/*
+			CHTR command:
+			Chat Requests command will retrieve a list of chat requests for a
+			user. This list consists of the names of users who want to chat with
+			the user specified in the first argument. Users who want to chat are
+			added with the "CHAT" command above. This command returns the string
+			"CHAT" followed by the names of users requesting a chat separated by
+			spaces. The list of users requesting a chat is stored in User obj.
+			*/
+			case "CHTR":
+			{
+/*				User u = GetUserFromName(event.args()[1]);
+				
+				Vector<User> r = u.ChatRequests;
+				
+				String reply = "CHAT";
+				
+				for(User iu : r)
+				{
+					reply += " " + iu.Username;
+				}
+
+				return reply;*/
+			}
+			
+			/*
+			MLST command:
+			//
+			*/
+			case "MLST":
+			{
+				// username
+				String list = "FILES";
+				File dir = new File("./music");
+				File[] filesList = dir.listFiles();
+				String filename;
+				for (File file : filesList)
+				{
+					filename = file.getName().replace(" ", "_");
+					if (file.isFile())
+					{
+						list += " " + filename;
+					}
+				}
+				
+				return list;
+			}
+			
+			/*
+			MGET command:
+			//
+			*/
+			case "MGET":
+			{
+				// username filename
 			}
 		}
 
@@ -229,6 +314,18 @@ public class UserManager implements EventListener
 		return null;
 	}
 
+	public User GetUserFromName(String name)
+	{
+		for(User u : UserList)
+		{
+			if(u.Username.equals(name))
+			{
+				return u;
+			}
+		}
+		
+		return null;
+	}
 	// Singleton stuff
 	
 	private static UserManager instance = new UserManager();

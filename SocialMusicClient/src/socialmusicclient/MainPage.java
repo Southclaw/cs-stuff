@@ -341,7 +341,18 @@ public class MainPage extends javax.swing.JFrame
 	private void ChatBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChatBtnActionPerformed
 		Object Selection = FriendsLst.getSelectedValue();
 		targetUsername_ = Selection.toString();
-		new PrivateChat(server_, username_, targetUsername_).setVisible(true);        // TODO add your handling code here:
+
+		String reply = server_.send("CHAT " + username_ + " " + targetUsername_ + "\n");
+		
+		if(reply.equals("SUCCESS"))
+		{
+			new PrivateChat(server_, username_, targetUsername_).setVisible(true);        // TODO add your handling code here:
+		}
+		else
+		{
+			// errir
+			System.out.println("CHAT ERROR");
+		}
 	}//GEN-LAST:event_ChatBtnActionPerformed
 
 	private void LogOutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogOutBtnActionPerformed
@@ -467,6 +478,39 @@ public class MainPage extends javax.swing.JFrame
 		{
 			ServerLst.setListData(new Vector<>());
 		}
+
+		// get online friends and add to list
+		String[] ChatRequestsArr = server_.send("CHTR\n").split("\\s+");
+		System.out.format("CHTR: [0] = '%s' length: %d\n", ChatRequestsArr[0], ChatRequestsArr.length);
+
+		if(ChatRequestsArr[0].equals("CHAT") && OnlinePeopleArr.length > 1)
+		{
+			for(int i = 1; i < ChatRequestsArr.length; ++i)
+			{
+				System.out.format("CHATR: '%s'\n", ChatRequestsArr[i]);
+				new PrivateChat(server_, username_, ChatRequestsArr[i]).setVisible(true);
+			}
+		}
+
+		// get online friends and add to list
+		String[] SharedSongsArr = server_.send("MLST\n").split("\\s+");
+		System.out.format("MLST: [0] = '%s' length: %d\n", SharedSongsArr[0], SharedSongsArr.length);
+
+		if(SharedSongsArr[0].equals("FILES") && SharedSongsArr.length > 1)
+		{
+			Vector<String> SharedSongs = new Vector<>();
+			for(int i = 1; i < SharedSongsArr.length; ++i)
+			{
+				System.out.format("MLST: '%s'\n", SharedSongsArr[i]);
+				SharedSongs.add(SharedSongsArr[i]);
+			}
+			SharedSongsLst.setListData(SharedSongs);
+		}
+		else
+		{
+			ServerLst.setListData(new Vector<>());
+		}
+		
 	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables

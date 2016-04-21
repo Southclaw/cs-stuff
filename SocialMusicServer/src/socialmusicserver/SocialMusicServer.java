@@ -45,7 +45,10 @@ public class SocialMusicServer
 		listen.start();
 		SocialMusicServerChat.init();
 		UserManagerDB.inst().init();
-		UserManager.inst().init();
+		
+		SocialMusicServerChat chat = SocialMusicServerChat.inst();
+
+		UserManager.inst().init(chat);
 
 		listen.addListener(UserManager.inst());
 	}

@@ -11,6 +11,8 @@
 
 package socialmusicserver;
 
+import java.util.Vector;
+
 
 public class User
 {
@@ -25,11 +27,18 @@ public class User
 	public String Friends[];
 	public String SharedSongs[];
 	public String FriendRequests[];
-	
+
+	public Vector<User> ChatRequests = new Vector<>();
+
 	public User(String address, String username, String password)
 	{
 		RemoteAddress = address;
 		Username = username;
 		Password = password;
+	}
+	
+	public void AddChatRequest(User requester)
+	{
+		ChatRequests.add(requester);
 	}
 }

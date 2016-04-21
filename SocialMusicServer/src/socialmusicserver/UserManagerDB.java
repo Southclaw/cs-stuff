@@ -446,12 +446,11 @@ public class UserManagerDB
 		return "SUCCESS";
 	}
 
-	public String delPublicPost(String name, String post)
+	public String delPublicPost(String id)
 	{
 		try
 		{
-			delPost.setString(1, name);
-			delPost.setString(2, post);
+			delPost.setString(1, id);
 			delPost.executeUpdate();
 		}
 		catch(SQLException e)

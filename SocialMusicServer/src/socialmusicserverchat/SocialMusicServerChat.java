@@ -26,4 +26,15 @@ public class SocialMusicServerChat
 
 		System.out.println("Chat Server Started");
 	}
+
+	// singleton stuff
+
+	private static SocialMusicServerChat instance = new SocialMusicServerChat();
+	
+	private SocialMusicServerChat(){}
+	
+	public static SocialMusicServerChat inst()
+	{
+		return instance;
+	}
 }
