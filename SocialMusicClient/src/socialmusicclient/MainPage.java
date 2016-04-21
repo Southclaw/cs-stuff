@@ -379,7 +379,7 @@ public class MainPage extends javax.swing.JFrame
 	}//GEN-LAST:event_RemoveFriendBtnActionPerformed
 
 	private void UpdateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateBtnActionPerformed
-		UpdateEverything();  // TODO add your handling code here:
+		UpdateEverything();
 	}//GEN-LAST:event_UpdateBtnActionPerformed
 
 	private void DeletePostBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeletePostBtnActionPerformed
@@ -406,6 +406,10 @@ public class MainPage extends javax.swing.JFrame
 			}
 			FriendsLst.setListData(Friends);
 		}
+		else
+		{
+			FriendsLst.setListData(new Vector<>());
+		}
 
 		// get friend requests and add to list
 		String[] FriendReqArr = server_.send("REQS " + username_).split("\\s+");
@@ -420,6 +424,10 @@ public class MainPage extends javax.swing.JFrame
                 FriendReqs.add(FriendReqArr[i]);
             }
 			FriendRequestsLst.setListData(FriendReqs);
+		}
+		else
+		{
+			FriendRequestsLst.setListData(new Vector<>());
 		}
 
 		// get posts and add to list
@@ -436,6 +444,10 @@ public class MainPage extends javax.swing.JFrame
 			}
 			PostsLst.setListData(Posts);
 		}
+		else
+		{
+			PostsLst.setListData(new Vector<>());
+		}
 
 		// get online friends and add to list
 		String[] OnlinePeopleArr = server_.send("ONLN\n").split("\\s+");
@@ -450,6 +462,10 @@ public class MainPage extends javax.swing.JFrame
 				OnlinePeople.add(OnlinePeopleArr[i]);
 			}
 			ServerLst.setListData(OnlinePeople);
+		}
+		else
+		{
+			ServerLst.setListData(new Vector<>());
 		}
 	}
 
