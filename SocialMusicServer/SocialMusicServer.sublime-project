@@ -3,6 +3,9 @@
 	[
 		{
 			"path": "."
+		},
+		{
+			"path": "E:\\Documents\\Projects\\cs-stuff\\SocialMusicClient"
 		}
 	]
 }

@@ -13,7 +13,7 @@ package socialmusicserver;
 
 import java.io.IOException;
 import java.io.BufferedReader;
-import java.io.PrintWriter;
+import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.*;
@@ -51,15 +51,15 @@ public class HandleServer extends Thread
 	public void run()
 	{
 		System.out.format("Running HandleServer for '%s'\n", socket_.getRemoteSocketAddress().toString());
-		String line;
+		String line = "";
 		BufferedReader input = null;
-		PrintWriter output = null;
+		DataOutputStream output = null;
 		int waitForData = 0;
 
 		try
 		{
 			input = new BufferedReader(new InputStreamReader(socket_.getInputStream()));
-			output = new PrintWriter(socket_.getOutputStream(), true);
+			output = new DataOutputStream(socket_.getOutputStream());
 		}
 		catch(IOException e)
 		{
@@ -72,7 +72,14 @@ public class HandleServer extends Thread
 			try
 			{
 				System.out.println("Waiting...");
-				line = input.readLine();
+				try
+				{
+					line = input.readLine();
+				}
+				catch(java.net.SocketException se)
+				{
+					onDisconnect();
+				}
 				
 				if(line == null)
 				{
@@ -97,22 +104,17 @@ public class HandleServer extends Thread
 				}
 
 				int size = reply.length();
-					
-				System.out.printf("REPLY(%d)'%s'", size, reply);
-				output.write(size);
-				output.print(reply);
-				output.print("\n");
-				
+
+				System.out.format("REPLY(%x)'%s'\n", size, reply);
+				output.writeInt(size);
+				output.writeChars(reply);
+
 				output.flush();
 			}
-			catch(IOException e)
+			catch(IOException | InterruptedException e)
 			{
-				e.printStackTrace(System.out);
-				break;
-			}
-			catch(InterruptedException e)
-			{
-				e.printStackTrace(System.out);
+				onDisconnect();
+				e.printStackTrace();
 				break;
 			}
 		}

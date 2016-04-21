@@ -201,11 +201,6 @@ public class UserManagerDB
 			return 2;
 		}
 
-		System.out.println("\n");
-		System.out.println(pass);
-		System.out.println(rpass);
-		System.out.println("\n");
-
 		if(!pass.equals(rpass))
 		{
 			return 3;
@@ -412,7 +407,7 @@ public class UserManagerDB
 
 	public String getPostsList()
 	{
-		String output = "";
+		String output = "POSTS\t";
 		try
 		{
 			getPosts.setInt(1, 10);

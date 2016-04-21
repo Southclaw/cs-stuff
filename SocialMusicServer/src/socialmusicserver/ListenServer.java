@@ -63,7 +63,6 @@ public class ListenServer extends Thread
 		while(listeners.hasNext())
 		{
 			tmp = ((EventListener)listeners.next()).msgRecv(evnt);
-			System.out.format("return is: %s\n", tmp);
 			reply += tmp;
 		}
 		

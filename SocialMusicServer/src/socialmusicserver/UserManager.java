@@ -206,7 +206,7 @@ public class UserManager implements EventListener
 	
 	public String GetOnlineUsersString()
 	{
-		String output = "USERS ";
+		String output = "USERS";
 
 		for(User u : UserList)
 		{

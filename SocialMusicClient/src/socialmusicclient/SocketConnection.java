@@ -16,83 +16,95 @@ import java.util.logging.Logger;
  *
  * @author Student
  */
-public class SocketConnection {
+public class SocketConnection
+{
 
-    Socket socket;
-    private OutputStream output;
-    private InputStream input;
+	Socket socket;
+	private OutputStream output;
+	private DataInputStream input;
 
-    SocketConnection(String host, int port) {
-        try {
-            socket = new Socket(InetAddress.getByName(host), port);
-            output = socket.getOutputStream();
-            input = socket.getInputStream();
-        } catch (IOException ex) {
-            Logger.getLogger(SocketConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }  // end connectServer 
+	SocketConnection(String host, int port)
+	{
+		try
+		{
+			socket = new Socket(InetAddress.getByName(host), port);
+			output = socket.getOutputStream();
+			input = new DataInputStream(socket.getInputStream());
+		}
+		catch(IOException ex)
+		{
+			Logger.getLogger(SocketConnection.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}  // end connectServer 
 
-    public String send(String message) {
-        putMsg(output, message);
-        return getMsg(input);
-    }  // end sendReceive  
+	public String send(String message)
+	{
+		putMsg(output, message);
+		return getMsg(input);
+	}  // end sendReceive  
 
-    public void quitServer() {
-        try {
-            socket.close();
-        } catch (IOException ex) {
-            Logger.getLogger(SocketConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }  // end quitServer
+	public void quitServer()
+	{
+		try
+		{
+			socket.close();
+		}
+		catch(IOException ex)
+		{
+			Logger.getLogger(SocketConnection.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}  // end quitServer
 
-    public String getMsg(InputStream input) {
-        
-        char c;
-        try {
-			int size = input.read();
-			System.out.format("%d\n", size);
-            int i = 0;
+	public String getMsg(DataInputStream input)
+	{
+		try
+		{
+			char c;
+			int size = input.readInt();
+			int i = 0;
 			char[] charArray = new char[size];
-            while (((c = (char) input.read()) != '\n') && (i < size)) {
-/*
-                if(i == 0)
-				{
-					i++;
-                    continue;
-				}
-*/
-                charArray[i] = c;
-                i++;
-            }
-	        String string = String.valueOf(charArray);
-			
-			return string;
 
-		} catch (IOException except) {
-            except.printStackTrace();
-        }  // end catch
-        return null;
-    }  // end getMsg
+			System.out.format("Received size: %x\n", size);
+			
+			if(size > 4096)
+			{
+				System.out.printf("ERROR: Socket data size (%d) out of bounds.\n", size);
+				return null;
+			}
+
+			while(i < size)
+			{
+				c = input.readChar();
+				charArray[i] = c;
+				i++;
+			}
+			String string = String.valueOf(charArray);
+			return string;
+		}
+		catch(IOException except)
+		{
+			except.printStackTrace();
+		}  // end catch
+		return null;
+	}  // end getMsg
 
 // **************
-    public void putMsg(OutputStream output, String string)
+	public void putMsg(OutputStream output, String string)
 	{
-        try
+		try
 		{
-            for (int i = 0; i < string.length(); i++)
+			for(int i = 0; i < string.length(); i++)
 			{
-                output.write((int) string.charAt(i));
-            }
-
+				output.write((int) string.charAt(i));
+			}
 			if(!string.endsWith("\n"))
 			{
 				output.write((int) '\n');
 			}
-        }
-		catch (IOException except)
+		}
+		catch(IOException except)
 		{
-            except.printStackTrace();
-        }
-    }
-
+			except.printStackTrace();
+		}
+	}
 }
