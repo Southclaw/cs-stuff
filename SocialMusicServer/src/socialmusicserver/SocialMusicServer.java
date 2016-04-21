@@ -16,10 +16,9 @@ import socialmusicserverchat.SocialMusicServerChat;
 
 public class SocialMusicServer
 {
-	public static String[] MusicTypeList = new String[20];
-
 	public static void main(String[] args)
 	{
+/*
 		MusicTypeList[0] = "Alternative";
 		MusicTypeList[1] = "Blues";
 		MusicTypeList[2] = "Classical";
@@ -40,6 +39,7 @@ public class SocialMusicServer
 		MusicTypeList[17] = "Reggae";
 		MusicTypeList[18] = "Rock";
 		MusicTypeList[19] = "World Music / Beats";
+*/
 
 		ListenServer listen = new ListenServer(7778);
 		listen.start();

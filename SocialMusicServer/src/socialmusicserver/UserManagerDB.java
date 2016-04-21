@@ -417,12 +417,12 @@ public class UserManagerDB
 		{
 			getPosts.setInt(1, 10);
 			ResultSet r = getPosts.executeQuery();
-			
+
 			while(r.next())
 			{
 				output += "(" + r.getString(1) + ")" + r.getString(2) + ": " + r.getString(3) + "\t";
 			}
-			
+
 			r.close();
 		}
 		catch(SQLException e)
@@ -430,7 +430,7 @@ public class UserManagerDB
 			e.printStackTrace(System.out);
 			return "FAILDB";
 		}
-		
+
 		return output;
 	}
 
