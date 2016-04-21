@@ -126,61 +126,55 @@ public class MainPage extends javax.swing.JFrame
 
         jScrollPane5.setViewportView(ServerLst);
 
-		ChatBtn.setText("Chat");
-		ChatBtn.addActionListener(new java.awt.event.ActionListener()
-		{
-			public void actionPerformed(java.awt.event.ActionEvent evt)
-			{
-				ChatBtnActionPerformed(evt);
-			}
-		});
+        jScrollPane6.setViewportView(FriendRequestsLst);
 
-		AcceptBtn.setText("Accept");
-		AcceptBtn.addActionListener(new java.awt.event.ActionListener()
-		{
-			public void actionPerformed(java.awt.event.ActionEvent evt)
-			{
-				AcceptBtnActionPerformed(evt);
-			}
-		});
+        RequestFriendshipBtn.setText(" Request Friendship");
+        RequestFriendshipBtn.setToolTipText("");
 
-		RefuseBtn.setText("Refuse");
-		RefuseBtn.addActionListener(new java.awt.event.ActionListener()
-		{
-			public void actionPerformed(java.awt.event.ActionEvent evt)
-			{
-				RefuseBtnActionPerformed(evt);
-			}
-		});
+        ChatBtn.setText("Chat");
+        ChatBtn.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                ChatBtnActionPerformed(evt);
+            }
+        });
 
-		LogOutBtn.setText("Log out");
-		LogOutBtn.addActionListener(new java.awt.event.ActionListener()
-		{
-			public void actionPerformed(java.awt.event.ActionEvent evt)
-			{
-				LogOutBtnActionPerformed(evt);
-			}
-		});
+        AcceptBtn.setText("Accept");
+        AcceptBtn.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                AcceptBtnActionPerformed(evt);
+            }
+        });
 
-		UpdateBtn.setText("Update");
-		UpdateBtn.addActionListener(new java.awt.event.ActionListener()
-		{
-			public void actionPerformed(java.awt.event.ActionEvent evt)
-			{
-				UpdateBtnActionPerformed(evt);
-			}
-		});
+        RefuseBtn.setText("Refuse");
+        RefuseBtn.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                RefuseBtnActionPerformed(evt);
+            }
+        });
 
-		jScrollPane7.setViewportView(PostsLst);
+        LogOutBtn.setText("Log out");
+        LogOutBtn.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                LogOutBtnActionPerformed(evt);
+            }
+        });
 
-		RemoveFriendBtn.setText("Remove");
-		RemoveFriendBtn.addActionListener(new java.awt.event.ActionListener()
-		{
-			public void actionPerformed(java.awt.event.ActionEvent evt)
-			{
-				RemoveFriendBtnActionPerformed(evt);
-			}
-		});
+        UpdateBtn.setText("Update");
+        UpdateBtn.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                UpdateBtnActionPerformed(evt);
+            }
+        });
 
         jScrollPane7.setViewportView(PostsLst);
 
