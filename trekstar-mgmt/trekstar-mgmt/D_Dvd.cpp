@@ -52,7 +52,7 @@ string D_Dvd::details()
 	return s.str();
 }
 
-D_Dvd& D_Dvd::sideTwo(string id, string title, string format, string audio, int duration, string language, string aspect, vector<string> subTracks, vector<string> audTracks)
+D_Dvd& D_Dvd::SetSideTwoData(string id, string title, string format, string audio, int duration, string language, string aspect)
 {
 	id_ = id;
 	title_ = title;
@@ -63,4 +63,15 @@ D_Dvd& D_Dvd::sideTwo(string id, string title, string format, string audio, int 
 	aspect_ = aspect;
 
 	return *this;
+}
+
+void D_Dvd::GetSideTwoData(string & id, string & title, string & format, string & audio, int & duration, string & language, string & aspect)
+{
+	id = id_;
+	title = title_;
+	format = format_;
+	audio = audio_;
+	duration = duration_;
+	language = language_;
+	aspect = aspect_;
 }

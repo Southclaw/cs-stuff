@@ -262,8 +262,12 @@ string ProjectPort::ExportProject(Project p)
 
 	vector< pair<string, Material*> > materials = p.GetMaterials();
 
+	printf("size: %d addr: %x\n", materials.size(), materials);
+
 	for(auto m : materials)
 	{
+		printf("material loop\n");
+
 		project += "\nMaterial(";
 
 		if(m.first == "vhs")
@@ -278,8 +282,34 @@ string ProjectPort::ExportProject(Project p)
 		}
 		else if(m.first == "ddvd")
 		{
+			string id;
+			string title;
+			string format;
+			string audio;
+			int duration;
+			string language;
+			string aspect;
+
 			D_Dvd* material = dynamic_cast<D_Dvd*>(m.second);
-			project += _build_param_string("ddvd");
+			material->GetSideTwoData(id, title, format, audio, duration, language, aspect);
+
+			project += _build_param_string("ddvd")+
+				_build_param_string(material->GetId())+
+				_build_param_string(material->GetTitle())+
+				_build_param_string(material->GetFormat())+
+				_build_param_string(material->GetAudio())+
+				_build_param_string(std::to_string(material->GetDuration()))+
+				_build_param_string(material->GetLanguage())+
+				_build_param_string(material->GetPrice())+
+				_build_param_string(material->GetAspect())+
+				_build_param_string(material->GetPackaging().toString())+
+				_build_param_string(id)+
+				_build_param_string(title)+
+				_build_param_string(format)+
+				_build_param_string(audio)+
+				_build_param_string(std::to_string(duration))+
+				_build_param_string(language)+
+				_build_param_string(aspect, false) + ")";
 		}
 		else if(m.first == "bluray")
 		{

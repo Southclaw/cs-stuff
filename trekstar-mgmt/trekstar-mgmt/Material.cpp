@@ -38,3 +38,48 @@ std::string Material::details()
 
 	return s.str();
 }
+
+string Material::GetId()
+{
+	return id_;
+}
+
+string Material::GetTitle()
+{
+	return title_;
+}
+
+string Material::GetFormat()
+{
+	return format_;
+}
+
+string Material::GetAudio()
+{
+	return audio_;
+}
+
+int Material::GetDuration()
+{
+	return duration_;
+}
+
+string Material::GetLanguage()
+{
+	return language_;
+}
+
+string Material::GetPrice()
+{
+	return price_;
+}
+
+string Material::GetAspect()
+{
+	return aspect_;
+}
+
+Packaging Material::GetPackaging()
+{
+	return packaging_;
+}

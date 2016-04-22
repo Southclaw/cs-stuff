@@ -19,6 +19,16 @@ public:
 	virtual ~Material(){};
 	virtual string details();
 
+	string GetId();
+	string GetTitle();
+	string GetFormat();
+	string GetAudio();
+	int GetDuration();
+	string GetLanguage();
+	string GetPrice();
+	string GetAspect();
+	Packaging GetPackaging();
+
 protected:
 	Material(
 		string id_,

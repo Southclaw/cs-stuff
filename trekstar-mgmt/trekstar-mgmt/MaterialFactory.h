@@ -26,7 +26,8 @@ using std::vector;
 class MaterialFactory
 {
 public:
-	Media* CreateMaterial(string type, string id, string title, string format, string audio, int duration, string language, string price, string aspect, Packaging packaging, vector<string> subTracks, vector<string> audTracks);
+	Media* CreateMaterial(string type, string id, string title, string format, string audio, int duration, string language, string price, string aspect, Packaging packaging, vector<string> subTracks, vector<string> audTracks,
+		string s2_id = "", string s2_title = "", string s2_format = "", string s2_audio = "", int s2_duration = 0, string s2_language = "", string s2_aspect = "");
 };
 
 #endif

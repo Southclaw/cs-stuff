@@ -40,7 +40,8 @@ public:
 	seem negligible so the Material vector actually stores pairs where the first
 	element is a string to denote the type of the Material stored in the second.
 	*/
-	bool AddMaterial(string type, string id, string title, string format, string audio, int duration, string language, string price, string aspect, Packaging packaging, vector<string> subTracks, vector<string> audTracks);
+	bool AddMaterial(string type, string id, string title, string format, string audio, int duration, string language, string price, string aspect, Packaging packaging, vector<string> subTracks, vector<string> audTracks,
+		string s2_id = "", string s2_title = "", string s2_format = "", string s2_audio = "", int s2_duration = 0, string s2_language = "", string s2_aspect = "");
 
 	/*
 	Returns a copy of the Material list for a project. The pair format mentioned

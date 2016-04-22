@@ -49,6 +49,12 @@ void testing()
 	keywords.push_back("family");
 	keywords.push_back("fun");
 
+	Packaging cardboard_vhs = Packaging("cardboard_vhs");
+	Packaging plastic_vhs = Packaging("plastic_vhs");
+	Packaging plastic_dvd = Packaging("plastic_dvd");
+	Packaging plastic_blu = Packaging("plastic_blu");
+	Packaging cardboard_boxset = Packaging("cardboard_boxset");
+
 	Project project = Project("Movie: The Movie",
 		"A breathtaking journey through a movie.",
 		"Action Adventure",
@@ -60,40 +66,22 @@ void testing()
 		0,
 		Project::PROJECT_STATE_PROD);
 
-	Packaging cardboard_vhs = Packaging("cardboard_vhs");
-	Packaging plastic_vhs = Packaging("plastic_vhs");
-	Packaging plastic_dvd = Packaging("plastic_dvd");
-	Packaging plastic_blu = Packaging("plastic_blu");
-	Packaging cardboard_boxset = Packaging("cardboard_boxset");
-	/*
-	Vhs vhs = Vhs(
-		"TW0013",
-		"Movie: The Movie",
-		"640x480",
-		"Mono",
-		200,
-		"ENG",
-		"$15",
-		"16x9",
-		cardboard_vhs,
-
-		"en_GB",
-		"en_GB");
-
-	Dvd dvd = Dvd(
-		"TW0181",
-		"Movie: The Movie",
-		"SD",
-		"DTS",
-		200,
-		"ENG",
-		"$20",
-		"16x9",
-		plastic_dvd,
-		{ "en_GB", "jp_JP", "in_IN" },
-		{ "en_GB", "jp_JP", "in_IN" });
-
-	D_Dvd ddvd = D_Dvd(
+	//project.AddMaterial(
+	//	"vhs",
+	//	"TW0013",
+	//	"Movie: The Movie",
+	//	"640x480",
+	//	"Mono",
+	//	200,
+	//	"ENG",
+	//	"$15",
+	//	"16x9",
+	//	cardboard_vhs,
+	//	{"en_GB"},
+	//	{"en_GB"});
+	
+	project.AddMaterial(
+		"ddvd",
 		"TW0185",
 		"Movie: The Movie With Extras",
 		"SD",
@@ -104,104 +92,24 @@ void testing()
 		"16x9",
 		plastic_dvd,
 		{ "en_GB", "jp_JP", "in_IN" },
-		{ "en_GB", "jp_JP", "in_IN" }).sideTwo(
+		{ "en_GB", "jp_JP", "in_IN" },
 			"TW0185",
 			"Movie: The Movie Extras Side",
 			"SD",
 			"DTS",
 			140,
 			"ENG",
-			"16x9",
-			{ "en_GB", "jp_JP", "in_IN" },
-			{ "en_GB", "jp_JP", "in_IN" });
-
-	Bluray bluray = Bluray(
-		"TW0220",
-		"Movie: The Movie HD",
-		"4k",
-		"DTS",
-		216,
-		"ENG",
-		"$40",
-		"21x9",
-		plastic_blu,
-		{ "en_GB", "jp_JP", "in_IN" },
-		{ "en_GB", "jp_JP", "in_IN" });
-
-	BoxSet boxset = BoxSet("Awesome Movie Collection", {&bluray, &dvd});
-
-	cout << "VHS:    " << vhs.details() << endl;
-	cout << "\n\n";
-
-	cout << "DVD:    " << dvd.details() << endl;
-	cout << "\n\n";
-
-	cout << "DDVD:   " << ddvd.details() << endl;
-	cout << "\n\n";
-
-	cout << "Bluray: " << bluray.details() << endl;
-	cout << "\n\n";
-
-	cout << "BoxSet: " << boxset.details() << endl;
-	cout << "\n\n";
-	*/
-	MaterialFactory f;
-
-	Dvd* dvd2 = dynamic_cast<Dvd*>(f.CreateMaterial("dvd",
-		"TW0260",
-		"Factory Movie",
-		"1080p",
-		"DTS",
-		216,
-		"ENG",
-		"$40",
-		"21x9",
-		plastic_dvd,
-		{ "en_GB", "jp_JP", "in_IN" },
-		{ "en_GB", "jp_JP", "in_IN" }));
-
-	cout << dvd2->details();
-
-	project.AddMaterial(
-		"vhs",
-		"TW0013",
-		"Movie: The Movie",
-		"640x480",
-		"Mono",
-		200,
-		"ENG",
-		"$15",
-		"16x9",
-		cardboard_vhs,
-		{"en_GB"},
-		{"en_GB"});
-	
-	project.AddMaterial(
-		"dvd",
-		"TW0181",
-		"Movie: The Movie",
-		"SD",
-		"DTS",
-		200,
-		"ENG",
-		"$20",
-		"16x9",
-		plastic_dvd,
-		{ "en_GB", "jp_JP", "in_IN" },
-		{ "en_GB", "jp_JP", "in_IN" });
-
-	vector< pair<string, Material*> > m = project.GetMaterials();
+			"16x9");
 
 	ProjectPort p;
 
+	cout << "\n\nExporting...\n\n";
 	string ex = p.ExportProject(project);
-
 	cout << ex << endl;
 
-	cout << "Importing...\n\n";
-
+	cout << "\n\nImporting...\n\n";
 	Project* project2 = p.ImportProject(ex);
-
+	cout << "\n\nExporting imported project to string...\n\n";
 	ex = p.ExportProject(*project2);
 	cout << ex << endl;
 

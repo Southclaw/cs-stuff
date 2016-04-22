@@ -22,7 +22,8 @@ public:
 
 	string details();
 
-	D_Dvd& sideTwo(string id, string title, string format, string audio, int duration, string language, string aspect, vector<string> subTracks, vector<string> audTracks);
+	D_Dvd& SetSideTwoData(string id, string title, string format, string audio, int duration, string language, string aspect);
+	void GetSideTwoData(string& id, string& title, string& format, string& audio, int& duration, string& language, string& aspect);
 
 private:
 	/*

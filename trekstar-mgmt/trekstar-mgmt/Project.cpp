@@ -29,16 +29,25 @@ Project::~Project()
 	//
 }
 
-bool Project::AddMaterial(string type, string id, string title, string format, string audio, int duration, string language, string price, string aspect, Packaging packaging, vector<string> subTracks, vector<string> audTracks)
+bool Project::AddMaterial(string type, string id, string title, string format, string audio, int duration, string language, string price, string aspect, Packaging packaging, vector<string> subTracks, vector<string> audTracks,
+		string s2_id, string s2_title, string s2_format, string s2_audio, int s2_duration, string s2_language, string s2_aspect)
 {
 	// If the project has gone gold, don't allow material additions.
-	if(GetNowToReleaseDiff() < 0)
-		return true;
+//	if(GetNowToReleaseDiff() < 0)
+//		return true;
 
+	Media* m;
 	MaterialFactory mf;
 	pair<string, Material*> p;
 
-	Media* m = dynamic_cast<Media*>(mf.CreateMaterial(type, id, title, format, audio, duration, language, price, aspect, packaging, subTracks, audTracks));
+	if(type == "ddvd")
+	{
+		m = dynamic_cast<Media*>(mf.CreateMaterial(type, id, title, format, audio, duration, language, price, aspect, packaging, subTracks, audTracks, s2_id, s2_title, s2_format, s2_audio, s2_duration, s2_language, s2_aspect));
+	}
+	else
+	{
+		m = dynamic_cast<Media*>(mf.CreateMaterial(type, id, title, format, audio, duration, language, price, aspect, packaging, subTracks, audTracks));
+	}
 
 	p.first = type;
 	p.second = m;
