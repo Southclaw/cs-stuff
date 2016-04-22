@@ -83,11 +83,13 @@
   <ItemGroup>
     <ClInclude Include="Bluray.h" />
     <ClInclude Include="BoxSet.h" />
+    <ClInclude Include="dirent.h" />
     <ClInclude Include="Disk.h" />
     <ClInclude Include="Dvd.h" />
     <ClInclude Include="D_Dvd.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialFactory.h" />
+    <ClInclude Include="ProjectManager.h" />
     <ClInclude Include="ProjectPort.h" />
     <ClInclude Include="Media.h" />
     <ClInclude Include="Packaging.h" />
@@ -105,6 +107,7 @@
     <ClCompile Include="Media.cpp" />
     <ClCompile Include="Packaging.cpp" />
     <ClCompile Include="Project.cpp" />
+    <ClCompile Include="ProjectManager.cpp" />
     <ClCompile Include="ProjectPort.cpp" />
     <ClCompile Include="trekstar-mgmt.cpp" />
     <ClCompile Include="Vhs.cpp" />

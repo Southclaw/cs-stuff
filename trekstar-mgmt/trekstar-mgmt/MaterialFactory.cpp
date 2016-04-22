@@ -29,10 +29,10 @@ Media* MaterialFactory::CreateMaterial(string type, string id, string title, str
 		string sub;
 		string dub;
 
-		if(subTracks.size() == 0)
+		if(subTracks.size() > 0)
 			sub = *subTracks.begin();
 
-		if(audTracks.size() == 0)
+		if(audTracks.size() > 0)
 			dub = *audTracks.begin();
 
 		return dynamic_cast<Media*>(new Vhs(id, title, format, audio, duration, language, price, aspect, packaging, sub, dub));

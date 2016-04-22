@@ -12,6 +12,7 @@
 #include "BoxSet.h"
 #include "MaterialFactory.h"
 #include "ProjectPort.h"
+#include "ProjectManager.h"
 
 using std::cout;
 using std::endl;
@@ -24,7 +25,9 @@ void testing();
 
 int main(int argc, char* argv[])
 {
-	testing();
+	//testing();
+
+	ProjectManager pm = ProjectManager();
 
 	getchar();
 
@@ -66,20 +69,35 @@ void testing()
 		0,
 		Project::PROJECT_STATE_PROD);
 
-	//project.AddMaterial(
-	//	"vhs",
-	//	"TW0013",
-	//	"Movie: The Movie",
-	//	"640x480",
-	//	"Mono",
-	//	200,
-	//	"ENG",
-	//	"$15",
-	//	"16x9",
-	//	cardboard_vhs,
-	//	{"en_GB"},
-	//	{"en_GB"});
-	
+	project.AddMaterial(
+		"vhs",
+		"TW0013",
+		"Movie: The Movie",
+		"640x480",
+		"Mono",
+		200,
+		"ENG",
+		"$15",
+		"16x9",
+		cardboard_vhs,
+		{"en_GB"},
+		{"en_GB"});
+
+
+	project.AddMaterial(
+		"dvd",
+		"TW0181",
+		"Movie: The Movie",
+		"SD",
+		"DTS",
+		200,
+		"ENG",
+		"$20",
+		"16x9",
+		plastic_dvd,
+		{ "en_GB", "jp_JP", "in_IN" },
+		{ "en_GB", "jp_JP", "in_IN" });
+
 	project.AddMaterial(
 		"ddvd",
 		"TW0185",
@@ -100,6 +118,20 @@ void testing()
 			140,
 			"ENG",
 			"16x9");
+
+	project.AddMaterial(
+		"bluray",
+		"TW0220",
+		"Movie: The Movie HD",
+		"4k",
+		"DTS",
+		216,
+		"ENG",
+		"$40",
+		"21x9",
+		plastic_blu,
+		{ "en_GB", "jp_JP", "in_IN" },
+		{ "en_GB", "jp_JP", "in_IN" });
 
 	ProjectPort p;
 

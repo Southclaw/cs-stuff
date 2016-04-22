@@ -311,12 +311,30 @@ string ProjectPort::ExportProject(Project p)
 		if(m.first == "vhs")
 		{
 			Vhs* material = dynamic_cast<Vhs*>(m.second);
-			project += _build_param_string("vhs");
+			project += _build_param_string("vhs")+
+				_build_param_string(material->GetId())+
+				_build_param_string(material->GetTitle())+
+				_build_param_string(material->GetFormat())+
+				_build_param_string(material->GetAudio())+
+				_build_param_string(std::to_string(material->GetDuration()))+
+				_build_param_string(material->GetLanguage())+
+				_build_param_string(material->GetPrice())+
+				_build_param_string(material->GetAspect())+
+				_build_param_string(material->GetPackaging().toString(), false) + ")";
 		}
 		else if(m.first == "dvd")
 		{
 			Dvd* material = dynamic_cast<Dvd*>(m.second);
-			project += _build_param_string("dvd");
+			project += _build_param_string("dvd")+
+				_build_param_string(material->GetId())+
+				_build_param_string(material->GetTitle())+
+				_build_param_string(material->GetFormat())+
+				_build_param_string(material->GetAudio())+
+				_build_param_string(std::to_string(material->GetDuration()))+
+				_build_param_string(material->GetLanguage())+
+				_build_param_string(material->GetPrice())+
+				_build_param_string(material->GetAspect())+
+				_build_param_string(material->GetPackaging().toString(), false) + ")";
 		}
 		else if(m.first == "ddvd")
 		{
@@ -352,7 +370,16 @@ string ProjectPort::ExportProject(Project p)
 		else if(m.first == "bluray")
 		{
 			Bluray* material = dynamic_cast<Bluray*>(m.second);
-			project += _build_param_string("bluray");
+			project += _build_param_string("bluray")+
+				_build_param_string(material->GetId())+
+				_build_param_string(material->GetTitle())+
+				_build_param_string(material->GetFormat())+
+				_build_param_string(material->GetAudio())+
+				_build_param_string(std::to_string(material->GetDuration()))+
+				_build_param_string(material->GetLanguage())+
+				_build_param_string(material->GetPrice())+
+				_build_param_string(material->GetAspect())+
+				_build_param_string(material->GetPackaging().toString(), false) + ")";
 		}
 		else
 		{
