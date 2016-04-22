@@ -3,15 +3,14 @@
 */
 #include <string>
 #include <vector>
-#include <initializer_list>
 
 #include "BoxSet.h"
 
 using std::string;
-using std::initializer_list;
+using std::vector;
 
 
-BoxSet::BoxSet(string title, initializer_list<Media*> contents)
+BoxSet::BoxSet(string title, vector<Media*> contents)
 {
 	title_ = title;
 /*

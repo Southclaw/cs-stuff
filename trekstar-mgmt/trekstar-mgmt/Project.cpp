@@ -7,7 +7,7 @@
 using std::string;
 using std::vector;
 using std::pair;
-using std::initializer_list;
+using std::vector;
 
 
 Project::Project(string title, string summary, string genre, time_t release, vector<string> sites, string lang, unsigned int duration, vector<string> keywords, unsigned int wksales, E_PROJECT_STATE state)
@@ -29,7 +29,7 @@ Project::~Project()
 	//
 }
 
-bool Project::AddMaterial(string type, string id, string title, string format, string audio, int duration, string language, string price, string aspect, Packaging packaging, initializer_list<string> subTracks, initializer_list<string> audTracks)
+bool Project::AddMaterial(string type, string id, string title, string format, string audio, int duration, string language, string price, string aspect, Packaging packaging, vector<string> subTracks, vector<string> audTracks)
 {
 	// If the project has gone gold, don't allow material additions.
 	if(GetNowToReleaseDiff() < 0)

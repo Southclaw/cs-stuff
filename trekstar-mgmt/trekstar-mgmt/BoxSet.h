@@ -6,18 +6,18 @@
 
 #include <string>
 #include <vector>
-#include <initializer_list>
+#include <vector>
 
 #include "Media.h"
 
 using std::string;
-using std::initializer_list;
+using std::vector;
 
 
 class BoxSet
 {
 public:
-	BoxSet(string title, initializer_list<Media*> contents);
+	BoxSet(string title, vector<Media*> contents);
 	~BoxSet();
 
 	string details();

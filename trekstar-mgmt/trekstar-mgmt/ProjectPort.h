@@ -16,7 +16,7 @@ using std::string;
 class ProjectPort
 {
 public:
-	Project ImportProject(string source);
+	Project* ImportProject(string source);
 	string ExportProject(Project source);
 
 private:

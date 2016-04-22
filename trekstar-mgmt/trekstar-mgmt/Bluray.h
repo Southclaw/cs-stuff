@@ -5,18 +5,18 @@
 #define BLURAY_H
 
 #include <string>
-#include <initializer_list>
+#include <vector>
 
 #include "Disk.h"
 
 using std::string;
-using std::initializer_list;
+using std::vector;
 
 
 class Bluray : public Disk
 {
 public:
-	Bluray(string id, string title, string format, string audio, int duration, string language, string price, string aspect, Packaging packaging, initializer_list<string> subTracks, initializer_list<string> audTracks);
+	Bluray(string id, string title, string format, string audio, int duration, string language, string price, string aspect, Packaging packaging, vector<string> subTracks, vector<string> audTracks);
 	~Bluray();
 
 private:

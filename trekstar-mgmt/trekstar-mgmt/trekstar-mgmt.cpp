@@ -24,6 +24,7 @@ void testing();
 
 int main(int argc, char* argv[])
 {
+	testing();
 
 	getchar();
 
@@ -64,7 +65,7 @@ void testing()
 	Packaging plastic_dvd = Packaging("plastic_dvd");
 	Packaging plastic_blu = Packaging("plastic_blu");
 	Packaging cardboard_boxset = Packaging("cardboard_boxset");
-
+	/*
 	Vhs vhs = Vhs(
 		"TW0013",
 		"Movie: The Movie",
@@ -143,7 +144,7 @@ void testing()
 
 	cout << "BoxSet: " << boxset.details() << endl;
 	cout << "\n\n";
-
+	*/
 	MaterialFactory f;
 
 	Dvd* dvd2 = dynamic_cast<Dvd*>(f.CreateMaterial("dvd",
@@ -199,12 +200,12 @@ void testing()
 
 	cout << "Importing...\n\n";
 
-	Project project2 = p.ImportProject(ex);
+	Project* project2 = p.ImportProject(ex);
 
-	ex = p.ExportProject(project2);
+	ex = p.ExportProject(*project2);
 	cout << ex << endl;
 
-	cout << p.ExportProject(project).compare(p.ExportProject(project2)) << endl;
+	cout << p.ExportProject(project).compare(p.ExportProject(*project2)) << endl;
 
 	getchar();
 }

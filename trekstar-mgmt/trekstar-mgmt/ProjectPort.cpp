@@ -2,6 +2,7 @@
 	ProjectPort
 */
 #include <string>
+#include <vector>
 #include <ctime>
 
 #include "Project.h"
@@ -10,12 +11,12 @@
 
 using std::string;
 using std::vector;
-using std::pair;
-using std::initializer_list;
 
 
-Project ProjectPort::ImportProject(string source)
+Project* ProjectPort::ImportProject(string source)
 {
+	Project* project = nullptr;
+
 	// project properties
 	string title;
 	string summary;
@@ -28,12 +29,27 @@ Project ProjectPort::ImportProject(string source)
 	unsigned int wksales = 0;
 	Project::E_PROJECT_STATE state = Project::PROJECT_STATE_PROD;
 
+	// material properties
+	string type;
+	string id;
+	string material_title;
+	string format;
+	string audio;
+	unsigned int material_duration;
+	string language;
+	string price;
+	string aspect;
+	Packaging packaging;
+	vector<string> subTracks;
+	vector<string> audTracks;
+
 	// format markers
 	char c = 0; // character in context
 	unsigned int s_st = -1; // selection start index
 	bool in_function = false;
 	bool in_string = false;
 	bool in_list = false;
+	unsigned int func_idx = 0;
 	unsigned int param_idx = 0;
 
 	for(unsigned int i = 0; i < source.size(); ++i, c = source[i])
@@ -44,6 +60,18 @@ Project ProjectPort::ImportProject(string source)
 		{
 			if(c == ')')
 			{
+				if(func_idx > 0)
+				{
+					// Commit material to project
+					if(project == nullptr)
+					{
+						printf("Error encountered while parsing Project string: project pointer is null");
+						return nullptr;
+					}
+
+					project->AddMaterial(type, id, material_title, format, audio, material_duration, language, price, aspect, packaging, subTracks, audTracks);
+				}
+				func_idx++;
 				in_function = false;
 				continue;
 			}
@@ -55,61 +83,123 @@ Project ProjectPort::ImportProject(string source)
 			{
 				in_string = false;
 
-				if(in_list)
+				if(func_idx == 0)
 				{
-					printf("%d EXTRACTED FOR LIST '%s'\n", param_idx, source.substr(s_st, i - s_st).c_str());
+					if(in_list)
+					{
+						printf("%d EXTRACTED FOR LIST '%s'\n", param_idx, source.substr(s_st, i - s_st).c_str());
 
-					switch(param_idx)
-					{
-					case 4: // param 4 = sites list
-					{
-						sites.push_back(source.substr(s_st, i - s_st));
-						break;
+						switch(param_idx)
+						{
+							case 4: // param 4 = sites list
+							sites.push_back(source.substr(s_st, i - s_st));
+							break;
+
+							case 7: // param 7 = keywords
+							keywords.push_back(source.substr(s_st, i - s_st));
+							break;
+						}
 					}
-					case 7: // param 7 = keywords
+					else
 					{
-						keywords.push_back(source.substr(s_st, i - s_st));
-						break;
-					}
+						printf("%d EXTRACTED '%s'\n", param_idx, source.substr(s_st, i - s_st).c_str());
+
+						switch(param_idx)
+						{
+							case 0:
+							title = source.substr(s_st, i - s_st);
+							break;
+
+							case 1:
+							summary = source.substr(s_st, i - s_st);
+							break;
+
+							case 2:
+							genre = source.substr(s_st, i - s_st);
+							break;
+
+							case 3:
+							release = stoi(source.substr(s_st, i - s_st));
+							break;
+
+							case 5:
+							lang = source.substr(s_st, i - s_st);
+							break;
+
+							case 6:
+							duration = stoi(source.substr(s_st, i - s_st));
+							break;
+
+							case 8:
+							wksales = stoi(source.substr(s_st, i - s_st));
+							break;
+
+							case 9:
+							state = (Project::E_PROJECT_STATE)stoi(source.substr(s_st, i - s_st));
+							project = new Project(title, summary, genre, release, sites, lang, duration, keywords, wksales, state);
+							break;
+						}
 					}
 				}
 				else
 				{
-					printf("%d EXTRACTED '%s'\n", param_idx, source.substr(s_st, i - s_st).c_str());
-
-					switch(param_idx)
+					if(in_list)
 					{
-					case 0:
-						title = source.substr(s_st, i - s_st);
-						break;
+						switch(param_idx)
+						{
+							case 11:
+							subTracks.push_back(source.substr(s_st, i - s_st));
+							break;
 
-					case 1:
-						summary = source.substr(s_st, i - s_st);
-						break;
+							case 12:
+							audTracks.push_back(source.substr(s_st, i - s_st));
+							break;
+						}
+					}
+					else
+					{
+						switch(param_idx)
+						{
+							case 0:
+							type = source.substr(s_st, i - s_st);
+							break;
 
-					case 2:
-						genre = source.substr(s_st, i - s_st);
-						break;
+							case 1:
+							id = source.substr(s_st, i - s_st);
+							break;
 
-					case 3:
-						release = stoi(source.substr(s_st, i - s_st));
-						break;
+							case 2:
+							material_title = source.substr(s_st, i - s_st);
+							break;
 
-					case 5:
-						lang = source.substr(s_st, i - s_st);
-						break;
+							case 3:
+							format = source.substr(s_st, i - s_st);
+							break;
 
-					case 6:
-						duration = stoi(source.substr(s_st, i - s_st));
-						break;
+							case 4:
+							audio = source.substr(s_st, i - s_st);
+							break;
 
-					case 8:
-						wksales = stoi(source.substr(s_st, i - s_st));
-						break;
+							case 5:
+							material_duration = stoi(source.substr(s_st, i - s_st));
+							break;
 
-					case 9:
-						state = (Project::E_PROJECT_STATE)stoi(source.substr(s_st, i - s_st));
-						break;
+							case 6:
+							language = source.substr(s_st, i - s_st);
+							break;
+
+							case 7:
+							price = source.substr(s_st, i - s_st);
+							break;
+
+							case 8:
+							aspect = source.substr(s_st, i - s_st);
+							break;
+
+							case 9:
+							packaging = source.substr(s_st, i - s_st);
+							break;
+						}
 					}
 				}
 				continue;
@@ -150,14 +240,13 @@ Project ProjectPort::ImportProject(string source)
 		}
 	}
 
-	return Project(title, summary, genre, release, sites, lang, duration, keywords, wksales, state);
+	return project;
 
 }
 
 string ProjectPort::ExportProject(Project p)
 {
 	string project;
-	vector<string> materials;
 
 	project = "Project("+
 		_build_param_string(p.GetProjectTitle()) +
@@ -170,6 +259,39 @@ string ProjectPort::ExportProject(Project p)
 		_build_param_vector(p.GetProjectKeywords()) +
 		_build_param_string(std::to_string(p.GetProjectWeeklySales())) +
 		_build_param_string(std::to_string(p.GetProjectState()), false) + ")";
+
+	vector< pair<string, Material*> > materials = p.GetMaterials();
+
+	for(auto m : materials)
+	{
+		project += "\nMaterial(";
+
+		if(m.first == "vhs")
+		{
+			Vhs* material = dynamic_cast<Vhs*>(m.second);
+			project += _build_param_string("vhs");
+		}
+		else if(m.first == "dvd")
+		{
+			Dvd* material = dynamic_cast<Dvd*>(m.second);
+			project += _build_param_string("dvd");
+		}
+		else if(m.first == "ddvd")
+		{
+			D_Dvd* material = dynamic_cast<D_Dvd*>(m.second);
+			project += _build_param_string("ddvd");
+		}
+		else if(m.first == "bluray")
+		{
+			Bluray* material = dynamic_cast<Bluray*>(m.second);
+			project += _build_param_string("bluray");
+		}
+		else
+		{
+			// unknown type
+		}
+
+	}
 
 	return project;
 }
