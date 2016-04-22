@@ -2,6 +2,7 @@
 	Material Factory
 */
 #include <string>
+#include <memory>
 #include <initializer_list>
 
 #include "Project.h"
@@ -15,8 +16,12 @@
 #include "Bluray.h"
 #include "MaterialFactory.h"
 
+using std::string;
+using std::unique_ptr;
+using std::initializer_list;
 
-std::auto_ptr<Media> MaterialFactory::CreateMaterial(string type, Project project, string id, string title, string format, string audio, int duration, string language, string price, string aspect, Packaging packaging, initializer_list<string> subTracks = initializer_list<string>(), initializer_list<string> audTracks = initializer_list<string>())
+
+Media* MaterialFactory::CreateMaterial(string type, string id, string title, string format, string audio, int duration, string language, string price, string aspect, Packaging packaging, initializer_list<string> subTracks = initializer_list<string>(), initializer_list<string> audTracks = initializer_list<string>())
 {
 	if(type == "vhs")
 	{
@@ -29,23 +34,23 @@ std::auto_ptr<Media> MaterialFactory::CreateMaterial(string type, Project projec
 		if(audTracks.size() == 0)
 			dub = *audTracks.begin();
 
-		return std::auto_ptr<Media>(new Vhs(project, id, title, format, audio, duration, language, price, aspect, packaging, sub, dub));
+		return dynamic_cast<Media*>(new Vhs(id, title, format, audio, duration, language, price, aspect, packaging, sub, dub));
 	}
 
 	if (type == "dvd")
 	{
-		return std::auto_ptr<Media>(new Dvd(project, id, title, format, audio, duration, language, price, aspect, packaging, subTracks, audTracks));
+		return dynamic_cast<Media*>(new Dvd(id, title, format, audio, duration, language, price, aspect, packaging, subTracks, audTracks));
 	}
 
 	if (type == "ddvd")
 	{
-		return std::auto_ptr<Media>(new D_Dvd(project, id, title, format, audio, duration, language, price, aspect, packaging, subTracks, audTracks));
+		return dynamic_cast<Media*>(new D_Dvd(id, title, format, audio, duration, language, price, aspect, packaging, subTracks, audTracks));
 	}
 
 	if (type == "bluray")
 	{
-		return std::auto_ptr<Media>(new Bluray(project, id, title, format, audio, duration, language, price, aspect, packaging, subTracks, audTracks));
+		return dynamic_cast<Media*>(new Bluray(id, title, format, audio, duration, language, price, aspect, packaging, subTracks, audTracks));
 	}
 
-	return std::auto_ptr<Media>(nullptr);
+	return nullptr;
 }

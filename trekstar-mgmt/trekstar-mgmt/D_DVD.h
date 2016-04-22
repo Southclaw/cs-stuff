@@ -17,12 +17,12 @@ using std::initializer_list;
 class D_Dvd : public Disk
 {
 public:
-	D_Dvd(Project project, string id, string title, string format, string audio, int duration, string language, string price, string aspect, Packaging packaging, initializer_list<string> subTracks, initializer_list<string> audTracks);
+	D_Dvd(string id, string title, string format, string audio, int duration, string language, string price, string aspect, Packaging packaging, initializer_list<string> subTracks, initializer_list<string> audTracks);
 	~D_Dvd();
 
 	string details();
 
-	D_Dvd& sideTwo(Project project, string id, string title, string format, string audio, int duration, string language, string aspect, initializer_list<string> subTracks, initializer_list<string> audTracks);
+	D_Dvd& sideTwo(string id, string title, string format, string audio, int duration, string language, string aspect, initializer_list<string> subTracks, initializer_list<string> audTracks);
 
 private:
 	/*
@@ -38,7 +38,6 @@ private:
 	*/
 
 	// Member data for Double Sided DVD side two:
-	Project project_;
 	string id_;
 	string title_;
 	string format_;

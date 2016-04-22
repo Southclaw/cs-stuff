@@ -13,7 +13,7 @@ using std::string;
 class Vhs : public Media
 {
 public:
-	Vhs::Vhs(Project project, string id, string title, string format, string audio, int duration, string language, string price, string aspect, Packaging packaging, string subtitles, string dubbed);
+	Vhs::Vhs(string id, string title, string format, string audio, int duration, string language, string price, string aspect, Packaging packaging, string subtitles, string dubbed);
 	~Vhs();
 
 	string details();

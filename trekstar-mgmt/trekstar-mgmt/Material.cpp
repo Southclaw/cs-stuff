@@ -9,9 +9,8 @@
 using std::string;
 
 
-Material::Material(Project project, string id, string title, string format, string audio, int duration, string language, string price, string aspect, Packaging packaging)
+Material::Material(string id, string title, string format, string audio, int duration, string language, string price, string aspect, Packaging packaging)
 {
-	project_ = project;
 	id_ = id;
 	title_ = title;
 	format_ = format;

@@ -7,7 +7,6 @@
 #include <string>
 #include <vector>
 
-#include "Project.h"
 #include "Packaging.h"
 
 using std::string;
@@ -17,10 +16,11 @@ using std::vector;
 class Material
 {
 public:
-	string details();
+	virtual ~Material(){};
+	virtual string details();
 
 protected:
-	Material(Project project_,
+	Material(
 		string id_,
 		string title_,
 		string format_,
@@ -31,7 +31,6 @@ protected:
 		string aspect_,
 		Packaging packaging_);
 		
-	Project project_;
 	string id_;
 	string title_;
 	string format_;

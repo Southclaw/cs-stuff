@@ -17,7 +17,7 @@ using std::initializer_list;
 class BoxSet
 {
 public:
-	BoxSet(string title, initializer_list<Media> contents);
+	BoxSet(string title, initializer_list<Media*> contents);
 	~BoxSet();
 
 	string details();

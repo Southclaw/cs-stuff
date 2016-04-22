@@ -7,15 +7,24 @@
 #include <string>
 #include <vector>
 #include <ctime>
+#include <utility>
+#include <initializer_list>
+
+#include "Material.h"
 
 using std::string;
 using std::vector;
+using std::pair;
+using std::initializer_list;
 
 
 class Project
 {
 public:
-	bool setBoxOfficeWeeklySales(unsigned int sales);
+	bool AddMaterial(string type, string id, string title, string format, string audio, int duration, string language, string price, string aspect, Packaging packaging, initializer_list<string> subTracks, initializer_list<string> audTracks);
+	vector< pair< string, Material* > > GetMaterials();
+
+	bool SetBoxOfficeWeeklySales(unsigned int sales);
 
 private:
 	string title_;
@@ -27,6 +36,8 @@ private:
 	unsigned int duration_;
 	vector<string> keywords_;
 	unsigned int wksales_;
+
+	vector< pair< string, Material* > > materials_;
 };
 
 #endif
