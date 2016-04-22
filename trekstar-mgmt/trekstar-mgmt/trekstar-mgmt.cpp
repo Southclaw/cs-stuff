@@ -93,7 +93,7 @@ void testing()
 		plastic_dvd,
 		{ "en_GB", "jp_JP", "in_IN" },
 		{ "en_GB", "jp_JP", "in_IN" },
-			"TW0185",
+			"TW0186",
 			"Movie: The Movie Extras Side",
 			"SD",
 			"DTS",

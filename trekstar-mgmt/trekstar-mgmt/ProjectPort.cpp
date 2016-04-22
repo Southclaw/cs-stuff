@@ -43,6 +43,14 @@ Project* ProjectPort::ImportProject(string source)
 	vector<string> subTracks;
 	vector<string> audTracks;
 
+	string s2_id = "";
+	string s2_title = "";
+	string s2_format = "";
+	string s2_audio = "";
+	int s2_duration = 0;
+	string s2_language = "";
+	string s2_aspect = "";
+
 	// format markers
 	char c = 0; // character in context
 	unsigned int s_st = -1; // selection start index
@@ -69,8 +77,10 @@ Project* ProjectPort::ImportProject(string source)
 						return nullptr;
 					}
 
-					project->AddMaterial(type, id, material_title, format, audio, material_duration, language, price, aspect, packaging, subTracks, audTracks);
+					project->AddMaterial(type, id, material_title, format, audio, material_duration, language, price, aspect, packaging, subTracks, audTracks,
+						s2_id, s2_title, s2_format, s2_audio, s2_duration, s2_language, s2_aspect);
 				}
+				param_idx = 0;
 				func_idx++;
 				in_function = false;
 				continue;
@@ -87,7 +97,7 @@ Project* ProjectPort::ImportProject(string source)
 				{
 					if(in_list)
 					{
-						printf("%d EXTRACTED FOR LIST '%s'\n", param_idx, source.substr(s_st, i - s_st).c_str());
+						//printf("C %d EXTRACTED FOR LIST '%s'\n", param_idx, source.substr(s_st, i - s_st).c_str());
 
 						switch(param_idx)
 						{
@@ -102,7 +112,7 @@ Project* ProjectPort::ImportProject(string source)
 					}
 					else
 					{
-						printf("%d EXTRACTED '%s'\n", param_idx, source.substr(s_st, i - s_st).c_str());
+						//printf("C %d EXTRACTED '%s'\n", param_idx, source.substr(s_st, i - s_st).c_str());
 
 						switch(param_idx)
 						{
@@ -145,6 +155,8 @@ Project* ProjectPort::ImportProject(string source)
 				{
 					if(in_list)
 					{
+						//printf("M %d EXTRACTED FOR LIST '%s'\n", param_idx, source.substr(s_st, i - s_st).c_str());
+
 						switch(param_idx)
 						{
 							case 11:
@@ -158,6 +170,8 @@ Project* ProjectPort::ImportProject(string source)
 					}
 					else
 					{
+						//printf("M %d EXTRACTED '%s'\n", param_idx, source.substr(s_st, i - s_st).c_str());
+
 						switch(param_idx)
 						{
 							case 0:
@@ -198,6 +212,34 @@ Project* ProjectPort::ImportProject(string source)
 
 							case 9:
 							packaging = source.substr(s_st, i - s_st);
+							break;
+
+							case 10:
+							s2_id = source.substr(s_st, i - s_st);
+							break;
+
+							case 11:
+							s2_title = source.substr(s_st, i - s_st);
+							break;
+
+							case 12:
+							s2_format = source.substr(s_st, i - s_st);
+							break;
+
+							case 13:
+							s2_audio = source.substr(s_st, i - s_st);
+							break;
+
+							case 14:
+							s2_duration = stoi(source.substr(s_st, i - s_st));
+							break;
+
+							case 15:
+							s2_language = source.substr(s_st, i - s_st);
+							break;
+
+							case 16:
+							s2_aspect = source.substr(s_st, i - s_st);
 							break;
 						}
 					}
@@ -262,12 +304,8 @@ string ProjectPort::ExportProject(Project p)
 
 	vector< pair<string, Material*> > materials = p.GetMaterials();
 
-	printf("size: %d addr: %x\n", materials.size(), materials);
-
 	for(auto m : materials)
 	{
-		printf("material loop\n");
-
 		project += "\nMaterial(";
 
 		if(m.first == "vhs")
