@@ -21,6 +21,17 @@ using std::initializer_list;
 class Project
 {
 public:
+
+	enum E_PROJECT_STATE
+	{
+		PROJECT_STATE_PROD,
+		PROJECT_STATE_CINE,
+		PROJECT_STATE_RELE
+	};
+
+	Project(string title, string summary, string genre, time_t release, vector<string> sites, string lang, unsigned int duration, vector<string> keywords, unsigned int wksales, E_PROJECT_STATE state);
+	~Project();
+
 	/*
 	Materials Vector stores Material type pointers which are dynamic_cast'd up
 	to the Material superclass on creation (which happens in the MaterialFactory
@@ -47,6 +58,44 @@ public:
 	*/
 	bool SetBoxOfficeWeeklySales(unsigned int sales);
 
+	/*
+	Generic interface getters
+	*/
+
+	string GetProjectTitle();
+	string GetProjectSummary();
+	string GetProjectGenre();
+	time_t GetProjectRelease();
+	vector<string> GetProjectFilmingSites();
+	string GetProjectPrimaryLanguage();
+	unsigned int GetProjectDuration();
+	vector<string> GetProjectKeywords();
+	unsigned int GetProjectWeeklySales();
+	E_PROJECT_STATE GetProjectState();
+
+	/*
+	Generic interface setters
+	These return boolean values to indicate success (false) however some have no
+	failure	branch. Further validation of input can be added in future though.
+	*/
+
+	bool SetProjectTitle(string);
+	bool SetProjectSummary(string);
+	bool SetProjectGenre(string);
+	bool SetProjectRelease(time_t);
+	bool SetProjectFilmingSites(vector<string>);
+	bool SetProjectPrimaryLanguage(string);
+	bool SetProjectDuration(unsigned int);
+	bool SetProjectKeywords(vector<string>);
+	bool SetProjectWeeklySales(unsigned int);
+	/*
+	Project state refers to whether the project is still in production, running
+	in cinemas or being sold on consumable media. Todo: disallow transitioning
+	to previous states (a movie can't go from cinema back to production).
+	*/
+	bool SetProjectState(E_PROJECT_STATE state);
+
+
 private:
 	string title_;
 	string summary_;
@@ -57,6 +106,7 @@ private:
 	unsigned int duration_;
 	vector<string> keywords_;
 	unsigned int wksales_;
+	E_PROJECT_STATE state_;
 
 	vector< pair< string, Material* > > materials_;
 
