@@ -83,6 +83,8 @@ ProjectManager::~ProjectManager()
 
 void ProjectManager::Save()
 {
+	printf("Saving projects...");
+
 	string filename;
 	ofstream ofs;
 	stringstream ss;
