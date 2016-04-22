@@ -53,7 +53,7 @@ Project* ProjectPort::ImportProject(string source)
 
 	// format markers
 	char c = 0; // character in context
-	unsigned int s_st = -1; // selection start index
+	unsigned int s_st = 0; // selection start index
 	bool in_function = false;
 	bool in_string = false;
 	bool in_list = false;
@@ -259,6 +259,11 @@ Project* ProjectPort::ImportProject(string source)
 
 		if(c == '(')
 		{
+			if(source.substr(s_st, i - s_st).compare("Project") == 0 && func_idx > 0)
+			{
+				printf("Unexpected Project definition ('%s') at range %d..%d\n", source.substr(s_st, i - s_st).c_str(), s_st, i);
+				break;
+			}
 			in_function = true;
 			continue;
 		}
@@ -279,6 +284,11 @@ Project* ProjectPort::ImportProject(string source)
 		if(c == ',' && in_function && !in_string && !in_list)
 		{
 			param_idx++;
+		}
+
+		if(c == '\n')
+		{
+			s_st = i + 1;
 		}
 	}
 

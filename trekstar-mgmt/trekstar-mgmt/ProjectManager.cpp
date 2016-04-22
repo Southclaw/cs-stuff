@@ -28,7 +28,8 @@ ProjectManager::ProjectManager()
 	DIR* dir = opendir("data");
 	struct dirent *ent;
 	string filename;
-
+	int path_delim;
+	string projectname;
 	ifstream ifs;
 	stringstream buffer;
 	string buffer_string;
@@ -41,8 +42,14 @@ ProjectManager::ProjectManager()
 
 		filename = "./data/";
 		filename += ent->d_name;
+		path_delim = string(ent->d_name).find('.');
 
-		printf("Reading file '%s'...\n", filename.c_str());
+		if(path_delim == -1)
+			continue;
+
+		projectname = string(ent->d_name).substr(0, path_delim);
+
+		printf("Reading file '%s'...\n", projectname.c_str());
 		ifs = ifstream(filename);
 
 		if(!ifs.is_open())
@@ -51,16 +58,24 @@ ProjectManager::ProjectManager()
 			continue;
 		}
 		buffer << ifs.rdbuf();
+		buffer_string.clear();
 		buffer_string = buffer.str();
 		project = pp_.ImportProject(buffer_string);
-		printf("Loaded project '%s'\n", project->GetProjectTitle().c_str());
+
+		if(projectname.compare(project->GetProjectTitle()))
+		{
+			printf("ERROR: Filename ('%s') must match project name ('%s')\n", ent->d_name, projectname.c_str());
+			continue;
+		}
+
+		printf("Loaded project '%s' with %d materials\n", project->GetProjectTitle().c_str(), project->GetMaterials().size());
 		projects_.push_back(*project);
 	}
-
 }
 
 ProjectManager::~ProjectManager()
 {
+	Save();
 }
 
 void ProjectManager::Save()
