@@ -60,7 +60,7 @@ private:
 
 	vector< pair< string, Material* > > materials_;
 
-	double GetReleaseDateDifference
+	double GetNowToReleaseDiff();
 };
 
 #endif
