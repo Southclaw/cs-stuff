@@ -29,7 +29,23 @@ int main(int argc, char* argv[])
 
 	ProjectManager pm = ProjectManager();
 
-	getchar();
+	while(true)
+	{
+		/*
+			todo: process commands
+
+			command list:
+
+				ls - list all projects currently loaded
+				mat <project> - list materials associated with a project
+				find <query> <type> - search projects by title and media type
+				addp <project ctor parameters> - add a new project
+				remp <project title> - remove a project
+				addm <project title> <material ctor parameters> - add a material
+				remm <project title> <material id> - remove a material
+				exit - exit the shell
+		*/
+	}
 
 	pm.Save();
 
