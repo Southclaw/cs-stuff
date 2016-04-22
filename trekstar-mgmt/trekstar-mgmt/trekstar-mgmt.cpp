@@ -31,6 +31,10 @@ int main(int argc, char* argv[])
 
 	getchar();
 
+	pm.Save();
+
+	getchar();
+
 	return 0;
 }
 

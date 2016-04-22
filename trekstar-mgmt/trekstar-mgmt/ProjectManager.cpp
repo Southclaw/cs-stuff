@@ -16,6 +16,8 @@
 using std::string;
 using std::vector;
 using std::ifstream;
+using std::ofstream;
+using std::endl;
 using std::stringstream;
 
 
@@ -70,6 +72,7 @@ ProjectManager::ProjectManager()
 
 		printf("Loaded project '%s' with %d materials\n", project->GetProjectTitle().c_str(), project->GetMaterials().size());
 		projects_.push_back(*project);
+		ifs.close();
 	}
 }
 
@@ -80,8 +83,22 @@ ProjectManager::~ProjectManager()
 
 void ProjectManager::Save()
 {
+	string filename;
+	ofstream ofs;
+	stringstream ss;
+
 	for(auto p : projects_)
 	{
-		//
+		filename = "./data/" + p.GetProjectTitle() + ".txt";
+		ofs = ofstream(filename);
+
+		if(!ofs.is_open())
+		{
+			printf("ERROR: Could not open file for writing\n");
+			continue;
+		}
+
+		ofs << pp_.ExportProject(p) << endl;
+		ofs.close();
 	}
 }
