@@ -6,35 +6,15 @@
 package socialmusicclient;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javax.sound.sampled.Line;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javazoom.jlgui.basicplayer.BasicPlayer;
 import javazoom.jlgui.basicplayer.BasicPlayerException;
 
@@ -49,6 +29,7 @@ public class MainPage extends javax.swing.JFrame
 	private SocketConnection server_;
 	private boolean playing_;
 	private BasicPlayer player_;
+	private String playingFile_;
 
 	public MainPage(SocketConnection server, String username, String information)
 	{
@@ -105,6 +86,7 @@ public class MainPage extends javax.swing.JFrame
         PostsLst = new javax.swing.JList<>();
         RemoveFriendBtn = new javax.swing.JButton();
         DeletePostBtn = new javax.swing.JButton();
+        PlayBtn1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -224,6 +206,15 @@ public class MainPage extends javax.swing.JFrame
             }
         });
 
+        PlayBtn1.setText("Share");
+        PlayBtn1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                PlayBtn1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jInternalFrame1Layout = new javax.swing.GroupLayout(jInternalFrame1.getContentPane());
         jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
         jInternalFrame1Layout.setHorizontalGroup(
@@ -272,7 +263,11 @@ public class MainPage extends javax.swing.JFrame
                                             .addComponent(jLabel2)))
                                     .addComponent(jLabel4))
                                 .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(PlayBtn, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jInternalFrame1Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(PlayBtn1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(PlayBtn))
                                     .addGroup(jInternalFrame1Layout.createSequentialGroup()
                                         .addGap(10, 10, 10)
                                         .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -310,7 +305,9 @@ public class MainPage extends javax.swing.JFrame
                         .addComponent(ChatBtn)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(PlayBtn)
+                    .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(PlayBtn)
+                        .addComponent(PlayBtn1))
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -340,7 +337,7 @@ public class MainPage extends javax.swing.JFrame
                             .addComponent(jScrollPane6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(RequestFriendshipBtn)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -353,7 +350,7 @@ public class MainPage extends javax.swing.JFrame
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jInternalFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         pack();
@@ -379,6 +376,10 @@ public class MainPage extends javax.swing.JFrame
 
 	private void ChatBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChatBtnActionPerformed
 		Object Selection = FriendsLst.getSelectedValue();
+		
+		if(Selection == null)
+			return;
+
 		targetUsername_ = Selection.toString();
 
 		String reply = server_.send("CHAT " + username_ + " " + targetUsername_ + "\n");
@@ -444,7 +445,7 @@ public class MainPage extends javax.swing.JFrame
 		{
 			try
 			{
-				player_.stop();
+				player_.pause();
 			}
 			catch(BasicPlayerException e)
 			{
@@ -452,6 +453,7 @@ public class MainPage extends javax.swing.JFrame
 			}
 			playing_ = false;
 			PlayBtn.setText("Play");
+			playingFile_ = "";
 		}
 		else
 		{
@@ -481,6 +483,7 @@ public class MainPage extends javax.swing.JFrame
 				player_.play();
 				playing_ = true;
 				PlayBtn.setText("Pause");
+				playingFile_ = filename;
 			}
 			catch(BasicPlayerException e)
 			{
@@ -488,6 +491,15 @@ public class MainPage extends javax.swing.JFrame
 			}
 		}
     }//GEN-LAST:event_PlayBtnActionPerformed
+
+    private void PlayBtn1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_PlayBtn1ActionPerformed
+    {//GEN-HEADEREND:event_PlayBtn1ActionPerformed
+		if(playingFile_ != "")
+		{
+			server_.send("ADDP " + username_+ " \"Listening to: " + playingFile_ + "\"");
+			UpdateEverything();
+		}
+    }//GEN-LAST:event_PlayBtn1ActionPerformed
 
 	private void UpdateEverything()
 	{
@@ -616,6 +628,7 @@ public class MainPage extends javax.swing.JFrame
     private javax.swing.JTextArea InformationTA;
     private javax.swing.JButton LogOutBtn;
     private javax.swing.JButton PlayBtn;
+    private javax.swing.JButton PlayBtn1;
     private javax.swing.JTextField PostTxt;
     private javax.swing.JList<String> PostsLst;
     private javax.swing.JButton RefuseBtn;

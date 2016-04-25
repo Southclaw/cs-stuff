@@ -18,19 +18,9 @@ public class PrivateChat extends javax.swing.JFrame {
 	private String targetname_;
 	private SocketConnection server_;
 
-	//private JTextField userField;
-
-    // then create setters and getter
-   // public void setUsername(String username) {this.userField.setText(username);}
-    //public String getUsername() {return this.userField.getText();}
-    /**
-     * Creates new form PrivateChat
-	 * @param username
-	 * @param targetname
-     */
     public PrivateChat(SocketConnection server, String username, String targetname)
 	{
-        server_ = server;
+        server_ = new SocketConnection(server.host, 7779);
         initComponents();
 		username_ = username;
 		targetname_ = targetname;
@@ -156,7 +146,7 @@ public class PrivateChat extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void MessageTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MessageTxtActionPerformed
-        // TODO add your handling code here:
+        server_.send("MSSG u m");
     }//GEN-LAST:event_MessageTxtActionPerformed
 
     private void HomeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeBtnActionPerformed

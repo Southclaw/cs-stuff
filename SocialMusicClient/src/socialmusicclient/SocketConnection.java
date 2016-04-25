@@ -20,14 +20,18 @@ public class SocketConnection
 {
 
 	Socket socket;
+	public String host;
+	public int port;
 	private OutputStream output;
 	private DataInputStream input;
 
-	SocketConnection(String host, int port)
+	SocketConnection(String host_, int port_)
 	{
+		host = host_;
+		port = port_;
 		try
 		{
-			socket = new Socket(InetAddress.getByName(host), port);
+			socket = new Socket(InetAddress.getByName(host), port_);
 			output = socket.getOutputStream();
 			input = new DataInputStream(socket.getInputStream());
 		}
