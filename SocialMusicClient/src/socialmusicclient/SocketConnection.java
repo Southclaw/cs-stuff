@@ -42,6 +42,13 @@ public class SocketConnection
 		putMsg(output, message);
 		return getMsg(input);
 	}  // end sendReceive  
+	
+	// send string, get binary
+	public byte[] sendb(String message)
+	{
+		putMsg(output, message);
+		return getMsgb(input);
+	}
 
 	public void quitServer()
 	{
@@ -80,6 +87,34 @@ public class SocketConnection
 			}
 			String string = String.valueOf(charArray);
 			return string;
+		}
+		catch(IOException except)
+		{
+			except.printStackTrace();
+		}  // end catch
+		return null;
+	}  // end getMsg
+
+	public byte[] getMsgb(DataInputStream input)
+	{
+		try
+		{
+			char c;
+			int size = input.readInt();
+			int i = 0;
+			byte[] byteArray = new byte[size];
+
+			System.out.format("Received size: %x\n", size);
+			
+			if(size > 4096)
+			{
+				System.out.printf("ERROR: Socket data size (%d) out of bounds.\n", size);
+				return null;
+			}
+			
+			int error = input.read(byteArray);
+
+			return byteArray;
 		}
 		catch(IOException except)
 		{

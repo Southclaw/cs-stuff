@@ -6,12 +6,22 @@
 package socialmusicclient;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javax.sound.sampled.Line;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
 public class MainPage extends javax.swing.JFrame
 {
@@ -412,20 +422,64 @@ public class MainPage extends javax.swing.JFrame
 
     private void PlayBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_PlayBtnActionPerformed
     {//GEN-HEADEREND:event_PlayBtnActionPerformed
-   /* try {
-        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("D:/Users/Student/Music/Playlists/Playlist/Snow Patrol - Chasing Cars (lyrics).mp3").getAbsoluteFile());
-        Clip clip = AudioSystem.getClip();
-        clip.open(audioInputStream);
-        clip.start();
-    } catch(Exception ex) {
-        System.out.println("Error with playing sound.");
-        ex.printStackTrace();
-	}*/
+		// File transer first
+		String filename;
+		
+		filename = SharedSongsLst.getSelectedValue();
+		
+		// check if file is already here
+		
+		// if not:
+		byte[] data = server_.sendb("MGET " + filename);
+		// save to file
+		
+		// play saved file
+		System.out.println(System.getProperty("user.dir"));
+		File f = new File("music/SnowPatrolcon1.mp3");
+		try
+		{
+			Clip sound = (Clip) AudioSystem.getLine(new Line.Info(Clip.class));
+			sound.open(AudioSystem.getAudioInputStream(f));
+		}
+		catch (LineUnavailableException | IOException | UnsupportedAudioFileException ex)
+		{
+			ex.printStackTrace();
+		}
+	/*	try
+		{
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(f);
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();
+		}
+		*/
+			try{
+		AudioInputStream audioInputStream =
+        AudioSystem.getAudioInputStream(
+            this.getClass().getResource("D:/Users/Student/Music/Playlists/Playlist/forjava/SnowPatrolcon1.mp3"));
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();
+			}
+		
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+			System.out.println("Nope");
+		}	
+
+		/*in=new FileInputStream("D:/Users/Student/Music/Playlists/Playlist/forjava/SnowPatrolcon1.mp3");
+		as=new AudioStream(in);
+		AudioPlayer.player.start(as);
+			
+		}
+		catch(Exception ex)
+		{
+	        System.out.println("Error with playing sound.");
+	        ex.printStackTrace();
+		}*/
 	
-	String bip = "D:/Users/Student/Music/Playlists/Playlist/SnowPatrol.mp3";
-	Media hit = new Media(bip);
-	MediaPlayer mediaPlayer = new MediaPlayer(hit);
-	mediaPlayer.play();
+
      // TODO add your handling code here:
     }//GEN-LAST:event_PlayBtnActionPerformed
 
