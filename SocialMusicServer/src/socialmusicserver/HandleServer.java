@@ -71,7 +71,7 @@ public class HandleServer extends Thread
 		{
 			try
 			{
-				System.out.println("Waiting...");
+				//System.out.println("Waiting...");
 				try
 				{
 					line = input.readLine();
@@ -148,7 +148,7 @@ public class HandleServer extends Thread
 		while(m.find())
 			a.add(m.group(1));
 
-		System.out.printf("length: %d\n", a.size());
+		//System.out.printf("length: %d\n", a.size());
 		if(a.isEmpty())
 		{
 			// No commands, quit

@@ -140,6 +140,13 @@ public class MainPage extends javax.swing.JFrame
 
         RequestFriendshipBtn.setText(" Request Friendship");
         RequestFriendshipBtn.setToolTipText("");
+        RequestFriendshipBtn.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                RequestFriendshipBtnActionPerformed(evt);
+            }
+        });
 
         ChatBtn.setText("Chat");
         ChatBtn.addActionListener(new java.awt.event.ActionListener()
@@ -337,7 +344,7 @@ public class MainPage extends javax.swing.JFrame
                             .addComponent(jScrollPane6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(RequestFriendshipBtn)))
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -418,6 +425,10 @@ public class MainPage extends javax.swing.JFrame
 
 	private void RefuseBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefuseBtnActionPerformed
 		Object Selection = FriendRequestsLst.getSelectedValue();
+		
+		if(Selection == null)
+			return;
+
 		server_.send("DELR " + username_ + " " +Selection.toString() + "\n");
 		UpdateEverything();
 // TODO add your handling code here:
@@ -425,6 +436,10 @@ public class MainPage extends javax.swing.JFrame
 
 	private void RemoveFriendBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveFriendBtnActionPerformed
 		Object Selection = FriendsLst.getSelectedValue();
+		
+		if(Selection == null)
+			return;
+
 		server_.send("DELF " + username_ + " " +Selection.toString() + "\n");
 		UpdateEverything();
 	}//GEN-LAST:event_RemoveFriendBtnActionPerformed
@@ -435,6 +450,10 @@ public class MainPage extends javax.swing.JFrame
 
 	private void DeletePostBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeletePostBtnActionPerformed
 		Object Selection = PostsLst.getSelectedValue();
+		
+		if(Selection == null)
+			return;
+
 		server_.send("DELP " + username_ + " " +Selection.toString() + "\n");
 		UpdateEverything();
 	}//GEN-LAST:event_DeletePostBtnActionPerformed
@@ -500,6 +519,18 @@ public class MainPage extends javax.swing.JFrame
 			UpdateEverything();
 		}
     }//GEN-LAST:event_PlayBtn1ActionPerformed
+
+    private void RequestFriendshipBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_RequestFriendshipBtnActionPerformed
+    {//GEN-HEADEREND:event_RequestFriendshipBtnActionPerformed
+		Object Selection = ServerLst.getSelectedValue();
+		
+		if(Selection == null)
+			return;
+
+		server_.send("ADDR " + Selection.toString() + " " + username_ + "\n");
+		System.out.println(Selection.toString());
+		UpdateEverything();
+    }//GEN-LAST:event_RequestFriendshipBtnActionPerformed
 
 	private void UpdateEverything()
 	{
@@ -614,7 +645,7 @@ public class MainPage extends javax.swing.JFrame
 		}
 		else
 		{
-			ServerLst.setListData(new Vector<>());
+			SharedSongsLst.setListData(new Vector<>());
 		}
 		
 	}

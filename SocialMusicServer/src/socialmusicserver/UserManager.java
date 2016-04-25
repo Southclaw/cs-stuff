@@ -52,12 +52,12 @@ public class UserManager implements EventListener
 	public NetMessage msgRecv(ListenEvent event)
 	{
 		// DEBUG
-		System.out.println("\n\nmsgRecv PARAM DEBUG:");
-		for(String s: event.args())
-		{
-			System.out.println(s);
-		}
-		System.out.println("msgRecv END PARAM DEBUG\n\n");
+		//System.out.println("\n\nmsgRecv PARAM DEBUG:");
+		//for(String s: event.args())
+		//{
+		//	System.out.println(s);
+		//}
+		//System.out.println("msgRecv END PARAM DEBUG\n\n");
 		// END DEBUG
 
 		NetMessage reply = new NetMessage("NULL");
@@ -242,7 +242,10 @@ public class UserManager implements EventListener
 				User u2 = GetUserFromName(event.args()[2]);
 
 				if(u1 == null || u2 == null)
+				{
 					reply.txt = "FAILEX";
+					break;
+				}
 
 				u2.AddChatRequest(u1);
 

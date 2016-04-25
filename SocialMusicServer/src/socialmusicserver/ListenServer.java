@@ -115,8 +115,7 @@ public class ListenServer extends Thread
 				args[0] = "CONN";
 				listenEvent(handleServer, args);
 
-				handleServer.run();
-
+				handleServer.start();
 			}
 		}
 		catch(IOException except)
