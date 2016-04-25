@@ -71,7 +71,7 @@ public class SocketConnection
 			int i = 0;
 			char[] charArray = new char[size];
 
-			System.out.format("Received size: %x\n", size);
+			System.out.format("Received size: %d\n", size);
 			
 			if(size > 2.5e+7)
 			{
@@ -101,18 +101,34 @@ public class SocketConnection
 		{
 			char c;
 			int size = input.readInt();
-			int i = 0;
+			int bufferSize=socket.getReceiveBufferSize();
+			int readsize = 0;
+			byte[] tempArray = new byte[bufferSize];
 			byte[] byteArray = new byte[size];
+			int byteArrayPtr = 0;
 
-			System.out.format("Received size: %x\n", size);
-			
+			System.out.format("Expected size: %d Buffer size: %d\n", size, bufferSize);
+
 			if(size > 2.5e+7)
 			{
 				System.out.printf("ERROR: Socket data size (%d) out of bounds (%d).\n", size, 2.5e+7);
 				return null;
 			}
-			
-			int error = input.read(byteArray);
+
+			while(byteArrayPtr < size)
+			{
+				readsize = input.read(tempArray, 0, tempArray.length);
+
+				for(int i = 0; i < readsize && byteArrayPtr < size; i++)
+				{
+					//System.out.printf("byteArrayPtr : %d/%d readsize: %d i: %d \n", byteArrayPtr, size, readsize, i);
+					byteArray[byteArrayPtr] = tempArray[i];
+					byteArrayPtr++;
+				}
+				System.out.printf("byteArrayPtr : %d/%d readsize: %d\n", byteArrayPtr, size, readsize);
+			}
+
+			System.out.format("Received size: %d\n", byteArrayPtr);
 
 			return byteArray;
 		}

@@ -451,6 +451,7 @@ public class MainPage extends javax.swing.JFrame
 				e.printStackTrace();
 			}
 			playing_ = false;
+			PlayBtn.setText("Play");
 		}
 		else
 		{
@@ -479,6 +480,7 @@ public class MainPage extends javax.swing.JFrame
 				player_.open(new File(filepath));
 				player_.play();
 				playing_ = true;
+				PlayBtn.setText("Pause");
 			}
 			catch(BasicPlayerException e)
 			{
