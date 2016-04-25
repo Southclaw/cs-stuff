@@ -289,7 +289,7 @@ public class UserManager implements EventListener
 				String filename;
 				for (File file : filesList)
 				{
-					filename = file.getName().replace(" ", "_");
+					filename = "\"" + file.getName() + "\"";
 					if (file.isFile())
 					{
 						list += " " + filename;
@@ -299,25 +299,17 @@ public class UserManager implements EventListener
 				reply.txt = list;
 				break;
 			}
-			
+
 			/*
 			MGET command:
 			gets a specific music file by filename.
 			*/
 			case "MGET":
 			{
-				byte[] fileBytes = new byte[4];
-				fileBytes[0] = 1;
-				fileBytes[1] = 2;
-				fileBytes[2] = 4;
-				fileBytes[3] = 8;
-				reply.type = NetMessage.NMT.BIN;
-				reply.bin = fileBytes;
-				/*try
+				try
 				{
 					// Todo: check if user has access to file
-
-					Path p = Paths.get("./music/" + event.args()[2]);
+					Path p = Paths.get("./music/" + event.args()[2].substring(1, event.args()[2].length() - 1));
 					byte[] fileBytes = Files.readAllBytes(p);
 
 					reply.type = NetMessage.NMT.BIN;
@@ -326,7 +318,7 @@ public class UserManager implements EventListener
 				catch(IOException e)
 				{
 					e.printStackTrace();
-				}*/
+				}
 				break;
 			}
 		}

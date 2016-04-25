@@ -73,9 +73,9 @@ public class SocketConnection
 
 			System.out.format("Received size: %x\n", size);
 			
-			if(size > 4096)
+			if(size > 2.5e+7)
 			{
-				System.out.printf("ERROR: Socket data size (%d) out of bounds.\n", size);
+				System.out.printf("ERROR: Socket data size (%d) out of bounds (%d).\n", size, 2.5e+7);
 				return null;
 			}
 
@@ -106,9 +106,9 @@ public class SocketConnection
 
 			System.out.format("Received size: %x\n", size);
 			
-			if(size > 4096)
+			if(size > 2.5e+7)
 			{
-				System.out.printf("ERROR: Socket data size (%d) out of bounds.\n", size);
+				System.out.printf("ERROR: Socket data size (%d) out of bounds (%d).\n", size, 2.5e+7);
 				return null;
 			}
 			

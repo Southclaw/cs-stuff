@@ -63,12 +63,12 @@ public class ListenServer extends Thread
 		while(listeners.hasNext())
 		{
 			tmp = ((EventListener)listeners.next()).msgRecv(evnt);
-			
+
 			if(tmp.type == NetMessage.NMT.NUL)
 			{
 				continue;
 			}
-			
+
 			if(tmp.type == NetMessage.NMT.BIN)
 			{
 				reply.bin = tmp.bin;
