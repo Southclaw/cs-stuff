@@ -99,6 +99,7 @@
         <Component class="javax.swing.JButton" name="LoginBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="Login"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LoginBtnActionPerformed"/>
@@ -106,10 +107,14 @@
         </Component>
         <Component class="javax.swing.JTextField" name="UsernameTxt">
           <Events>
+            <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="UsernameTxtCaretUpdate"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="UsernameTxtActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="PasswordTxt">
+          <Events>
+            <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="PasswordTxtCaretUpdate"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>

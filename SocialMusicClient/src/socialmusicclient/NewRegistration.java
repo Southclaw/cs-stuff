@@ -104,6 +104,30 @@ public class NewRegistration extends javax.swing.JFrame
 
         jLabel4.setText("Music Profile");
 
+        RegUsernameTxt.addCaretListener(new javax.swing.event.CaretListener()
+        {
+            public void caretUpdate(javax.swing.event.CaretEvent evt)
+            {
+                RegUsernameTxtCaretUpdate(evt);
+            }
+        });
+
+        PlaceOfBirthTxt.addCaretListener(new javax.swing.event.CaretListener()
+        {
+            public void caretUpdate(javax.swing.event.CaretEvent evt)
+            {
+                PlaceOfBirthTxtCaretUpdate(evt);
+            }
+        });
+
+        DateOfBirthTxt.addCaretListener(new javax.swing.event.CaretListener()
+        {
+            public void caretUpdate(javax.swing.event.CaretEvent evt)
+            {
+                DateOfBirthTxtCaretUpdate(evt);
+            }
+        });
+
         MusicProfileCmb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Jazz", "Pop", "Country", "Rock", "Metal" }));
 
         AddButton.setText("Add");
@@ -118,6 +142,7 @@ public class NewRegistration extends javax.swing.JFrame
         jScrollPane1.setViewportView(MusicProfileList);
 
         RegisterButton.setText("Register");
+        RegisterButton.setEnabled(false);
         RegisterButton.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -131,6 +156,14 @@ public class NewRegistration extends javax.swing.JFrame
         jLabel5.setText("or");
 
         jLabel6.setText("Password");
+
+        RegPasswordTxt.addCaretListener(new javax.swing.event.CaretListener()
+        {
+            public void caretUpdate(javax.swing.event.CaretEvent evt)
+            {
+                RegPasswordTxtCaretUpdate(evt);
+            }
+        });
 
         RemoveBtn.setText("Remove");
         RemoveBtn.addActionListener(new java.awt.event.ActionListener()
@@ -307,6 +340,54 @@ public class NewRegistration extends javax.swing.JFrame
 		MusicProfileList.setListData(MusicListString);
 		// TODO add your handling code here:
     }//GEN-LAST:event_RemoveBtnActionPerformed
+
+    private void RegUsernameTxtCaretUpdate(javax.swing.event.CaretEvent evt)//GEN-FIRST:event_RegUsernameTxtCaretUpdate
+    {//GEN-HEADEREND:event_RegUsernameTxtCaretUpdate
+		if (RegUsernameTxt.getText().isEmpty())
+		{
+			RegisterButton.setEnabled(false);
+		}
+		else
+		{
+			RegisterButton.setEnabled(true);
+		}
+    }//GEN-LAST:event_RegUsernameTxtCaretUpdate
+
+    private void PlaceOfBirthTxtCaretUpdate(javax.swing.event.CaretEvent evt)//GEN-FIRST:event_PlaceOfBirthTxtCaretUpdate
+    {//GEN-HEADEREND:event_PlaceOfBirthTxtCaretUpdate
+		if (PlaceOfBirthTxt.getText().isEmpty())
+		{
+			RegisterButton.setEnabled(false);
+		}
+		else
+		{
+			RegisterButton.setEnabled(true);
+		}
+    }//GEN-LAST:event_PlaceOfBirthTxtCaretUpdate
+
+    private void DateOfBirthTxtCaretUpdate(javax.swing.event.CaretEvent evt)//GEN-FIRST:event_DateOfBirthTxtCaretUpdate
+    {//GEN-HEADEREND:event_DateOfBirthTxtCaretUpdate
+		if (DateOfBirthTxt.getText().isEmpty())
+		{
+			RegisterButton.setEnabled(false);
+		}
+		else
+		{
+			RegisterButton.setEnabled(true);
+		}
+    }//GEN-LAST:event_DateOfBirthTxtCaretUpdate
+
+    private void RegPasswordTxtCaretUpdate(javax.swing.event.CaretEvent evt)//GEN-FIRST:event_RegPasswordTxtCaretUpdate
+    {//GEN-HEADEREND:event_RegPasswordTxtCaretUpdate
+		if (RegPasswordTxt.getText().isEmpty())
+		{
+			RegisterButton.setEnabled(false);
+		}
+		else
+		{
+			RegisterButton.setEnabled(true);
+		}
+    }//GEN-LAST:event_RegPasswordTxtCaretUpdate
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddButton;

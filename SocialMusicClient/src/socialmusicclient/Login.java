@@ -51,6 +51,7 @@ public class Login extends javax.swing.JFrame
         jInternalFrame1.setVisible(true);
 
         LoginBtn.setText("Login");
+        LoginBtn.setEnabled(false);
         LoginBtn.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -59,11 +60,26 @@ public class Login extends javax.swing.JFrame
             }
         });
 
+        UsernameTxt.addCaretListener(new javax.swing.event.CaretListener()
+        {
+            public void caretUpdate(javax.swing.event.CaretEvent evt)
+            {
+                UsernameTxtCaretUpdate(evt);
+            }
+        });
         UsernameTxt.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
                 UsernameTxtActionPerformed(evt);
+            }
+        });
+
+        PasswordTxt.addCaretListener(new javax.swing.event.CaretListener()
+        {
+            public void caretUpdate(javax.swing.event.CaretEvent evt)
+            {
+                PasswordTxtCaretUpdate(evt);
             }
         });
 
@@ -147,19 +163,22 @@ public class Login extends javax.swing.JFrame
 
 		username = UsernameTxt.getText();
 		password = PasswordTxt.getText();
-		//MainPage.setUsername(username);
-		UsernameTxt.setText("");
-		PasswordTxt.setText("");
 
 		if (username.isEmpty())
 		{
+			LoginBtn.setEnabled(false);
 			return;
 		}
 
 		if (password.isEmpty())
 		{
+			LoginBtn.setEnabled(false);
 			return;
 		}
+
+
+		UsernameTxt.setText("");
+		PasswordTxt.setText("");
 
 		String message = "LOGN";
 		message += " " + username + " " + password + "\n";
@@ -194,6 +213,30 @@ public class Login extends javax.swing.JFrame
 		new NewRegistration(server_).setVisible(true);
 		// TODO add your handling code here:
     }//GEN-LAST:event_RegisterBtnActionPerformed
+
+    private void UsernameTxtCaretUpdate(javax.swing.event.CaretEvent evt)//GEN-FIRST:event_UsernameTxtCaretUpdate
+    {//GEN-HEADEREND:event_UsernameTxtCaretUpdate
+		if (UsernameTxt.getText().isEmpty())
+		{
+			LoginBtn.setEnabled(false);
+		}
+		else
+		{
+			LoginBtn.setEnabled(true);
+		}
+    }//GEN-LAST:event_UsernameTxtCaretUpdate
+
+    private void PasswordTxtCaretUpdate(javax.swing.event.CaretEvent evt)//GEN-FIRST:event_PasswordTxtCaretUpdate
+    {//GEN-HEADEREND:event_PasswordTxtCaretUpdate
+		if (PasswordTxt.getText().isEmpty())
+		{
+			LoginBtn.setEnabled(false);
+		}
+		else
+		{
+			LoginBtn.setEnabled(true);
+		}
+    }//GEN-LAST:event_PasswordTxtCaretUpdate
 
 	/**
 	 * @param args the command line arguments

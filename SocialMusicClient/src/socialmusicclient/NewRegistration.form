@@ -164,10 +164,19 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="RegUsernameTxt">
+          <Events>
+            <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="RegUsernameTxtCaretUpdate"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="PlaceOfBirthTxt">
+          <Events>
+            <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="PlaceOfBirthTxtCaretUpdate"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="DateOfBirthTxt">
+          <Events>
+            <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="DateOfBirthTxtCaretUpdate"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JComboBox" name="MusicProfileCmb">
           <Properties>
@@ -215,6 +224,7 @@
         <Component class="javax.swing.JButton" name="RegisterButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="Register"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RegisterButtonActionPerformed"/>
@@ -236,6 +246,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="RegPasswordTxt">
+          <Events>
+            <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="RegPasswordTxtCaretUpdate"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="registerStatus">
         </Component>
