@@ -53,17 +53,31 @@ public class ListenServer extends Thread
 		listeners_.remove(l);
 	}
 
-	protected synchronized String listenEvent(HandleServer hsvr, String args[])
+	protected synchronized NetMessage listenEvent(HandleServer hsvr, String args[])
 	{
 		ListenEvent evnt = new ListenEvent(this, hsvr, args);
 		Iterator listeners = listeners_.iterator();
-		String reply = "";
-		String tmp;
+		NetMessage reply = new NetMessage();
+		NetMessage tmp;
 
 		while(listeners.hasNext())
 		{
 			tmp = ((EventListener)listeners.next()).msgRecv(evnt);
-			reply += tmp;
+			
+			if(tmp.type == NetMessage.NMT.BIN)
+			{
+				reply.bin = tmp.bin;
+				// can't appent multiple byte replies, break loop and return
+				break;
+			}
+			else if(tmp.type == NetMessage.NMT.TXT)
+			{
+				reply.txt += tmp.txt;
+			}
+			else
+			{
+				//
+			}
 		}
 		
 		return reply;

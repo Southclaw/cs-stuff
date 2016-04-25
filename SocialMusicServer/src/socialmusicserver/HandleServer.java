@@ -95,21 +95,35 @@ public class HandleServer extends Thread
 					continue;
 				}
 
-				String reply = onReceive(line);
-				
-				if(reply == null)
+				NetMessage reply = onReceive(line);
+
+				if(reply == null || reply.type == NetMessage.NMT.NUL)
 				{
 					System.out.println("REPLY NULL");
-					reply = "NULL";
+					reply.txt = "NULL";
+					reply.type = NetMessage.NMT.TXT;
 				}
 
-				int size = reply.length();
+				if(reply.type == NetMessage.NMT.BIN)
+				{
+					int size = reply.bin.length;
 
-				System.out.format("REPLY(%x)'%s'\n", size, reply);
-				output.writeInt(size);
-				output.writeChars(reply);
+					System.out.format("REPLY BYTES: %d\n", size);
+					output.writeInt(size);
+					output.write(reply.bin);
 
-				output.flush();
+					output.flush();
+				}
+				else if(reply.type == NetMessage.NMT.TXT)
+				{
+					int size = reply.txt.length();
+
+					System.out.format("REPLY(%x)'%s'\n", size, reply);
+					output.writeInt(size);
+					output.writeChars(reply.txt);
+
+					output.flush();
+				}
 			}
 			catch(IOException | InterruptedException e)
 			{
@@ -120,7 +134,7 @@ public class HandleServer extends Thread
 		}
 	}
 	
-	public String onReceive(String s)
+	public NetMessage onReceive(String s)
 	{
 		if(s == null)
 			return null;
@@ -144,12 +158,12 @@ public class HandleServer extends Thread
         // Special case: client requests message update
         if(a.get(0).equals("UPDT"))
         {
-            String reply = "";
+            NetMessage reply = new NetMessage("");
 
             while(!updateStack_.isEmpty())
             {
-                reply += updateStack_.remove();
-                reply += "\n";
+                reply.txt += updateStack_.remove();
+                reply.txt += "\n";
             }
 
             return reply;

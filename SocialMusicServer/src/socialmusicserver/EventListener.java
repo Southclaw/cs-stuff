@@ -13,5 +13,5 @@ package socialmusicserver;
 
 public interface EventListener 
 {
-	public String msgRecv( ListenEvent event );
+	public NetMessage msgRecv(ListenEvent event);
 }

@@ -12,9 +12,12 @@
 package socialmusicserver;
 
 import socialmusicserverchat.SocialMusicServerChat;
-import java.sql.SQLException;
 import java.util.*;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -46,7 +49,7 @@ public class UserManager implements EventListener
 	}
 
 	@Override
-	public String msgRecv(ListenEvent event)
+	public NetMessage msgRecv(ListenEvent event)
 	{
 		// DEBUG
 		System.out.println("\n\nmsgRecv PARAM DEBUG:");
@@ -57,12 +60,14 @@ public class UserManager implements EventListener
 		System.out.println("msgRecv END PARAM DEBUG\n\n");
 		// END DEBUG
 
+		NetMessage reply = new NetMessage("NULL");
+
 		switch(event.args()[0])
 		{
 			// connect and disconnect
 			case "CONN":
 			{
-				return null;
+				break;
 			}
 
 			case "DSCN":
@@ -75,7 +80,8 @@ public class UserManager implements EventListener
 						break;
 					}
 				}
-				return null;
+
+				break;
 			}
 
 			case "REGS":
@@ -98,13 +104,15 @@ public class UserManager implements EventListener
 				int ret = udb.RegisterUser(event.args()[1], event.args()[2], musicProfile);
 
 				if(ret == 0)
-					return "SUCCESS";
+					reply.txt = "SUCCESS";
 
 				if(ret == 1)
-					return "FAILEX";
+					reply.txt = "FAILEX";
 
 				if(ret == 2)
-					return "FAILDB";
+					reply.txt = "FAILDB";
+				
+				break;
 			}
 
 			case "LOGN":
@@ -117,17 +125,19 @@ public class UserManager implements EventListener
 				if(ret == 0)
 				{
 					UserList.add(new User(event.addr(), event.args()[1], event.args()[2]));
-					return "SUCCESS";
+					reply.txt = "SUCCESS";
 				}
 
 				if(ret == 1)
-					return "FAILEX";
+					reply.txt = "FAILEX";
 
 				if(ret == 2)
-					return "FAILDB";
+					reply.txt = "FAILDB";
 
 				if(ret == 3)
-					return "FAILPW";
+					reply.txt = "FAILPW";
+				
+				break;
 			}
 
 			case "DETL":
@@ -135,14 +145,16 @@ public class UserManager implements EventListener
 				// a[1] is userid
 				// return user details string
 				// username (correctly capitalised) reg date, last login, etc
-				return udb.getUserInfo(event.args()[1]);
+				reply.txt = udb.getUserInfo(event.args()[1]);
+				break;
 			}
 
 			case "FRND":
 			{
 				// a[1] is userid
 				// return friends list
-				return udb.getUserFriends(event.args()[1]);
+				reply.txt = udb.getUserFriends(event.args()[1]);
+				break;
 			}
 
 			case "ADDF":
@@ -150,7 +162,8 @@ public class UserManager implements EventListener
 				// a[1] is userid
 				// a[2] is friend userid
 				// return success/error code
-				return udb.addUserFriend(event.args()[1], event.args()[2]);
+				reply.txt = udb.addUserFriend(event.args()[1], event.args()[2]);
+				break;
 			}
 
 			case "DELF":
@@ -158,14 +171,16 @@ public class UserManager implements EventListener
 				// a[1] is userid
 				// a[2] is friend userid
 				// return success/error code
-				return udb.delUserFriend(event.args()[1], event.args()[2]);
+				reply.txt = udb.delUserFriend(event.args()[1], event.args()[2]);
+				break;
 			}
 
 			case "REQS":
 			{
 				// a[1] is userid
 				// return friends list
-				return udb.getUserFriendReqs(event.args()[1]);
+				reply.txt = udb.getUserFriendReqs(event.args()[1]);
+				break;
 			}
 
 			case "ADDR":
@@ -173,7 +188,8 @@ public class UserManager implements EventListener
 				// a[1] is userid
 				// a[2] is friend userid
 				// return success/error code
-				return udb.addUserFriendReq(event.args()[1], event.args()[2]);
+				reply.txt = udb.addUserFriendReq(event.args()[1], event.args()[2]);
+				break;
 			}
 
 			case "DELR":
@@ -181,27 +197,32 @@ public class UserManager implements EventListener
 				// a[1] is userid
 				// a[2] is friend userid
 				// return success/error code
-				return udb.delUserFriendReq(event.args()[1], event.args()[2]);
+				reply.txt = udb.delUserFriendReq(event.args()[1], event.args()[2]);
+				break;
 			}
 
 			case "ONLN":
 			{
-				return GetOnlineUsersString();
+				reply.txt = GetOnlineUsersString();
+				break;
 			}
 
 			case "GETP":
 			{
-				return udb.getPostsList();
+				reply.txt = udb.getPostsList();
+				break;
 			}
 
 			case "ADDP":
 			{
-				return udb.addPublicPost(event.args()[1], event.args()[2]);
+				reply.txt = udb.addPublicPost(event.args()[1], event.args()[2]);
+				break;
 			}
 
 			case "DELP":
 			{
-				return udb.delPublicPost((event.args()[1]));
+				reply.txt = udb.delPublicPost((event.args()[1]));
+				break;
 			}
 
 			/*
@@ -221,11 +242,12 @@ public class UserManager implements EventListener
 				User u2 = GetUserFromName(event.args()[2]);
 
 				if(u1 == null || u2 == null)
-					return "FAILEX";
+					reply.txt = "FAILEX";
 
 				u2.AddChatRequest(u1);
 
-				return "SUCCESS";
+				reply.txt = "SUCCESS";
+				break;
 			}
 
 			/*
@@ -250,7 +272,8 @@ public class UserManager implements EventListener
 					reply += " " + iu.Username;
 				}
 
-				return reply;*/
+				reply.txt = reply;
+				break;*/
 			}
 			
 			/*
@@ -273,7 +296,8 @@ public class UserManager implements EventListener
 					}
 				}
 				
-				return list;
+				reply.txt = list;
+				break;
 			}
 			
 			/*
@@ -282,13 +306,27 @@ public class UserManager implements EventListener
 			*/
 			case "MGET":
 			{
-				// username filename
+				try
+				{
+					// Todo: check if user has access to file
+
+					Path p = Paths.get("./music/" + event.args()[2]);
+					byte[] fileBytes = Files.readAllBytes(p);
+
+					reply.type = NetMessage.NMT.BIN;
+					reply.bin = fileBytes;
+					break;
+				}
+				catch(IOException e)
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 
-		return "REPLY";
+		return reply;
 	}
-	
+
 	public String GetOnlineUsersString()
 	{
 		String output = "USERS";

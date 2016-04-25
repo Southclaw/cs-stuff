@@ -13,7 +13,7 @@ package socialmusicserverchat;
 
 import socialmusicserver.EventListener;
 import socialmusicserver.ListenEvent;
-import socialmusicserver.ListenServer;
+import socialmusicserver.NetMessage;
 
 
 class ChatManager implements EventListener
@@ -23,17 +23,20 @@ class ChatManager implements EventListener
 		// 
 	}
 
-	public String msgRecv(ListenEvent event)
+	public NetMessage msgRecv(ListenEvent event)
 	{
+		NetMessage reply = new NetMessage();
+
 		switch(event.args()[0])
         {
             case "MSSG":
             {
+				reply.txt = "ACKN";
                 break;
             }
         }
 
-		return "ACKN";
+		return reply;
 	}
 
 
