@@ -306,7 +306,14 @@ public class UserManager implements EventListener
 			*/
 			case "MGET":
 			{
-				try
+				byte[] fileBytes = new byte[4];
+				fileBytes[0] = 1;
+				fileBytes[1] = 2;
+				fileBytes[2] = 4;
+				fileBytes[3] = 8;
+				reply.type = NetMessage.NMT.BIN;
+				reply.bin = fileBytes;
+				/*try
 				{
 					// Todo: check if user has access to file
 
@@ -315,12 +322,12 @@ public class UserManager implements EventListener
 
 					reply.type = NetMessage.NMT.BIN;
 					reply.bin = fileBytes;
-					break;
 				}
 				catch(IOException e)
 				{
 					e.printStackTrace();
-				}
+				}*/
+				break;
 			}
 		}
 

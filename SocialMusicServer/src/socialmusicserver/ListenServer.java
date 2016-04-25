@@ -64,15 +64,23 @@ public class ListenServer extends Thread
 		{
 			tmp = ((EventListener)listeners.next()).msgRecv(evnt);
 			
+			if(tmp.type == NetMessage.NMT.NUL)
+			{
+				continue;
+			}
+			
 			if(tmp.type == NetMessage.NMT.BIN)
 			{
 				reply.bin = tmp.bin;
+				reply.type = NetMessage.NMT.BIN;
 				// can't appent multiple byte replies, break loop and return
 				break;
 			}
 			else if(tmp.type == NetMessage.NMT.TXT)
 			{
-				reply.txt += tmp.txt;
+				reply.txt = tmp.txt;
+				reply.type = NetMessage.NMT.TXT;
+				break;
 			}
 			else
 			{

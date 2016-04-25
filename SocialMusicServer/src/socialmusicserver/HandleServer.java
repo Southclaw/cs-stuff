@@ -118,7 +118,7 @@ public class HandleServer extends Thread
 				{
 					int size = reply.txt.length();
 
-					System.out.format("REPLY(%x)'%s'\n", size, reply);
+					System.out.format("REPLY(%x)'%s'\n", size, reply.txt);
 					output.writeInt(size);
 					output.writeChars(reply.txt);
 
