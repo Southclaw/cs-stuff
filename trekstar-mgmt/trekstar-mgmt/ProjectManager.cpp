@@ -101,6 +101,21 @@ Project * ProjectManager::GetProjectFromName(string name)
 	return p;
 }
 
+Project * ProjectManager::GetProjectFromPartName(string name)
+{
+	Project* p = nullptr;
+	for(Project* i : projects_)
+	{
+		if(!name.find(i->GetProjectTitle()))
+		{
+			p = i;
+			break;
+		}
+	}
+
+	return p;
+}
+
 void ProjectManager::Save()
 {
 	printf("Saving projects...");

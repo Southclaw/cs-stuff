@@ -54,6 +54,7 @@ int main(int argc, char* argv[])
 				remp <project title> - remove a project
 				addm <project title> <material ctor parameters> - add a material
 				remm <project title> <material id> - remove a material
+				sales <project title> <sales> - set boxoffice sales
 				exit - exit the shell
 		*/
 		if(commands[0] == "ls")
@@ -96,7 +97,7 @@ int main(int argc, char* argv[])
 				for(auto i : m)
 					cout << "[" << i.first << "]: " << i.second->details() << endl;
 			}
-			
+
 			continue;
 		}
 
@@ -108,6 +109,18 @@ int main(int argc, char* argv[])
 				continue;
 			}
 
+			cout << "Searching for " << commands[1] << endl;
+			Project* p = pm.GetProjectFromPartName(commands[1]);
+
+			if(p == nullptr)
+			{
+				cout << "Project not found!" << endl;
+			}
+			else
+			{
+				cout << "Result: " << p->GetProjectTitle();
+			}
+			
 			continue;
 		}
 
@@ -150,6 +163,30 @@ int main(int argc, char* argv[])
 			{
 				cout << "Command takes 1 parameters" << endl;
 				continue;
+			}
+
+			continue;
+		}
+
+		if(commands[0] == "sales")
+		{
+			if(commands.size() != 3)
+			{
+				cout << "Command takes 2 parameters" << endl;
+				continue;
+			}
+
+			cout << "Setting weekly sales for " << commands[1] << endl;
+			Project* p = pm.GetProjectFromName(commands[1]);
+
+			if(p == nullptr)
+			{
+				cout << "Project not found!" << endl;
+			}
+			else
+			{
+				cout << "Set weekly sales for " << commands[1] << endl;
+				p->SetBoxOfficeWeeklySales(stoi(commands[2]));
 			}
 
 			continue;

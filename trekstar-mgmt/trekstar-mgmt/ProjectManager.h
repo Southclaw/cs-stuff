@@ -22,6 +22,7 @@ public:
 
 	vector<Project*> GetProjectList();
 	Project* GetProjectFromName(string name);
+	Project* GetProjectFromPartName(string name);
 	void Save();
 
 private:
