@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
 
 	while(true)
 	{
-		cout << "Enter command: ls, mat, find, addp, remp, addm, remm, exit" << endl;
+		cout << "Enter command: ls, mat, find, addp, remp, addm, remm, sales, exit" << endl;
 		commands.clear();
 		std::getline(std::cin, command);
 		GetCommands(command, &commands);
@@ -78,7 +78,7 @@ int main(int argc, char* argv[])
 		{
 			if(commands.size() != 2)
 			{
-				cout << "Command takes 1 parameter" << endl;
+				cout << "Command takes 1 parameter: <project>" << endl;
 				continue;
 			}
 
@@ -105,7 +105,7 @@ int main(int argc, char* argv[])
 		{
 			if(commands.size() != 2)
 			{
-				cout << "Command takes 1 parameters" << endl;
+				cout << "Command takes 1 parameter: <name>" << endl;
 				continue;
 			}
 
@@ -131,6 +131,8 @@ int main(int argc, char* argv[])
 				cout << "Command takes 9 parameters" << endl;
 				continue;
 			}
+
+			//
 
 			continue;
 		}
@@ -172,7 +174,7 @@ int main(int argc, char* argv[])
 		{
 			if(commands.size() != 3)
 			{
-				cout << "Command takes 2 parameters" << endl;
+				cout << "Command takes 2 parameters: <project> <sales>" << endl;
 				continue;
 			}
 
