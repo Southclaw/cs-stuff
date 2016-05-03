@@ -1,5 +1,7 @@
 #include <iostream>
+#include <string>
 #include <utility>
+#include <sstream>
 
 #include "Project.h"
 #include "Material.h"
@@ -21,6 +23,7 @@ using std::vector;
 using std::pair;
 
 
+void GetCommands(string, vector<string>*);
 void testing();
 
 int main(int argc, char* argv[])
@@ -29,8 +32,16 @@ int main(int argc, char* argv[])
 
 	ProjectManager pm = ProjectManager();
 
+	string command;
+	vector<string> commands;
+
 	while(true)
 	{
+		cout << "Enter command: ls, mat, find, addp, remp, addm, remm, exit" << endl;
+		commands.clear();
+		std::getline(std::cin, command);
+		GetCommands(command, &commands);
+
 		/*
 			todo: process commands
 
@@ -45,6 +56,109 @@ int main(int argc, char* argv[])
 				remm <project title> <material id> - remove a material
 				exit - exit the shell
 		*/
+		if(commands[0] == "ls")
+		{
+			if(commands.size() != 1)
+			{
+				cout << "Command takes no parameters" << endl;
+				continue;
+			}
+
+			cout << "Project list:\n";
+			vector<Project*> l = pm.GetProjectList();
+
+			for(Project* i : l)
+				cout << "  " << i->GetProjectTitle() << endl;
+			cout << "\n";
+			continue;
+		}
+
+		if(commands[0] == "mat")
+		{
+			if(commands.size() != 2)
+			{
+				cout << "Command takes 1 parameter" << endl;
+				continue;
+			}
+
+			cout << "Materials for " << commands[1] << endl;
+			Project* p = pm.GetProjectFromName(commands[1]);
+
+			if(p == nullptr)
+			{
+				cout << "Project not found!" << endl;
+			}
+			else
+			{
+				cout << "Project materials:\n";
+				vector< pair<string, Material*> > m = p->GetMaterials();
+
+				for(auto i : m)
+					cout << "[" << i.first << "]: " << i.second->details() << endl;
+			}
+			
+			continue;
+		}
+
+		if(commands[0] == "find")
+		{
+			if(commands.size() != 3)
+			{
+				cout << "Command takes 2 parameters" << endl;
+				continue;
+			}
+
+			continue;
+		}
+
+		if( commands[0] == "addp")
+		{
+			if(commands.size() != 1)
+			{
+				cout << "Command takes 9 parameters" << endl;
+				continue;
+			}
+
+			continue;
+		}
+
+		if(commands[0] == "remp")
+		{
+			if(commands.size() != 2)
+			{
+				cout << "Command takes 1 parameters" << endl;
+				continue;
+			}
+
+			continue;
+		}
+
+		if(commands[0] == "addm")
+		{
+			if(commands.size() != 2)
+			{
+				cout << "Command takes 9 parameters" << endl;
+				continue;
+			}
+
+			continue;
+		}
+
+		if(commands[0] == "remm")
+		{
+			if(commands.size() != 2)
+			{
+				cout << "Command takes 1 parameters" << endl;
+				continue;
+			}
+
+			continue;
+		}
+
+		if(commands[0] == "exit")
+		{
+			break;
+		}
 	}
 
 	pm.Save();
@@ -52,6 +166,15 @@ int main(int argc, char* argv[])
 	getchar();
 
 	return 0;
+}
+
+void GetCommands(string s, vector<string>* commands)
+{
+	std::stringstream command(s);
+	string item;
+
+	while(std::getline(command, item, ' '))
+		commands->push_back(item);
 }
 
 /*

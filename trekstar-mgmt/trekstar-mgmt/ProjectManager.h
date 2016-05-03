@@ -20,11 +20,13 @@ public:
 	ProjectManager();
 	~ProjectManager();
 
+	vector<Project*> GetProjectList();
+	Project* GetProjectFromName(string name);
 	void Save();
 
 private:
 	ProjectPort pp_;
-	vector<Project> projects_;
+	vector<Project*> projects_;
 };
 
 #endif

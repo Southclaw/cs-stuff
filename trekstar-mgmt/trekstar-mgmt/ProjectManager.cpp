@@ -71,7 +71,7 @@ ProjectManager::ProjectManager()
 		}
 
 		printf("Loaded project '%s' with %d materials\n", project->GetProjectTitle().c_str(), project->GetMaterials().size());
-		projects_.push_back(*project);
+		projects_.push_back(project);
 		ifs.close();
 	}
 }
@@ -79,6 +79,26 @@ ProjectManager::ProjectManager()
 ProjectManager::~ProjectManager()
 {
 	Save();
+}
+
+vector<Project*> ProjectManager::GetProjectList()
+{
+	return projects_;
+}
+
+Project * ProjectManager::GetProjectFromName(string name)
+{
+	Project* p = nullptr;
+	for(Project* i : projects_)
+	{
+		if(!name.compare(i->GetProjectTitle()))
+		{
+			p = i;
+			break;
+		}
+	}
+
+	return p;
 }
 
 void ProjectManager::Save()
@@ -91,7 +111,7 @@ void ProjectManager::Save()
 
 	for(auto p : projects_)
 	{
-		filename = "./data/" + p.GetProjectTitle() + ".txt";
+		filename = "./data/" + p->GetProjectTitle() + ".txt";
 		ofs = ofstream(filename);
 
 		if(!ofs.is_open())
@@ -100,7 +120,7 @@ void ProjectManager::Save()
 			continue;
 		}
 
-		ofs << pp_.ExportProject(p) << endl;
+		ofs << pp_.ExportProject(*p) << endl;
 		ofs.close();
 	}
 }
