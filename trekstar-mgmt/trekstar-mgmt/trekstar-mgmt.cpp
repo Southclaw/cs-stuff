@@ -103,9 +103,9 @@ int main(int argc, char* argv[])
 
 		if(commands[0] == "find")
 		{
-			if(commands.size() != 3)
+			if(commands.size() != 2)
 			{
-				cout << "Command takes 2 parameters" << endl;
+				cout << "Command takes 1 parameters" << endl;
 				continue;
 			}
 
@@ -118,7 +118,7 @@ int main(int argc, char* argv[])
 			}
 			else
 			{
-				cout << "Result: " << p->GetProjectTitle();
+				cout << "Result: " << p->GetProjectTitle() << endl;
 			}
 			
 			continue;

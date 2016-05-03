@@ -106,7 +106,7 @@ Project * ProjectManager::GetProjectFromPartName(string name)
 	Project* p = nullptr;
 	for(Project* i : projects_)
 	{
-		if(!name.find(i->GetProjectTitle()))
+		if(!i->GetProjectTitle().find(name))
 		{
 			p = i;
 			break;
